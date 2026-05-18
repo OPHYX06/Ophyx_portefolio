@@ -322,9 +322,74 @@ body.emode .avbadge{cursor:pointer!important;outline:1px dashed rgba(0,212,255,.
 .ep-mbox input:focus{border-color:var(--pg)}
 .ep-mbox .step{font-family:'Rajdhani',sans-serif;font-size:.75rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--pg);margin-bottom:.3rem;display:block}
 
+
+/* ── WELCOME SOUND OVERLAY ── */
+#welcome-overlay{
+  position:fixed;inset:0;z-index:99000;
+  display:flex;align-items:center;justify-content:center;
+  background:rgba(7,0,15,.92);backdrop-filter:blur(18px);
+  transition:opacity .6s,transform .6s;
+}
+#welcome-overlay.hide{opacity:0;pointer-events:none;transform:scale(1.03)}
+#welcome-box{
+  text-align:center;max-width:480px;padding:3rem 2.5rem;
+  border:1px solid rgba(123,47,255,.35);
+  background:linear-gradient(135deg,rgba(13,0,32,.95),rgba(7,0,15,.98));
+  clip-path:polygon(0 0,calc(100% - 22px) 0,100% 22px,100% 100%,22px 100%,0 calc(100% - 22px));
+  position:relative;
+}
+#welcome-box::before{
+  content:'';position:absolute;top:0;left:10%;right:10%;height:1px;
+  background:linear-gradient(90deg,transparent,var(--pg),transparent);
+}
+.wlc-icon{font-size:3rem;margin-bottom:1.2rem;display:block;animation:wlcpulse 2s infinite}
+@keyframes wlcpulse{0%,100%{transform:scale(1)}50%{transform:scale(1.12)}}
+.wlc-title{
+  font-family:'Orbitron',monospace;font-size:1.3rem;font-weight:900;
+  color:var(--pg);text-shadow:0 0 20px var(--p);
+  margin-bottom:.75rem;line-height:1.2;
+}
+.wlc-sub{
+  font-family:'Rajdhani',sans-serif;font-size:1rem;color:rgba(240,238,248,.7);
+  line-height:1.7;margin-bottom:2rem;
+}
+.wlc-btns{display:flex;flex-direction:column;gap:.75rem;align-items:center}
+.wlc-btn-main{
+  padding:.9rem 2.5rem;font-family:'Rajdhani',sans-serif;font-size:.95rem;
+  font-weight:700;letter-spacing:.18em;text-transform:uppercase;
+  background:var(--p);color:#fff;border:none;cursor:pointer;width:100%;
+  clip-path:polygon(0 0,calc(100% - 10px) 0,100% 10px,100% 100%,10px 100%,0 calc(100% - 10px));
+  transition:background .3s,box-shadow .3s;
+}
+.wlc-btn-main:hover{background:var(--pg);box-shadow:0 0 25px var(--p)}
+.wlc-btn-skip{
+  font-family:'Rajdhani',sans-serif;font-size:.82rem;font-weight:600;
+  letter-spacing:.1em;text-transform:uppercase;color:var(--muted);
+  background:none;border:none;cursor:pointer;transition:color .2s;
+}
+.wlc-btn-skip:hover{color:var(--white)}
+/* edit mode outline */
+body.emode #welcome-box .wlc-title,
+body.emode #welcome-box .wlc-sub,
+body.emode #welcome-box .wlc-icon{outline:1px dashed rgba(0,212,255,.35);cursor:text!important}
+
 </style>
 </head>
 <body class="hov">
+
+
+<!-- WELCOME SOUND OVERLAY -->
+<div id="welcome-overlay">
+  <div id="welcome-box">
+    <span class="wlc-icon" id="wlc-icon">🔊</span>
+    <div class="wlc-title" id="wlc-title">Meilleure expérience avec le son</div>
+    <p class="wlc-sub" id="wlc-sub">Ce portfolio a été conçu avec une direction artistique sonore.<br>Active le son pour vivre l'expérience complète.</p>
+    <div class="wlc-btns">
+      <button class="wlc-btn-main" onclick="welcomeSound(true)" id="wlc-btn-main">🔊 Activer le son</button>
+      <button class="wlc-btn-skip" onclick="welcomeSound(false)" id="wlc-btn-skip">Continuer sans le son</button>
+    </div>
+  </div>
+</div>
 
 <div id="scroll-prog"></div>
 <div id="cur" style="left: 525px; top: 571px;"></div><div id="cur-r" style="left: 525px; top: 571.009px;"></div>
@@ -575,6 +640,7 @@ body.emode .avbadge{cursor:pointer!important;outline:1px dashed rgba(0,212,255,.
   </div>
   <div class="ep-sep"></div>
   <button class="epbtn a" onclick="document.getElementById('vid-modal').classList.add('open')">🎬 Vidéo Hero</button>
+  <button class="epbtn a" onclick="openWelcomeEditor()">💬 Message accueil</button>
   <button class="epbtn a" onclick="document.getElementById('fsp-modal').classList.add('open')">📧 Contact mail</button>
   <button class="epbtn g" id="pub-btn" onclick="publish()">🚀 Publier</button>
   <button class="epbtn red" onclick="exitEdit()">✕ Quitter</button>
@@ -1408,8 +1474,50 @@ async function sendContact(e){
 document.addEventListener('keydown',function(ev){
   if(ev.key==='Escape'){
     document.querySelectorAll('.ep-modal').forEach(m=>m.classList.remove('open'));
+    document.getElementById('wlc-modal').classList.remove('open');
   }
 });
+
+// ── WELCOME OVERLAY ──
+function welcomeSound(withSound){
+  const v = document.getElementById('hero-video');
+  if(withSound && v && v.style.display !== 'none'){
+    v.muted = false;
+    document.getElementById('snd-icon').textContent = '🔊';
+    document.getElementById('snd-txt').textContent = 'Son activé';
+  }
+  const ov = document.getElementById('welcome-overlay');
+  ov.classList.add('hide');
+  setTimeout(()=>ov.style.display='none', 650);
+}
+
+// Hide overlay if no video is set (no point showing it)
+window.addEventListener('DOMContentLoaded',()=>{
+  const vsrc = document.getElementById('hero-vsrc');
+  if(!vsrc || !vsrc.src || vsrc.src.includes('index.html') || vsrc.src === window.location.href){
+    document.getElementById('welcome-overlay').style.display='none';
+  }
+});
+
+// ── WELCOME EDITOR ──
+function openWelcomeEditor(){
+  document.getElementById('wlc-e-icon').value  = document.getElementById('wlc-icon').textContent.trim();
+  document.getElementById('wlc-e-title').value = document.getElementById('wlc-title').textContent.trim();
+  document.getElementById('wlc-e-sub').value   = document.getElementById('wlc-sub').textContent.trim();
+  document.getElementById('wlc-e-btn').value   = document.getElementById('wlc-btn-main').textContent.trim();
+  document.getElementById('wlc-modal').classList.add('open');
+}
+function applyWelcomeEdit(){
+  document.getElementById('wlc-icon').textContent    = document.getElementById('wlc-e-icon').value;
+  document.getElementById('wlc-title').textContent   = document.getElementById('wlc-e-title').value;
+  document.getElementById('wlc-sub').textContent     = document.getElementById('wlc-e-sub').value;
+  document.getElementById('wlc-btn-main').textContent= document.getElementById('wlc-e-btn').value;
+  document.getElementById('wlc-modal').classList.remove('open');
+  // Show preview
+  const ov = document.getElementById('welcome-overlay');
+  ov.style.display='flex';ov.classList.remove('hide');
+  toast('Message mis a jour ! Apercu affiche.','#1a7a58');
+}
 
 function toast(msg,col){
   const t=document.getElementById('toast');t.textContent=msg;t.style.background=col||'var(--p)';
@@ -1448,6 +1556,28 @@ function toast(msg,col){
     <div style="display:flex;gap:.75rem">
       <button class="eb p" onclick="applyFormspree()">✓ Connecter</button>
       <button class="eb s" onclick="document.getElementById('fsp-modal').classList.remove('open')">Annuler</button>
+    </div>
+  </div>
+</div>
+
+
+<!-- WELCOME EDITOR MODAL -->
+<div class="ep-modal" id="wlc-modal">
+  <div class="ep-mbox">
+    <button class="mcl" onclick="document.getElementById('wlc-modal').classList.remove('open')" style="position:absolute;top:1rem;right:1rem">✕</button>
+    <h3>💬 Message d'accueil</h3>
+    <p>Modifie le texte du message qui s'affiche à l'arrivée des visiteurs.</p>
+    <span class="step">Icône</span>
+    <input type="text" id="wlc-e-icon" value="🔊" maxlength="4" style="width:80px;margin-bottom:1rem">
+    <span class="step" style="margin-top:.5rem">Titre</span>
+    <input type="text" id="wlc-e-title" value="Meilleure expérience avec le son" style="margin-bottom:.75rem">
+    <span class="step">Sous-titre</span>
+    <input type="text" id="wlc-e-sub" value="Ce portfolio a été conçu avec une direction artistique sonore. Active le son pour vivre l'expérience complète." style="margin-bottom:.75rem">
+    <span class="step">Bouton principal</span>
+    <input type="text" id="wlc-e-btn" value="🔊 Activer le son" style="margin-bottom:1rem">
+    <div style="display:flex;gap:.75rem;margin-top:.5rem">
+      <button class="eb p" onclick="applyWelcomeEdit()">✓ Appliquer</button>
+      <button class="eb s" onclick="document.getElementById('wlc-modal').classList.remove('open')">Annuler</button>
     </div>
   </div>
 </div>
