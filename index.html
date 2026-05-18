@@ -379,7 +379,7 @@ body.emode #welcome-box .wlc-icon{outline:1px dashed rgba(0,212,255,.35);cursor:
 
 
 <!-- WELCOME SOUND OVERLAY -->
-<div id="welcome-overlay">
+<div id="welcome-overlay" style="display: none;">
   <div id="welcome-box">
     <span class="wlc-icon" id="wlc-icon">🔊</span>
     <div class="wlc-title" id="wlc-title">Meilleure expérience avec le son</div>
@@ -392,8 +392,8 @@ body.emode #welcome-box .wlc-icon{outline:1px dashed rgba(0,212,255,.35);cursor:
 </div>
 
 <div id="scroll-prog"></div>
-<div id="cur" style="left: 525px; top: 571px;"></div><div id="cur-r" style="left: 525px; top: 571.009px;"></div>
-<div id="toast" class="" style="background: var(--p);">✏️ Mode édition actif — animations figées — Tapez OPHYX pour quitter</div>
+<div id="cur" style="left: 546px; top: 593px;"></div><div id="cur-r" style="left: 546.035px; top: 592.933px;"></div>
+<div id="toast" class="" style="background: rgb(26, 122, 88);">Video background activee !</div>
 
 <!-- SAVING OVERLAY -->
 <div id="saving" class="">
@@ -416,14 +416,14 @@ body.emode #welcome-box .wlc-icon{outline:1px dashed rgba(0,212,255,.35);cursor:
 
 <!-- HERO -->
 <section id="hero">
-  <video id="hero-video" autoplay loop muted playsinline style="display:none"><source id="hero-vsrc" src="" type="video/mp4"></video>
-  <button id="sound-btn" style="display:none" onclick="toggleSound()"><span id="snd-icon">🔇</span> <span id="snd-txt">Son désactivé</span></button>
-  <canvas id="hcvs" width="1173" height="613"></canvas>
+  <video id="hero-video" autoplay="" loop="" muted="" playsinline="" style="display: block;"><source id="hero-vsrc" src="https://res.cloudinary.com/ddiaz4trd/video/upload/v1779134136/ssstwitter.com_1779133941477_zghu91.mp4" type="video/mp4"></video>
+  <button id="sound-btn" style="display: flex;" onclick="toggleSound()"><span id="snd-icon">🔇</span> <span id="snd-txt">Son désactivé</span></button>
+  <canvas id="hcvs" width="1173" height="613" style="display: none;"></canvas>
   <div class="hc">
     <div class="avbadge" id="avbadge" onclick="toggleAvail()"><span class="avdot"></span><span id="avail-txt">Disponible pour missions</span></div>
     <div class="hey">Créateur d'univers visuels</div>
-    <div class="hname" id="hname"></div>
-    <p class="hsub"><span id="tt">Animat</span><span id="tcur"></span></p>
+    <div class="hname" id="hname"><span class="L" style="animation-delay: 0.5s;">O</span><span class="L" style="animation-delay: 0.58s;">P</span><span class="L" style="animation-delay: 0.66s;">H</span><span class="L" style="animation-delay: 0.74s;">Y</span><span class="L" style="animation-delay: 0.82s;">X</span></div>
+    <p class="hsub"><span id="tt">Monteur Vi</span><span id="tcur"></span></p>
     <div class="hcta">
       <a href="#portfolio" class="btn1">Voir mes travaux</a>
       <a href="#contact" class="btn2">Me contacter</a>
@@ -591,10 +591,10 @@ body.emode #welcome-box .wlc-icon{outline:1px dashed rgba(0,212,255,.35);cursor:
     </div>
     <div class="rv vis">
       <form id="cform" onsubmit="sendContact(event)">
-        <div class="fg2"><label>Nom complet</label><input type="text" name="name" placeholder="John Doe" required></div>
-        <div class="fg2"><label>Email</label><input type="email" name="email" placeholder="john@example.com" required></div>
+        <div class="fg2"><label>Nom complet</label><input type="text" name="name" placeholder="John Doe" required=""></div>
+        <div class="fg2"><label>Email</label><input type="email" name="email" placeholder="john@example.com" required=""></div>
         <div class="fg2"><label>Type de projet</label><select name="type"><option>Sélectionner...</option><option>Montage vidéo</option><option>Motion Design</option><option>Animation 3D</option><option>Projet complet</option></select></div>
-        <div class="fg2"><label>Message</label><textarea name="message" placeholder="Décrivez votre projet..." required></textarea></div>
+        <div class="fg2"><label>Message</label><textarea name="message" placeholder="Décrivez votre projet..." required=""></textarea></div>
         <button type="submit" class="sub" id="cbtn">Envoyer le message</button>
       </form>
     </div>
@@ -608,7 +608,7 @@ body.emode #welcome-box .wlc-icon{outline:1px dashed rgba(0,212,255,.35);cursor:
 </footer>
 
 <!-- EDITOR PANEL (invisible by default, slides up from bottom) -->
-<div id="epanel">
+<div id="epanel" class="" style="display: none;">
   <span class="ep-lbl">✏️ MODE ÉDITION</span>
   <div class="ep-sep"></div>
   <button class="epbtn a" onclick="openAPM()">＋ Projet</button>
@@ -1582,4 +1582,5 @@ function toast(msg,col){
   </div>
 </div>
 
-</body></html>
+
+</body><div id="detach-button-host" style="top: 0px; left: 542.333px;"></div><div class="hidden" id="qr-host"></div></html>
