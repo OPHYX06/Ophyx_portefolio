@@ -379,7 +379,7 @@ body.emode #welcome-box .wlc-icon{outline:1px dashed rgba(0,212,255,.35);cursor:
 
 
 <!-- WELCOME SOUND OVERLAY -->
-<div id="welcome-overlay" style="display: none;">
+<div id="welcome-overlay">
   <div id="welcome-box">
     <span class="wlc-icon" id="wlc-icon">🔊</span>
     <div class="wlc-title" id="wlc-title">Meilleure expérience avec le son</div>
@@ -608,7 +608,7 @@ body.emode #welcome-box .wlc-icon{outline:1px dashed rgba(0,212,255,.35);cursor:
 </footer>
 
 <!-- EDITOR PANEL (invisible by default, slides up from bottom) -->
-<div id="epanel" class="" style="display: none;">
+<div id="epanel" class="">
   <span class="ep-lbl">✏️ MODE ÉDITION</span>
   <div class="ep-sep"></div>
   <button class="epbtn a" onclick="openAPM()">＋ Projet</button>
@@ -1491,12 +1491,10 @@ function welcomeSound(withSound){
   setTimeout(()=>ov.style.display='none', 650);
 }
 
-// Hide overlay if no video is set (no point showing it)
+// Always show the welcome overlay on load — it stays until the user makes a choice
 window.addEventListener('DOMContentLoaded',()=>{
-  const vsrc = document.getElementById('hero-vsrc');
-  if(!vsrc || !vsrc.src || vsrc.src.includes('index.html') || vsrc.src === window.location.href){
-    document.getElementById('welcome-overlay').style.display='none';
-  }
+  const ov = document.getElementById('welcome-overlay');
+  ov.style.display = 'flex';
 });
 
 // ── WELCOME EDITOR ──
