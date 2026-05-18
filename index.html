@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="fr"><head>
+<html lang="fr" style="--p: #8a0000; --pg: hsl(0,100%,39%); --pl: hsl(0,100%,55%); --pd: hsl(0,100%,15%); --border: #8a000047; --card: #8a00000D; --ac: #ff0000; --ac2: #ee00ff;"><head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>OPHYX — Portfolio</title>
@@ -375,11 +375,11 @@ body.emode #welcome-box .wlc-icon{outline:1px dashed rgba(0,212,255,.35);cursor:
 
 </style>
 </head>
-<body class="">
+<body class="hov">
 
 
 <!-- WELCOME SOUND OVERLAY -->
-<div id="welcome-overlay">
+<div id="welcome-overlay" style="display: none;" class="hide">
   <div id="welcome-box">
     <span class="wlc-icon" id="wlc-icon">🔊</span>
     <div class="wlc-title" id="wlc-title">Meilleure expérience avec le son</div>
@@ -391,9 +391,9 @@ body.emode #welcome-box .wlc-icon{outline:1px dashed rgba(0,212,255,.35);cursor:
   </div>
 </div>
 
-<div id="scroll-prog" style="width: 53.4309%;"></div>
-<div id="cur" style="left: 516px; top: 593px;"></div><div id="cur-r" style="left: 514.801px; top: 594.356px;"></div>
-<div id="toast" class="" style="background: rgb(26, 122, 88);">🚀 Site publié ! En ligne dans ~30 secondes</div>
+<div id="scroll-prog" style="width: 24.0592%;"></div>
+<div id="cur" style="left: 545px; top: 583px;"></div><div id="cur-r" style="left: 545.076px; top: 582.929px;"></div>
+<div id="toast" class="" style="background: var(--p);">✏️ Mode édition actif — animations figées — Tapez OPHYX pour quitter</div>
 
 <!-- SAVING OVERLAY -->
 <div id="saving" class="">
@@ -417,7 +417,7 @@ body.emode #welcome-box .wlc-icon{outline:1px dashed rgba(0,212,255,.35);cursor:
 <!-- HERO -->
 <section id="hero">
   <video id="hero-video" autoplay="" loop="" muted="" playsinline="" style="display: block;"><source id="hero-vsrc" src="https://res.cloudinary.com/ddiaz4trd/video/upload/v1779134136/ssstwitter.com_1779133941477_zghu91.mp4" type="video/mp4"></video>
-  <button id="sound-btn" style="display: flex;" onclick="toggleSound()"><span id="snd-icon">🔊</span> <span id="snd-txt">Son active</span></button>
+  <button id="sound-btn" style="display: flex;" onclick="toggleSound()"><span id="snd-icon">🔇</span> <span id="snd-txt">Son desactive</span></button>
   <canvas id="hcvs" width="1173" height="613" style="display: none;"></canvas>
   <div class="hc">
     <div class="avbadge" id="avbadge" onclick="toggleAvail()"><span class="avdot"></span><span id="avail-txt">Disponible pour missions</span></div>
@@ -470,10 +470,10 @@ body.emode #welcome-box .wlc-icon{outline:1px dashed rgba(0,212,255,.35);cursor:
   <div class="ph">
     <div><div class="slbl rv vis">Réalisations</div><h2 class="stit rv vis">Mon <span class="acc">Portfolio</span></h2></div>
     <div class="fbs rv vis">
-      <button class="fb" data-f="all">Tous</button>
+      <button class="fb on" data-f="all">Tous</button>
       <button class="fb" data-f="montage">Montage</button>
       <button class="fb" data-f="motion">Motion</button>
-      <button class="fb on" data-f="3d">3D</button>
+      <button class="fb" data-f="3d">3D</button>
     </div>
   </div>
   <div class="pgrid" id="pgrid">
@@ -483,7 +483,7 @@ body.emode #welcome-box .wlc-icon{outline:1px dashed rgba(0,212,255,.35);cursor:
     
     
     
-    <div class="pcard" data-cat="montage" data-title="Vidéo inverser les periphérique" data-desc="" data-tools="Davinci Resolve" data-yt="https://youtu.be/5OHTw3MhwMo" style="opacity: 0.15; pointer-events: none;"><div class="pcbg" style="background:linear-gradient(135deg,#1a003a,#7B2FFF)">🎬</div><button class="pdel" onclick="delCard(this)">✕</button><div class="pov"><div class="pcat">Montage</div><div class="pnm">Vidéo inverser les periphérique</div><button class="pbtn">Voir le projet</button></div></div><div class="pcard" data-cat="motion" data-title="Da Ophyx Inspired by Netflix and Stranger things" data-desc="Voici ma DA inspirée de Netflix et Stranger Things, vous pouvez aussi l'observer en arrière-plan de ce portfolio." data-tools="Davinci resolve" data-yt="" style="opacity: 0.15; pointer-events: none;"><div class="pcbg" style="background-image:url(https://res.cloudinary.com/ddiaz4trd/image/upload/v1779135005/image_2026-05-18_220959117_vh4y5p.png);background-size:cover;background-position:center"></div><button class="pdel" onclick="delCard(this)">✕</button><div class="pov"><div class="pcat">Motion Design</div><div class="pnm">Da Ophyx Inspired by Netflix and Stranger things</div><button class="pbtn">Voir le projet</button></div></div><div class="pcard" data-cat="motion" data-title="Ecran de fin Youtube" data-desc="Voici un écran de fin youtube pour une outro réussi" data-tools="davinci Resolve" data-yt="" style="opacity: 0.15; pointer-events: none;"><div class="pcbg" style="background-image:url(https://res.cloudinary.com/ddiaz4trd/image/upload/v1779135455/image_2026-05-18_221732634_k7a8cy.png);background-size:cover;background-position:center"></div><button class="pdel" onclick="delCard(this)">✕</button><div class="pov"><div class="pcat">Motion Design</div><div class="pnm">Ecran de fin Youtube</div><button class="pbtn">Voir le projet</button></div></div><div class="add-card" id="addCard" onclick="openAPM()">
+    <div class="pcard" data-cat="montage" data-title="Vidéo inverser les periphérique" data-desc="" data-tools="Davinci Resolve" data-yt="https://youtu.be/5OHTw3MhwMo" style="opacity: 1; pointer-events: all;"><div class="pcbg" style="background:linear-gradient(135deg,#1a003a,#7B2FFF)">🎬</div><button class="pdel" onclick="delCard(this)">✕</button><div class="pov"><div class="pcat">Montage</div><div class="pnm">Vidéo inverser les periphérique</div><button class="pbtn">Voir le projet</button></div></div><div class="pcard" data-cat="motion" data-title="Da Ophyx Inspired by Netflix and Stranger things" data-desc="Voici ma DA inspirée de Netflix et Stranger Things, vous pouvez aussi l'observer en arrière-plan de ce portfolio." data-tools="Davinci resolve" data-yt="" style="opacity: 1; pointer-events: all;"><div class="pcbg" style="background-image:url(https://res.cloudinary.com/ddiaz4trd/image/upload/v1779135005/image_2026-05-18_220959117_vh4y5p.png);background-size:cover;background-position:center"></div><button class="pdel" onclick="delCard(this)">✕</button><div class="pov"><div class="pcat">Motion Design</div><div class="pnm">Da Ophyx Inspired by Netflix and Stranger things</div><button class="pbtn">Voir le projet</button></div></div><div class="pcard" data-cat="motion" data-title="Ecran de fin Youtube" data-desc="Voici un écran de fin youtube pour une outro réussi" data-tools="davinci Resolve" data-yt="" style="opacity: 1; pointer-events: all;"><div class="pcbg" style="background-image:url(https://res.cloudinary.com/ddiaz4trd/image/upload/v1779135455/image_2026-05-18_221732634_k7a8cy.png);background-size:cover;background-position:center"></div><button class="pdel" onclick="delCard(this)">✕</button><div class="pov"><div class="pcat">Motion Design</div><div class="pnm">Ecran de fin Youtube</div><button class="pbtn">Voir le projet</button></div></div><div class="add-card" id="addCard" onclick="openAPM()">
       <div class="aci">＋</div>
       <div class="act">Ajouter un projet</div>
     </div>
@@ -573,7 +573,7 @@ body.emode #welcome-box .wlc-icon{outline:1px dashed rgba(0,212,255,.35);cursor:
     
     
     
-    <div class="tsl on"><p class="tq">T'es plutôt bon en montage et en terme de graphisme t'évolues hyper vite donc t'as un potentiel de fou.</p><div class="ta">echo</div><div class="tr">Graphiste</div></div><div class="tsl"><p class="tq">OPHYX a transformé notre aftermovie en véritable œuvre d'art. L'énergie, le rythme, les transitions… tout était parfait.</p><div class="ta">Adominos</div><div class="tr">Monteur vidéo - Motion Designer - Content Creator</div></div><div class="tsl"><p class="tq">Incroyable maîtrise du 3D et du motion design. Notre logo reveal a reçu des compliments de toute notre communauté.</p><div class="ta">Zanzar</div><div class="tr">Graphiste - Content Creator</div></div><div class="tdots"><div class="dot on" data-i="0"></div><div class="dot" data-i="1"></div><div class="dot" data-i="2"></div></div>
+    <div class="tsl"><p class="tq">T'es plutôt bon en montage et en terme de graphisme t'évolues hyper vite donc t'as un potentiel de fou.</p><div class="ta">echo</div><div class="tr">Graphiste</div></div><div class="tsl"><p class="tq">OPHYX a transformé notre aftermovie en véritable œuvre d'art. L'énergie, le rythme, les transitions… tout était parfait.</p><div class="ta">Adominos</div><div class="tr">Monteur vidéo - Motion Designer - Content Creator</div></div><div class="tsl on"><p class="tq">Incroyable maîtrise du 3D et du motion design. Notre logo reveal a reçu des compliments de toute notre communauté.</p><div class="ta">Zanzar</div><div class="tr">Graphiste - Content Creator</div></div><div class="tdots"><div class="dot" data-i="0"></div><div class="dot" data-i="1"></div><div class="dot on" data-i="2"></div></div>
   </div>
 </section>
 
@@ -608,7 +608,7 @@ body.emode #welcome-box .wlc-icon{outline:1px dashed rgba(0,212,255,.35);cursor:
 </footer>
 
 <!-- EDITOR PANEL (invisible by default, slides up from bottom) -->
-<div id="epanel" class="">
+<div id="epanel" class="" style="display: none;">
   <span class="ep-lbl">✏️ MODE ÉDITION</span>
   <div class="ep-sep"></div>
   <button class="epbtn a" onclick="openAPM()">＋ Projet</button>
@@ -1581,4 +1581,5 @@ function toast(msg,col){
 </div>
 
 
-</body><div id="detach-button-host" style="top: -1883.33px; left: 560.833px;"></div><div class="hidden" id="qr-host"></div></html>
+<div id="detach-button-host" style="top: -1883.33px; left: 560.833px;"></div><div class="hidden" id="qr-host"></div>
+</body><div id="detach-button-host" style="top: -988px; left: 542.333px;"></div><div class="hidden" id="qr-host"></div></html>
