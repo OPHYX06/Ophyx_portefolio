@@ -285,10 +285,48 @@ footer{background:rgba(0,0,0,.5);border-top:1px solid var(--border);padding:2rem
   footer{padding:1.5rem;flex-direction:column;text-align:center}
   #epanel{flex-wrap:wrap;width:calc(100% - 2rem);justify-content:center;border-radius:6px 6px 0 0}
 }
+
+/* ── SCROLL PROGRESS BAR ── */
+#scroll-prog{position:fixed;top:0;left:0;height:3px;width:0%;background:linear-gradient(90deg,var(--p),var(--ac),var(--ac2));z-index:99997;transition:width .08s linear;box-shadow:0 0 8px var(--pg);pointer-events:none}
+
+/* ── VIDEO BACKGROUND ── */
+#hero-video{position:absolute;inset:0;z-index:0;width:100%;height:100%;object-fit:cover;opacity:.5}
+#hero::after{content:'';position:absolute;inset:0;z-index:1;background:linear-gradient(135deg,rgba(7,0,15,.78) 0%,rgba(13,0,32,.55) 100%);pointer-events:none}
+.hc{z-index:3!important}.sci{z-index:3!important}
+
+/* ── SOUND BUTTON ── */
+#sound-btn{position:absolute;bottom:2.5rem;right:2rem;z-index:10;background:rgba(7,0,15,.65);border:1px solid rgba(123,47,255,.35);color:var(--pl);font-family:'Rajdhani',sans-serif;font-size:.72rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;padding:.45rem .9rem;cursor:none;transition:all .3s;backdrop-filter:blur(8px);display:flex;align-items:center;gap:.45rem;clip-path:polygon(0 0,calc(100% - 7px) 0,100% 7px,100% 100%,7px 100%,0 calc(100% - 7px))}
+#sound-btn:hover{border-color:var(--pg);color:#fff;background:rgba(123,47,255,.18)}
+
+/* ── AVAILABILITY BADGE ── */
+.avbadge{display:inline-flex;align-items:center;gap:.5rem;padding:.4rem 1rem;border:1px solid rgba(46,204,137,.4);background:rgba(46,204,137,.08);font-family:'Rajdhani',sans-serif;font-size:.78rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:#2ecc89;margin-bottom:1.1rem;opacity:0;animation:fup .6s .1s forwards;clip-path:polygon(0 0,calc(100% - 8px) 0,100% 8px,100% 100%,8px 100%,0 calc(100% - 8px));transition:all .3s}
+.avbadge.off{border-color:rgba(220,60,60,.4);background:rgba(220,60,60,.08);color:#e05555}
+.avbadge .avdot{width:7px;height:7px;border-radius:50%;background:#2ecc89;flex-shrink:0;animation:avpulse 1.5s infinite}
+.avbadge.off .avdot{background:#e05555;animation:none}
+@keyframes avpulse{0%,100%{transform:scale(1);opacity:1}50%{transform:scale(1.5);opacity:.6}}
+body.emode .avbadge{cursor:pointer!important;outline:1px dashed rgba(0,212,255,.35)}
+
+/* ── COPY EMAIL ── */
+.copy-mail{background:none;border:none;cursor:none;color:var(--muted);font-size:.85rem;padding:.1rem .3rem;transition:color .2s;vertical-align:middle}
+.copy-mail:hover{color:var(--pg)}
+
+/* ── VIDEO MODAL + FORMSPREE MODAL (dans panel) ── */
+.ep-modal{position:fixed;inset:0;background:rgba(7,0,15,.97);backdrop-filter:blur(16px);z-index:9500;display:flex;align-items:center;justify-content:center;padding:2rem;opacity:0;pointer-events:none;transition:opacity .3s}
+.ep-modal.open{opacity:1;pointer-events:all}
+.ep-mbox{background:var(--void2);border:1px solid var(--border);width:100%;max-width:500px;clip-path:polygon(0 0,calc(100% - 18px) 0,100% 18px,100% 100%,18px 100%,0 calc(100% - 18px));padding:2rem;position:relative}
+.ep-mbox h3{font-family:'Orbitron',monospace;font-size:1rem;font-weight:700;color:var(--pg);margin-bottom:1.2rem}
+.ep-mbox p{font-size:.85rem;color:var(--muted);line-height:1.7;margin-bottom:1rem}
+.ep-mbox p a{color:var(--pg);text-decoration:none}
+.ep-mbox p a:hover{text-decoration:underline}
+.ep-mbox input{width:100%;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.1);color:var(--white);padding:.75rem 1rem;font-family:'DM Sans',sans-serif;font-size:.95rem;outline:none;margin-bottom:.75rem;transition:border-color .3s}
+.ep-mbox input:focus{border-color:var(--pg)}
+.ep-mbox .step{font-family:'Rajdhani',sans-serif;font-size:.75rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--pg);margin-bottom:.3rem;display:block}
+
 </style>
 </head>
 <body class="hov">
 
+<div id="scroll-prog"></div>
 <div id="cur" style="left: 525px; top: 571px;"></div><div id="cur-r" style="left: 525px; top: 571.009px;"></div>
 <div id="toast" class="" style="background: var(--p);">✏️ Mode édition actif — animations figées — Tapez OPHYX pour quitter</div>
 
@@ -313,10 +351,13 @@ footer{background:rgba(0,0,0,.5);border-top:1px solid var(--border);padding:2rem
 
 <!-- HERO -->
 <section id="hero">
+  <video id="hero-video" autoplay loop muted playsinline style="display:none"><source id="hero-vsrc" src="" type="video/mp4"></video>
+  <button id="sound-btn" style="display:none" onclick="toggleSound()"><span id="snd-icon">🔇</span> <span id="snd-txt">Son désactivé</span></button>
   <canvas id="hcvs" width="1173" height="613"></canvas>
   <div class="hc">
+    <div class="avbadge" id="avbadge" onclick="toggleAvail()"><span class="avdot"></span><span id="avail-txt">Disponible pour missions</span></div>
     <div class="hey">Créateur d'univers visuels</div>
-    <div class="hname" id="hname"><span class="L" style="animation-delay: 0.5s;">O</span><span class="L" style="animation-delay: 0.58s;">P</span><span class="L" style="animation-delay: 0.66s;">H</span><span class="L" style="animation-delay: 0.74s;">Y</span><span class="L" style="animation-delay: 0.82s;">X</span></div>
+    <div class="hname" id="hname"></div>
     <p class="hsub"><span id="tt">Animat</span><span id="tcur"></span></p>
     <div class="hcta">
       <a href="#portfolio" class="btn1">Voir mes travaux</a>
@@ -478,17 +519,19 @@ footer{background:rgba(0,0,0,.5);border-top:1px solid var(--border);padding:2rem
       <div class="slbl">Démarrons</div>
       <h2 class="stit">Travaillons <span class="acc">ensemble</span></h2>
       <p style="color:var(--muted);line-height:1.8;margin:1.5rem 0 2.5rem;font-size:.95rem">Vous avez un projet en tête ? N'hésitez pas à me contacter, je répondrai dans les 24h.</p>
-      <div class="cii"><div class="cci">📧</div><div class="cd2"><strong>Email</strong>contact@ophyx.com</div></div>
+      <div class="cii"><div class="cci">📧</div><div class="cd2"><strong>Email</strong><span id="contact-email-txt">contact@ophyx.com</span> <button class="copy-mail" onclick="copyMail()" title="Copier">📋</button></div></div>
       <div class="cii"><div class="cci">📍</div><div class="cd2"><strong>Localisation</strong>France — Disponible en remote</div></div>
       <div class="cii"><div class="cci">⏱</div><div class="cd2"><strong>Disponibilité</strong>Ouvert aux nouvelles missions</div></div>
       <div class="socl"><a href="#" class="sc2">🎬</a><a href="#" class="sc2">📸</a><a href="#" class="sc2">🎨</a><a href="#" class="sc2">💼</a></div>
     </div>
     <div class="rv vis">
-      <div class="fg2"><label>Nom complet</label><input type="text" placeholder="John Doe"></div>
-      <div class="fg2"><label>Email</label><input type="email" placeholder="john@example.com"></div>
-      <div class="fg2"><label>Type de projet</label><select><option>Sélectionner...</option><option>Montage vidéo</option><option>Motion Design</option><option>Animation 3D</option><option>Projet complet</option></select></div>
-      <div class="fg2"><label>Message</label><textarea placeholder="Décrivez votre projet..."></textarea></div>
-      <button class="sub" onclick="this.textContent='Message envoyé ✓';this.style.background='#1a7a58';setTimeout(()=&gt;{this.textContent='Envoyer le message';this.style.background=''},3000)">Envoyer le message</button>
+      <form id="cform" onsubmit="sendContact(event)">
+        <div class="fg2"><label>Nom complet</label><input type="text" name="name" placeholder="John Doe" required></div>
+        <div class="fg2"><label>Email</label><input type="email" name="email" placeholder="john@example.com" required></div>
+        <div class="fg2"><label>Type de projet</label><select name="type"><option>Sélectionner...</option><option>Montage vidéo</option><option>Motion Design</option><option>Animation 3D</option><option>Projet complet</option></select></div>
+        <div class="fg2"><label>Message</label><textarea name="message" placeholder="Décrivez votre projet..." required></textarea></div>
+        <button type="submit" class="sub" id="cbtn">Envoyer le message</button>
+      </form>
     </div>
   </div>
 </section>
@@ -500,7 +543,7 @@ footer{background:rgba(0,0,0,.5);border-top:1px solid var(--border);padding:2rem
 </footer>
 
 <!-- EDITOR PANEL (invisible by default, slides up from bottom) -->
-<div id="epanel" class="" style="display: none;">
+<div id="epanel">
   <span class="ep-lbl">✏️ MODE ÉDITION</span>
   <div class="ep-sep"></div>
   <button class="epbtn a" onclick="openAPM()">＋ Projet</button>
@@ -531,6 +574,8 @@ footer{background:rgba(0,0,0,.5);border-top:1px solid var(--border);padding:2rem
     </div>
   </div>
   <div class="ep-sep"></div>
+  <button class="epbtn a" onclick="document.getElementById('vid-modal').classList.add('open')">🎬 Vidéo Hero</button>
+  <button class="epbtn a" onclick="document.getElementById('fsp-modal').classList.add('open')">📧 Contact mail</button>
   <button class="epbtn g" id="pub-btn" onclick="publish()">🚀 Publier</button>
   <button class="epbtn red" onclick="exitEdit()">✕ Quitter</button>
 </div>
@@ -713,12 +758,13 @@ document.querySelectorAll('a,button,.pcard,.dot,.fb,.sc2,.add-card').forEach(el=
 // ══════════════════════════════════
 // NAVBAR
 // ══════════════════════════════════
-window.addEventListener('scroll',()=>document.getElementById('nb').classList.toggle('sc',scrollY>60));
+// scroll handled above
 
 // ══════════════════════════════════
 // HERO
 // ══════════════════════════════════
 const hn=document.getElementById('hname');
+hn.innerHTML='';
 'OPHYX'.split('').forEach((c,i)=>{const s=document.createElement('span');s.className='L';s.textContent=c;s.style.animationDelay=(.5+i*.08)+'s';hn.appendChild(s)});
 const phr=['Monteur Vidéo','Motion Designer','Animateur 3D','Créateur Visuel'];
 let pi=0,ci=0,typ=true,typingPaused=false;
@@ -1277,11 +1323,133 @@ function applyTextAnimEdits(){
   toast('✓ Textes & blocs mis à jour !','#1a7a58');
 }
 
+// ── SCROLL PROGRESS ──
+window.addEventListener('scroll',()=>{
+  const p=document.getElementById('scroll-prog');
+  if(p)p.style.width=Math.min(scrollY/(document.body.scrollHeight-innerHeight)*100,100)+'%';
+  document.getElementById('nb').classList.toggle('sc',scrollY>60);
+},{passive:true});
+
+// ── VIDEO BACKGROUND ──
+function applyHeroVideo(){
+  const url=document.getElementById('vid-url-inp').value.trim();
+  if(!url){toast('Colle une URL .mp4 valide','#884400');return;}
+  const v=document.getElementById('hero-video');
+  document.getElementById('hero-vsrc').src=url;
+  v.load();v.style.display='block';
+  document.getElementById('hcvs').style.display='none';
+  document.getElementById('sound-btn').style.display='flex';
+  document.getElementById('vid-modal').classList.remove('open');
+  toast('Video background activee !','#1a7a58');
+}
+function toggleSound(){
+  const v=document.getElementById('hero-video');
+  v.muted=!v.muted;
+  document.getElementById('snd-icon').textContent=v.muted?'🔇':'🔊';
+  document.getElementById('snd-txt').textContent=v.muted?'Son desactive':'Son active';
+}
+
+// ── AVAILABILITY BADGE ──
+let _availOn=true;
+function toggleAvail(){
+  if(!emode)return;
+  _availOn=!_availOn;
+  document.getElementById('avbadge').classList.toggle('off',!_availOn);
+  document.getElementById('avail-txt').textContent=_availOn?'Disponible pour missions':'Non disponible';
+}
+
+// ── COPY EMAIL ──
+function copyMail(){
+  const email=document.getElementById('contact-email-txt').textContent.trim();
+  navigator.clipboard.writeText(email)
+    .then(()=>toast('Email copie !','#1a7a58'))
+    .catch(()=>toast(email,'var(--p)'));
+}
+
+// ── FORMSPREE ──
+let _fspId=localStorage.getItem('fsp_id')||'';
+if(_fspId){document.getElementById('fsp-id-inp') && (document.getElementById('fsp-id-inp').value=_fspId);}
+function applyFormspree(){
+  const id=document.getElementById('fsp-id-inp').value.trim();
+  if(!id){toast('Entre ton ID Formspree','#884400');return;}
+  _fspId=id;
+  localStorage.setItem('fsp_id',id);
+  document.getElementById('fsp-modal').classList.remove('open');
+  toast('Formulaire connecte ! Fais un test.','#1a7a58');
+}
+async function sendContact(e){
+  e.preventDefault();
+  const id=_fspId||localStorage.getItem('fsp_id')||'';
+  if(!id){
+    document.getElementById('fsp-modal').classList.add('open');
+    toast('Configure ton Formspree dabord !','#884400');
+    return;
+  }
+  const btn=document.getElementById('cbtn');
+  btn.textContent='Envoi...';btn.disabled=true;btn.style.opacity='.6';
+  try{
+    const r=await fetch('https://formspree.io/f/'+id,{
+      method:'POST',body:new FormData(document.getElementById('cform')),
+      headers:{Accept:'application/json'}
+    });
+    if(r.ok){
+      btn.textContent='Envoye !';btn.style.background='#1a7a58';btn.style.opacity='1';
+      document.getElementById('cform').reset();
+      toast('Message envoye ! Reponse sous 24h.','#1a7a58');
+      setTimeout(()=>{btn.textContent='Envoyer le message';btn.style.background='';btn.disabled=false;},4000);
+    }else throw new Error();
+  }catch{
+    btn.textContent='Erreur — Reessayer';btn.style.background='#880000';btn.style.opacity='1';btn.disabled=false;
+    setTimeout(()=>{btn.textContent='Envoyer le message';btn.style.background='';},3000);
+  }
+}
+
+// ── ESCAPE closes ep-modals ──
+document.addEventListener('keydown',function(ev){
+  if(ev.key==='Escape'){
+    document.querySelectorAll('.ep-modal').forEach(m=>m.classList.remove('open'));
+  }
+});
+
 function toast(msg,col){
   const t=document.getElementById('toast');t.textContent=msg;t.style.background=col||'var(--p)';
   t.classList.add('show');setTimeout(()=>t.classList.remove('show'),3000)
 }
 </script>
 
+
+
+<!-- VIDEO MODAL -->
+<div class="ep-modal" id="vid-modal">
+  <div class="ep-mbox">
+    <button class="mcl" onclick="document.getElementById('vid-modal').classList.remove('open')" style="position:absolute;top:1rem;right:1rem">✕</button>
+    <h3>🎬 Vidéo Background Hero</h3>
+    <p>Héberge ta vidéo gratuitement sur <a href="https://cloudinary.com" target="_blank">cloudinary.com</a> puis colle ici l'URL directe (.mp4)</p>
+    <span class="step">URL de la vidéo (.mp4)</span>
+    <input type="text" id="vid-url-inp" placeholder="https://res.cloudinary.com/.../mavideo.mp4">
+    <p style="font-size:.8rem;margin-bottom:1rem">La vidéo démarre muette. Un bouton son apparaît en bas à droite du hero.</p>
+    <div style="display:flex;gap:.75rem">
+      <button class="eb p" onclick="applyHeroVideo()">✓ Appliquer</button>
+      <button class="eb s" onclick="document.getElementById('vid-modal').classList.remove('open')">Annuler</button>
+    </div>
+  </div>
+</div>
+
+<!-- FORMSPREE MODAL -->
+<div class="ep-modal" id="fsp-modal">
+  <div class="ep-mbox">
+    <button class="mcl" onclick="document.getElementById('fsp-modal').classList.remove('open')" style="position:absolute;top:1rem;right:1rem">✕</button>
+    <h3>📧 Formulaire de contact</h3>
+    <p><span class="step">Étape 1</span>Va sur <a href="https://formspree.io" target="_blank">formspree.io</a> → compte gratuit</p>
+    <p><span class="step">Étape 2</span>Clique <strong>New Form</strong> → entre ton email → copie l'ID (ex: <em>xpwzgkqr</em>)</p>
+    <p><span class="step">Étape 3</span>Colle ton ID ici :</p>
+    <input type="text" id="fsp-id-inp" placeholder="xpwzgkqr" maxlength="20">
+    <p style="font-size:.8rem;margin-bottom:1rem">Gratuit jusqu'à 50 messages/mois. Tu reçois chaque message par email.</p>
+    <div style="display:flex;gap:.75rem">
+      <button class="eb p" onclick="applyFormspree()">✓ Connecter</button>
+      <button class="eb s" onclick="document.getElementById('fsp-modal').classList.remove('open')">Annuler</button>
+    </div>
+  </div>
+</div>
 
 </body></html>
