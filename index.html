@@ -2587,330 +2587,183 @@ body.emode .avbadge {
 /* ════════════════════════════════════════
    PANNEAU ÉDITEUR — SIDEBAR COMPACT
    ════════════════════════════════════════ */
-/* ════════════════════════════════════════
-   ÉDITEUR — REFONTE VISUELLE
-   ════════════════════════════════════════ */
-
-/* Onglet flottant pour ouvrir/fermer */
-#epanel-tab {
-  position: fixed;
-  top: 50%;
-  right: 0;
-  transform: translateY(-50%);
-  z-index: 8999;
-  width: 28px;
-  height: 72px;
-  background: linear-gradient(180deg, rgba(200,146,42,.18), rgba(200,146,42,.08));
-  border: 1px solid rgba(200,146,42,.35);
-  border-right: none;
-  border-radius: 8px 0 0 8px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 3px;
-  cursor: pointer;
-  transition: background .25s, border-color .25s, right .35s var(--ease-in-out);
-  backdrop-filter: blur(10px);
-}
-#epanel-tab:hover { background: rgba(200,146,42,.28); border-color: rgba(200,146,42,.6); }
-#epanel-tab .tab-dot { width: 4px; height: 4px; border-radius: 50%; background: rgba(200,146,42,.7); }
-#epanel-tab .tab-lbl {
-  font-family: 'Cinzel', serif;
-  font-size: .44rem;
-  color: rgba(200,146,42,.7);
-  letter-spacing: .1em;
-  writing-mode: vertical-rl;
-  text-transform: uppercase;
-  margin: 2px 0;
-}
-body.emode #epanel-tab { right: 252px; }
-
 #epanel {
   position: fixed;
   top: 50%;
   right: 0;
   transform: translateY(-50%) translateX(100%);
   z-index: 9000;
-  width: 252px;
-  background: linear-gradient(160deg, rgba(6,12,22,.98) 0%, rgba(4,8,15,.99) 100%);
-  backdrop-filter: blur(28px);
-  border: 1px solid rgba(200,146,42,.22);
+  width: 220px;
+  background: rgba(4,8,15,.97);
+  backdrop-filter: blur(24px);
+  border: 1px solid var(--border);
   border-right: none;
-  border-radius: 14px 0 0 14px;
-  box-shadow:
-    -8px 0 50px rgba(0,0,0,.6),
-    -2px 0 0 rgba(200,146,42,.08),
-    inset 1px 0 0 rgba(200,146,42,.05);
-  transition: transform .38s var(--ease-in-out);
+  border-radius: 12px 0 0 12px;
+  box-shadow: -6px 0 40px rgba(200,146,42,.1);
+  transition: transform .35s var(--ease-in-out);
   display: flex;
   flex-direction: column;
   gap: 0;
   overflow: hidden;
-  max-height: 94vh;
+  max-height: 92vh;
 }
 
 #epanel.open {
   transform: translateY(-50%) translateX(0);
 }
 
-/* Ligne déco dorée en haut */
-#epanel::after {
-  content: '';
+/* Handle de drag discret sur le côté gauche */
+#epanel::before {
+  content: '⠿';
   position: absolute;
-  top: 0; left: 0; right: 0;
-  height: 2px;
-  background: linear-gradient(90deg, transparent, rgba(200,146,42,.6), transparent);
-  pointer-events: none;
+  left: -22px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 22px;
+  height: 54px;
+  background: rgba(4,8,15,.97);
+  border: 1px solid var(--border);
+  border-right: none;
+  border-radius: 8px 0 0 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: rgba(200,146,42,.4);
+  font-size: .9rem;
+  cursor: pointer;
+  writing-mode: vertical-rl;
+  letter-spacing: 3px;
 }
 
-/* Header */
+/* Header du panel */
 .ep-header {
-  padding: 1rem 1.1rem .8rem;
-  border-bottom: 1px solid rgba(200,146,42,.1);
+  padding: .9rem 1rem .7rem;
+  border-bottom: 1px solid rgba(200,146,42,.12);
   display: flex;
   align-items: center;
   justify-content: space-between;
   flex-shrink: 0;
-  background: rgba(200,146,42,.03);
 }
 
 .ep-lbl {
   font-family: 'Cinzel', serif;
-  font-size: .7rem;
-  color: var(--gold-bright);
-  letter-spacing: .22em;
-  font-weight: 700;
-  display: flex;
-  align-items: center;
-  gap: .5rem;
-}
-
-.ep-lbl::before {
-  content: '';
-  display: inline-block;
-  width: 6px; height: 6px;
-  border-radius: 50%;
-  background: var(--sea-glow);
-  box-shadow: 0 0 8px var(--sea-glow);
-  animation: avpulse 1.8s infinite;
-}
-
-.ep-close-btn {
-  background: rgba(255,255,255,.05);
-  border: 1px solid rgba(255,255,255,.08);
-  color: var(--muted);
-  font-size: .85rem;
-  cursor: pointer;
-  padding: .25rem .45rem;
-  border-radius: 5px;
-  line-height: 1;
-  transition: background .2s, color .2s;
-}
-.ep-close-btn:hover { background: rgba(229,9,20,.2); color: #ff6680; border-color: rgba(229,9,20,.3); }
-
-/* Indicateur Ctrl+Z */
-.ep-hint {
-  padding: .4rem 1.1rem;
-  font-family: 'Lato', sans-serif;
-  font-size: .6rem;
-  color: rgba(200,146,42,.35);
-  letter-spacing: .08em;
-  border-bottom: 1px solid rgba(255,255,255,.04);
-  background: rgba(200,146,42,.02);
-  flex-shrink: 0;
-}
-.ep-hint kbd {
-  background: rgba(200,146,42,.12);
-  border: 1px solid rgba(200,146,42,.2);
-  border-radius: 3px;
-  padding: 0 .3rem;
-  font-family: monospace;
   font-size: .65rem;
-  color: rgba(200,146,42,.6);
+  color: var(--gold-bright);
+  letter-spacing: .18em;
+  font-weight: 700;
 }
 
-/* Zone scrollable */
+/* Zone scrollable des boutons */
 .ep-scroll {
   overflow-y: auto;
   overflow-x: hidden;
   flex: 1;
-  padding: .7rem .8rem;
+  padding: .6rem .7rem;
   display: flex;
   flex-direction: column;
-  gap: .28rem;
+  gap: .3rem;
   scrollbar-width: thin;
   scrollbar-color: rgba(200,146,42,.2) transparent;
 }
+
 .ep-scroll::-webkit-scrollbar { width: 3px; }
 .ep-scroll::-webkit-scrollbar-track { background: transparent; }
 .ep-scroll::-webkit-scrollbar-thumb { background: rgba(200,146,42,.25); border-radius: 3px; }
 
-/* Titres de section */
+/* Séparateur section */
 .ep-sec-title {
   font-family: 'Lato', sans-serif;
-  font-size: .58rem;
+  font-size: .6rem;
   font-weight: 700;
-  letter-spacing: .25em;
+  letter-spacing: .2em;
   text-transform: uppercase;
-  color: rgba(200,146,42,.38);
-  padding: .55rem .3rem .18rem;
-  margin-top: .15rem;
-  display: flex;
-  align-items: center;
-  gap: .4rem;
+  color: rgba(200,146,42,.4);
+  padding: .5rem .2rem .2rem;
+  margin-top: .2rem;
 }
-.ep-sec-title::after {
-  content: '';
-  flex: 1;
+
+.ep-sep {
   height: 1px;
-  background: rgba(200,146,42,.1);
+  background: rgba(255,255,255,.06);
+  margin: .3rem 0;
 }
 
-.ep-sep { height: 1px; background: rgba(255,255,255,.05); margin: .2rem 0; }
-
-/* Boutons */
 .epbtn {
   width: 100%;
-  padding: .58rem .85rem;
-  font-family: 'Lato', sans-serif;
-  font-size: .72rem;
+  padding: .55rem .8rem;
+  font-family: 'Cinzel', serif;
+  font-size: .66rem;
   font-weight: 600;
-  letter-spacing: .04em;
+  letter-spacing: .1em;
+  text-transform: uppercase;
   border: 1px solid transparent;
-  cursor: pointer;
-  transition: background .18s, border-color .18s, color .18s, transform .1s;
-  border-radius: 7px;
+  cursor: none;
+  transition: background .2s, border-color .2s, color .2s;
+  border-radius: 5px;
   text-align: left;
   display: flex;
   align-items: center;
-  gap: .6rem;
-  position: relative;
+  gap: .5rem;
+  white-space: nowrap;
   overflow: hidden;
-}
-.epbtn:active { transform: scale(.97); }
-
-.epbtn .ep-ico {
-  flex-shrink: 0;
-  font-size: .9rem;
-  width: 18px;
-  text-align: center;
+  text-overflow: ellipsis;
 }
 
-/* Variantes */
-.epbtn.a {
-  background: rgba(200,146,42,.06);
-  color: rgba(240,232,212,.75);
-  border-color: rgba(200,146,42,.14);
-}
-.epbtn.a:hover {
-  background: rgba(200,146,42,.16);
-  color: var(--white);
-  border-color: rgba(200,146,42,.38);
-  box-shadow: 0 2px 12px rgba(200,146,42,.1);
-}
+.epbtn .ep-ico { flex-shrink: 0; font-size: .85rem; }
 
-.epbtn.g {
-  background: rgba(26,92,74,.25);
-  color: #7df5c0;
-  border-color: rgba(42,140,108,.3);
-}
-.epbtn.g:hover {
-  background: rgba(26,92,74,.5);
-  color: #fff;
-  border-color: rgba(42,140,108,.6);
-  box-shadow: 0 2px 12px rgba(42,140,108,.15);
-}
-
-.epbtn.red {
-  background: rgba(180,0,40,.18);
-  color: #ff8099;
-  border-color: rgba(180,0,40,.28);
-}
-.epbtn.red:hover {
-  background: rgba(200,0,50,.4);
-  color: #fff;
-  border-color: rgba(229,9,20,.5);
-}
-
-/* Son — bouton avec état actif */
-.epbtn.snd-on {
-  background: rgba(42,140,108,.18);
-  color: var(--sea-glow);
-  border-color: rgba(42,140,108,.35);
-}
-.epbtn.snd-on:hover { background: rgba(42,140,108,.35); color: #fff; }
+.epbtn.red  { background: rgba(180,0,40,.25); color: #ff6680; border-color: rgba(180,0,40,.35); }
+.epbtn.red:hover  { background: rgba(200,0,50,.5); color: #fff; }
+.epbtn.a    { background: rgba(200,146,42,.07); color: var(--gold-pale); border-color: rgba(200,146,42,.18); }
+.epbtn.a:hover    { background: rgba(200,146,42,.2); color: var(--white); border-color: rgba(200,146,42,.4); }
+.epbtn.g    { background: rgba(26,92,74,.3); color: #6decba; border-color: rgba(42,140,108,.35); }
+.epbtn.g:hover    { background: rgba(26,92,74,.6); color: #fff; }
 
 /* Zone couleurs */
 .ep-colors {
   display: flex;
   align-items: center;
   gap: .5rem;
-  padding: .5rem .85rem;
+  padding: .45rem .8rem;
   background: rgba(200,146,42,.04);
   border: 1px solid rgba(200,146,42,.12);
-  border-radius: 7px;
+  border-radius: 5px;
 }
+
 .ep-color-lbl {
   font-family: 'Lato', sans-serif;
-  font-size: .65rem;
+  font-size: .6rem;
   color: var(--muted);
   text-transform: uppercase;
   letter-spacing: .1em;
   flex: 1;
 }
+
 .ep-colors input[type=color] {
-  width: 26px; height: 26px;
-  border: 1px solid rgba(200,146,42,.25);
+  width: 22px;
+  height: 22px;
+  border: none;
   cursor: pointer;
   background: none;
-  padding: 2px;
-  border-radius: 5px;
+  padding: 0;
+  border-radius: 3px;
   overflow: hidden;
   flex-shrink: 0;
-  transition: border-color .2s;
 }
-.ep-colors input[type=color]:hover { border-color: rgba(200,146,42,.6); }
 
-/* Son widget inline */
-.ep-sound-row {
-  display: flex;
-  align-items: center;
-  gap: .5rem;
-  padding: .45rem .85rem;
-  background: rgba(200,146,42,.04);
-  border: 1px solid rgba(200,146,42,.12);
-  border-radius: 7px;
-}
-.ep-sound-row .ep-sound-ico { font-size: 1rem; flex-shrink: 0; cursor: pointer; }
-.ep-sound-row .ep-sound-lbl { font-family: 'Lato', sans-serif; font-size: .65rem; color: var(--muted); flex: 1; }
-.ep-sound-row .ep-sound-toggle {
-  background: rgba(200,146,42,.12);
-  border: 1px solid rgba(200,146,42,.25);
-  color: var(--gold-pale);
-  font-size: .6rem;
-  font-family: 'Lato', sans-serif;
-  font-weight: 600;
-  padding: .22rem .55rem;
-  border-radius: 4px;
-  cursor: pointer;
-  letter-spacing: .06em;
-  transition: background .2s;
-}
-.ep-sound-row .ep-sound-toggle:hover { background: rgba(200,146,42,.28); color: #fff; }
-
-/* Footer */
+/* Footer du panel */
 .ep-footer {
-  padding: .7rem .8rem;
-  border-top: 1px solid rgba(200,146,42,.1);
+  padding: .6rem .7rem;
+  border-top: 1px solid rgba(200,146,42,.12);
   display: flex;
   flex-direction: column;
   gap: .3rem;
   flex-shrink: 0;
-  background: rgba(200,146,42,.02);
 }
 
-input[type=color] { border-radius: 5px; overflow: hidden; }
+input[type=color] {
+  border-radius: 3px;
+  overflow: hidden;
+}
 
 /* ════════════════════════════════════════
    MODALS ÉDITEUR STYLE
@@ -4045,7 +3898,6 @@ body.pmode #anchor-nav {
   #stats-editor { grid-template-columns: 1fr 1fr !important; }
 
   /* Éditeur panel — sidebar version mobile */
-  #epanel-tab { display: none !important; }
   #epanel {
     top: auto !important;
     bottom: 0 !important;
@@ -4053,22 +3905,23 @@ body.pmode #anchor-nav {
     left: 0 !important;
     transform: translateY(100%) !important;
     width: 100% !important;
-    max-height: 60vh !important;
-    border-radius: 16px 16px 0 0 !important;
+    max-height: 55vh !important;
+    border-radius: 14px 14px 0 0 !important;
     border-right: 1px solid var(--border) !important;
     border-bottom: none !important;
+    flex-direction: column !important;
   }
-  #epanel.open { transform: translateY(0) !important; }
-  #epanel::after { display: none; }
-  .ep-scroll { flex-direction: row; flex-wrap: wrap; gap: .3rem; padding: .6rem; }
-  .epbtn { width: auto; flex: 0 0 auto; font-size: .62rem; padding: .4rem .7rem; }
-  .epbtn .ep-ico { font-size: .8rem; }
-  .ep-sound-row { flex: 0 0 auto; }
+  #epanel.open {
+    transform: translateY(0) !important;
+  }
+  #epanel::before { display: none; }
+  .ep-scroll { flex-direction: row; flex-wrap: wrap; gap: .25rem; padding: .5rem; }
+  .epbtn { width: auto; flex: 0 0 auto; font-size: .6rem; padding: .4rem .65rem; }
+  .epbtn .ep-ico { font-size: .75rem; }
   .ep-colors { flex: 0 0 auto; }
   .ep-sec-title { display: none; }
   .ep-sep { display: none; }
-  .ep-hint { display: none; }
-  .ep-footer { flex-direction: row; padding: .5rem .6rem; }
+  .ep-footer { flex-direction: row; padding: .5rem; }
   .ep-footer .epbtn { flex: 1; justify-content: center; }
 
   /* Modals */
@@ -5146,89 +4999,39 @@ body.pmode #anchor-nav {
   </div>
 </div>
 
-<!-- ════════ ONGLET ÉDITEUR (visible en mode édition) ════════ -->
-<div id="epanel-tab" onclick="document.getElementById('epanel').classList.toggle('open')" title="Ouvrir/Fermer l'éditeur" style="display:none">
-  <div class="tab-dot"></div>
-  <span class="tab-lbl">Edit</span>
-  <div class="tab-dot"></div>
-</div>
-
 <!-- ════════ PANNEAU ÉDITEUR — SIDEBAR ════════ -->
 <div id="epanel" style="display:none;">
   <div class="ep-header">
-    <span class="ep-lbl">MODE ÉDITION</span>
-    <button class="ep-close-btn" onclick="exitEdit()" title="Quitter l'édition (ou retaper OPHYX)">✕</button>
+    <span class="ep-lbl">✏️ ÉDITION</span>
+    <button onclick="exitEdit()" style="background:none;border:none;color:var(--muted);font-size:1rem;cursor:pointer;padding:.2rem .4rem;border-radius:4px;line-height:1" title="Quitter l'édition">✕</button>
   </div>
-
-  <!-- Hint raccourcis -->
-  <div class="ep-hint">
-    <kbd>Ctrl+Z</kbd> Annuler &nbsp;·&nbsp; <kbd>Ctrl+Y</kbd> Rétablir &nbsp;·&nbsp; Cliquer le texte pour éditer
-  </div>
-
   <div class="ep-scroll">
-
-    <!-- ── CONTENU ── -->
     <div class="ep-sec-title">Contenu</div>
-    <button class="epbtn a" onclick="openAPM()">
-      <span class="ep-ico">＋</span>Ajouter un projet
-    </button>
-    <button class="epbtn a" onclick="document.getElementById('photoInput').click()">
-      <span class="ep-ico">🖼</span>Changer ma photo
-    </button>
-    <button class="epbtn a" onclick="openSkillsEditor()">
-      <span class="ep-ico">📊</span>Stats &amp; Compétences
-    </button>
-    <button class="epbtn a" onclick="openTextAnimEditor()">
-      <span class="ep-ico">🔤</span>Textes &amp; Services
-    </button>
+    <button class="epbtn a" onclick="openAPM()"><span class="ep-ico">＋</span>Ajouter projet</button>
+    <button class="epbtn a" onclick="document.getElementById('photoInput').click()"><span class="ep-ico">🖼</span>Photo profil</button>
+    <button class="epbtn a" onclick="openSkillsEditor()"><span class="ep-ico">📊</span>Stats &amp; Barres</button>
+    <button class="epbtn a" onclick="openTextAnimEditor()"><span class="ep-ico">🔤</span>Textes animés</button>
 
-    <!-- ── APPARENCE ── -->
+    <div class="ep-sep"></div>
     <div class="ep-sec-title">Apparence</div>
     <div class="ep-colors">
-      <span class="ep-color-lbl">🎨 Or</span>
+      <span class="ep-color-lbl">Or</span>
       <input type="color" id="cp-primary" value="#c8922a" oninput="applyColor('--gold',this.value)" title="Couleur principale">
-      <span class="ep-color-lbl">🌊 Mer</span>
+      <span class="ep-color-lbl">Mer</span>
       <input type="color" id="cp-accent" value="#2a8c6c" oninput="applyColor('--sea-bright',this.value)" title="Couleur accent">
     </div>
 
-    <!-- ── VIDÉO & SON ── -->
-    <div class="ep-sec-title">Vidéo &amp; Son</div>
-    <button class="epbtn a" onclick="document.getElementById('vid-modal').classList.add('open')">
-      <span class="ep-ico">🎬</span>Changer la vidéo Hero
-    </button>
-    <div class="ep-sound-row">
-      <span class="ep-sound-ico" id="ep-snd-ico">🔇</span>
-      <span class="ep-sound-lbl" id="ep-snd-lbl">Son désactivé</span>
-      <button class="ep-sound-toggle" onclick="epToggleSound()">Activer</button>
-    </div>
-    <button class="epbtn a" onclick="restartHeroVideo()">
-      <span class="ep-ico">🔄</span>Relancer la vidéo
-    </button>
-
-    <!-- ── RÉGLAGES ── -->
+    <div class="ep-sep"></div>
     <div class="ep-sec-title">Réglages</div>
-    <button class="epbtn a" onclick="openWelcomeEditor()">
-      <span class="ep-ico">💬</span>Message d'accueil
-    </button>
-    <button class="epbtn a" onclick="document.getElementById('fsp-modal').classList.add('open')">
-      <span class="ep-ico">📧</span>Email de contact
-    </button>
-    <button class="epbtn a" onclick="document.getElementById('export-modal').classList.add('open')">
-      <span class="ep-ico">📦</span>Export / Import
-    </button>
-    <button class="epbtn a" onclick="enterPresentation()">
-      <span class="ep-ico">▶</span>Mode présentation
-    </button>
-
+    <button class="epbtn a" onclick="document.getElementById('vid-modal').classList.add('open')"><span class="ep-ico">🎬</span>Vidéo Hero</button>
+    <button class="epbtn a" onclick="openWelcomeEditor()"><span class="ep-ico">💬</span>Message accueil</button>
+    <button class="epbtn a" onclick="document.getElementById('fsp-modal').classList.add('open')"><span class="ep-ico">📧</span>Contact mail</button>
+    <button class="epbtn a" onclick="document.getElementById('export-modal').classList.add('open')"><span class="ep-ico">📦</span>Export / Import</button>
+    <button class="epbtn a" onclick="enterPresentation()"><span class="ep-ico">▶</span>Présentation</button>
   </div>
-
   <div class="ep-footer">
-    <button class="epbtn g" id="pub-btn" onclick="publish()">
-      <span class="ep-ico">🚀</span>Publier sur GitHub
-    </button>
-    <button class="epbtn red" onclick="exitEdit()">
-      <span class="ep-ico">✕</span>Quitter l'édition
-    </button>
+    <button class="epbtn g" id="pub-btn" onclick="publish()"><span class="ep-ico">🚀</span>Publier</button>
+    <button class="epbtn red" onclick="exitEdit()"><span class="ep-ico">✕</span>Quitter édition</button>
   </div>
 </div>
 <input type="file" id="photoInput" accept="image/*" style="display:none">
@@ -6123,12 +5926,13 @@ function buildVideoContent(url) {
   media.appendChild(video);
   _vpInitNative(video);
 
-  // Autoplay muet d'abord (politique navigateur), son après clic
+  // Autoplay avec unmute après interaction
   video.play().then(() => {
-    // Rester muet, l'utilisateur peut activer le son via le bouton mute
-    _vpSetVolIcon(true, video.volume);
+    video.muted = false;
+    const vol = _vpEl.vol(); if (vol) vol.value = video.volume;
+    _vpSetVolIcon(false, video.volume);
   }).catch(() => {
-    // Autoplay bloqué — montrer les contrôles
+    // Autoplay bloqué — rester muet, montrer le bouton play
     _vpEl.player()?.classList.add('force-show');
   });
 }
@@ -6391,12 +6195,8 @@ function enterEdit() {
   emode = true;
   document.body.classList.add('emode');
   const panel = document.getElementById('epanel');
-  const tab   = document.getElementById('epanel-tab');
   panel.style.display = '';
-  if (tab) tab.style.display = 'flex';
   requestAnimationFrame(() => panel.classList.add('open'));
-  // Sync état son
-  epSyncSound();
 
   document.querySelectorAll('.slbl,.stit,.acc,.at p,.sl,.skn,.svt,.svd,.tag,.svi,.prt,.prd,.tq,.ta,.tr,.cd2,.flogo,.fcopy,.hey,.nlogo,.btn1,.btn2,.sn,.skp').forEach(el => {
     if (!el.closest('#epanel') && !el.closest('.ghm') && !el.closest('.apm') && !el.closest('#textanimmod') && !el.closest('#skillsmod')) {
@@ -6414,13 +6214,10 @@ function exitEdit() {
   emode = false;
   document.body.classList.remove('emode');
   const panel = document.getElementById('epanel');
-  const tab   = document.getElementById('epanel-tab');
   panel.classList.remove('open');
+  // Cacher après la transition
   setTimeout(() => {
-    if (!emode) {
-      panel.style.display = 'none';
-      if (tab) tab.style.display = 'none';
-    }
+    if (!emode) panel.style.display = 'none';
   }, 380);
 
   document.querySelectorAll('[contenteditable]').forEach(el => {
@@ -6589,69 +6386,25 @@ function applyHeroVideo() {
   if (!url) { toast('Colle une URL .mp4 valide'); return; }
   const v = document.getElementById('hero-video');
   document.getElementById('hero-vsrc').src = url;
-  v.muted = true;
   v.load();
-  v.play().catch(() => {});
   v.style.display = 'block';
   document.getElementById('hcvs').style.display = 'none';
   document.getElementById('sound-btn').style.display = 'flex';
-  document.getElementById('sound-btn').querySelector('#snd-icon').textContent = '🔇';
-  document.getElementById('sound-btn').querySelector('#snd-txt').textContent = 'Son désactivé';
   document.getElementById('vid-modal').classList.remove('open');
   toast('Vidéo background activée !');
 }
 
 function toggleSound() {
   const v = document.getElementById('hero-video');
-  if (!v) return;
-  const wantSound = v.muted;
   v.muted = !v.muted;
   document.getElementById('snd-icon').textContent = v.muted ? '🔇' : '🔊';
   document.getElementById('snd-txt').textContent  = v.muted ? 'Son désactivé' : 'Son actif';
+  // Force la reprise immédiate avec son
   if (!v.muted) {
-    if (v.paused) {
-      v.play().catch(() => { v.muted = true; document.getElementById('snd-icon').textContent = '🔇'; document.getElementById('snd-txt').textContent = 'Son désactivé'; });
-    }
+    v.play().catch(() => {});
   }
 }
 
-
-// ══════════════════════════════════
-// SON — fonctions éditeur
-// ══════════════════════════════════
-function epSyncSound() {
-  const v   = document.getElementById('hero-video');
-  const muted = !v || v.muted;
-  const ico = document.getElementById('ep-snd-ico');
-  const lbl = document.getElementById('ep-snd-lbl');
-  const tog = document.querySelector('.ep-sound-toggle');
-  if (ico) ico.textContent = muted ? '🔇' : '🔊';
-  if (lbl) lbl.textContent = muted ? 'Son désactivé' : 'Son actif';
-  if (tog) tog.textContent = muted ? 'Activer' : 'Couper';
-  // Aussi sync le bouton hero
-  const si = document.getElementById('snd-icon');
-  const st = document.getElementById('snd-txt');
-  if (si) si.textContent = muted ? '🔇' : '🔊';
-  if (st) st.textContent = muted ? 'Son désactivé' : 'Son actif';
-}
-
-function epToggleSound() {
-  toggleSound();
-  setTimeout(epSyncSound, 120);
-}
-
-function restartHeroVideo() {
-  const v = document.getElementById('hero-video');
-  if (!v) return;
-  const src = document.getElementById('hero-vsrc') ? document.getElementById('hero-vsrc').src : '';
-  if (!src || src === window.location.href) {
-    toast('Aucune vidéo définie — utilise "Changer la vidéo Hero"', '#c8922a');
-    return;
-  }
-  v.muted = true;
-  v.load();
-  v.play().then(() => { toast('Vidéo relancée !'); epSyncSound(); }).catch(e => toast('Erreur : ' + e.message, '#e50914'));
-}
 
 // ══════════════════════════════════
 // BADGE DISPONIBILITÉ
@@ -7249,21 +7002,9 @@ function welcomeSound(withSound) {
     v.muted = false;
     const si = document.getElementById('snd-icon');
     const st = document.getElementById('snd-txt');
-    // Clic utilisateur confirmé — forcer play avec son
-    const p = v.paused ? v.play() : Promise.resolve();
-    p.then(() => {
-      v.muted = false;
-      if (si) si.textContent = '🔊';
-      if (st) st.textContent = 'Son actif';
-    }).catch(() => {
-      v.muted = true;
-      if (v.paused) v.play().catch(() => {});
-      if (si) si.textContent = '🔇';
-      if (st) st.textContent = 'Son désactivé';
-    });
-  } else if (v) {
-    v.muted = true;
-    if (v.paused) v.play().catch(() => {});
+    if (si) si.textContent = '🔊';
+    if (st) st.textContent = 'Son actif';
+    v.play().catch(() => {});
   }
   const ov = document.getElementById('welcome-overlay');
   if (!ov) return;
