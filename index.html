@@ -3,7 +3,14 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>OPHYX — Portfolio</title>
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;0,700;1,300;1,400;1,600&amp;family=Cinzel:wght@400;600;700;900&amp;family=Lato:wght@300;400;700&amp;display=swap" rel="stylesheet">
+<!-- Hints de performance -->
+<meta http-equiv="x-dns-prefetch-control" content="on">
+<link rel="dns-prefetch" href="//fonts.googleapis.com">
+<link rel="dns-prefetch" href="//www.youtube.com">
+<link rel="dns-prefetch" href="//player.vimeo.com">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;0,700;1,300;1,400;1,600&amp;family=Cinzel:wght@400;600;700;900&amp;family=Lato:wght@300;400;700&amp;display=swap&display=swap&text=ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789%20%2C.!%3F-_" rel="stylesheet">
 
 <style>
 
@@ -285,6 +292,10 @@ nav.sc {
   height: 100%;
   object-fit: cover;
   opacity: .4;
+  will-change: opacity;
+  /* GPU acceleration */
+  transform: translateZ(0);
+  backface-visibility: hidden;
 }
 
 /* Canvas particules */
@@ -825,6 +836,15 @@ nav.sc {
 section {
   padding: 8rem 4.5rem;
   position: relative;
+  /* Saute le rendu des sections hors écran — gain majeur mobile */
+  content-visibility: auto;
+  contain-intrinsic-size: 0 800px;
+}
+
+/* Le hero doit toujours être rendu */
+#hero {
+  content-visibility: visible;
+  contain-intrinsic-size: unset;
 }
 
 .slbl {
@@ -1480,6 +1500,8 @@ body.emode .add-card {
   opacity: 0;
   pointer-events: none;
   transition: opacity .4s;
+  /* évite les repaints inutiles */
+  will-change: opacity;
 }
 
 .mov.open {
@@ -2841,6 +2863,16 @@ input[type=color] {
   margin-bottom: .8rem;
 }
 
+/* Iframe vidéo optimisé */
+.mvid iframe,
+.mvid video {
+  width: 100%;
+  height: 100%;
+  border: none;
+  display: block;
+  contain: strict;
+}
+
 .vid-tab {
   flex: 1;
   padding: .5rem .8rem;
@@ -2877,6 +2909,9 @@ input[type=color] {
   height: 100%;
   object-fit: cover;
   opacity: .4;
+  will-change: opacity;
+  transform: translateZ(0);
+  backface-visibility: hidden;
 }
 
 /* ════════════════════════════════════════
@@ -2959,9 +2994,23 @@ input[type=color] {
   pointer-events: none;
   z-index: 0;
   will-change: transform;
+  contain: strict;
   filter:
     drop-shadow(0 0 18px rgba(200, 146, 42, .22))
     drop-shadow(0 0 55px rgba(200, 146, 42, .09));
+}
+
+/* Respect prefers-reduced-motion */
+@media (prefers-reduced-motion: reduce) {
+  .bg-compass,
+  .bg-compass .needle-group,
+  #compass-dial,
+  #compass-needle,
+  .deco-anchor,
+  .deco-compass {
+    animation: none !important;
+    transition: none !important;
+  }
 }
 
 /* Sections contenantes */
@@ -4880,7 +4929,11 @@ const goldColors = [
   'rgba(13,37,64,',
 ];
 
-const ps = Array.from({ length: 80 }, () => ({
+// Réduire les particules sur mobile pour les perf
+const isMobile = window.matchMedia('(hover:none) and (pointer:coarse)').matches;
+const particleCount = isMobile ? 35 : 80;
+
+const ps = Array.from({ length: particleCount }, () => ({
   x:  Math.random() * innerWidth,
   y:  Math.random() * innerHeight,
   vx: (Math.random() - .5) * .35,
@@ -4890,7 +4943,18 @@ const ps = Array.from({ length: 80 }, () => ({
   c:  goldColors[Math.floor(Math.random() * goldColors.length)],
 }));
 
-(function drawParticles() {
+// Pause les particules quand le hero n'est pas visible (économise CPU/batterie)
+let particlesActive = true;
+let particleRafId = null;
+const heroObserver = new IntersectionObserver(([entry]) => {
+  particlesActive = entry.isIntersecting;
+  if (particlesActive && !particleRafId) drawParticles();
+}, { threshold: 0 });
+heroObserver.observe(document.getElementById('hero'));
+
+function drawParticles() {
+  if (!particlesActive) { particleRafId = null; return; }
+  particleRafId = requestAnimationFrame(drawParticles);
   cx.clearRect(0, 0, W, H);
 
   ps.forEach(p => {
@@ -4907,23 +4971,25 @@ const ps = Array.from({ length: 80 }, () => ({
     cx.fill();
   });
 
-  // Connexions entre particules proches
-  ps.forEach((a, i) => {
-    ps.slice(i + 1).forEach(b => {
-      const d = Math.hypot(a.x - b.x, a.y - b.y);
-      if (d < 110) {
-        cx.beginPath();
-        cx.moveTo(a.x, a.y);
-        cx.lineTo(b.x, b.y);
-        cx.strokeStyle = 'rgba(200,146,42,' + (.08 * (1 - d / 110)) + ')';
-        cx.lineWidth = .5;
-        cx.stroke();
-      }
+  // Connexions entre particules proches — skip sur mobile (coûteux en O(n²))
+  if (!isMobile) {
+    ps.forEach((a, i) => {
+      ps.slice(i + 1).forEach(b => {
+        const d = Math.hypot(a.x - b.x, a.y - b.y);
+        if (d < 110) {
+          cx.beginPath();
+          cx.moveTo(a.x, a.y);
+          cx.lineTo(b.x, b.y);
+          cx.strokeStyle = 'rgba(200,146,42,' + (.08 * (1 - d / 110)) + ')';
+          cx.lineWidth = .5;
+          cx.stroke();
+        }
+      });
     });
-  });
+  }
+}
 
-  requestAnimationFrame(drawParticles);
-})();
+drawParticles();
 
 
 // ══════════════════════════════════
@@ -4999,13 +5065,32 @@ function vimeoId(u) {
 function buildVideoContent(url) {
   if (!url || !url.trim()) return '<div class="mvph">▶</div>';
   url = url.trim();
+
+  // Normaliser les URLs YouTube courtes (youtu.be)
   const yt = ytId(url);
-  if (yt) return `<iframe src="https://www.youtube.com/embed/${yt}?autoplay=1&mute=0" allowfullscreen allow="autoplay; encrypted-media; fullscreen"></iframe>`;
+  if (yt) return `<iframe
+    src="https://www.youtube.com/embed/${yt}?autoplay=1&mute=0&rel=0&modestbranding=1&playsinline=1"
+    allowfullscreen
+    allow="autoplay; encrypted-media; fullscreen; picture-in-picture"
+    loading="lazy"
+    referrerpolicy="strict-origin-when-cross-origin"
+    style="width:100%;height:100%;border:none;display:block"></iframe>`;
+
   const vm = vimeoId(url);
-  if (vm) return `<iframe src="https://player.vimeo.com/video/${vm}?autoplay=1" allowfullscreen allow="autoplay; fullscreen"></iframe>`;
-  // Fichier local (blob:) ou lien direct mp4
-  // muted+autoplay est autorisé par tous les navigateurs, on démute après
-  return `<video id="proj-video" controls muted autoplay playsinline style="width:100%;height:100%;object-fit:contain;background:#000"><source src="${url}"></video>`;
+  if (vm) return `<iframe
+    src="https://player.vimeo.com/video/${vm}?autoplay=1&dnt=1"
+    allowfullscreen
+    allow="autoplay; fullscreen; picture-in-picture"
+    loading="lazy"
+    style="width:100%;height:100%;border:none;display:block"></iframe>`;
+
+  // Fichier local (blob:) ou lien direct mp4/webm
+  return `<video id="proj-video" controls muted autoplay playsinline
+    preload="metadata"
+    style="width:100%;height:100%;object-fit:contain;background:#000">
+    <source src="${url}">
+    <p style="color:var(--muted);padding:1rem;text-align:center">Vidéo non disponible</p>
+  </video>`;
 }
 
 function openProject(c) {
@@ -5204,12 +5289,18 @@ setInterval(() => {
 
 
 // ══════════════════════════════════
-// SCROLL PROGRESS + NAV
+// SCROLL PROGRESS + NAV (throttled via rAF)
 // ══════════════════════════════════
+let _scrollTick = false;
 window.addEventListener('scroll', () => {
-  const prog = document.getElementById('scroll-prog');
-  if (prog) prog.style.width = Math.min(scrollY / (document.body.scrollHeight - innerHeight) * 100, 100) + '%';
-  document.getElementById('nb').classList.toggle('sc', scrollY > 60);
+  if (_scrollTick) return;
+  _scrollTick = true;
+  requestAnimationFrame(() => {
+    const prog = document.getElementById('scroll-prog');
+    if (prog) prog.style.width = Math.min(scrollY / (document.body.scrollHeight - innerHeight) * 100, 100) + '%';
+    document.getElementById('nb').classList.toggle('sc', scrollY > 60);
+    _scrollTick = false;
+  });
 }, { passive: true });
 
 
@@ -5670,11 +5761,16 @@ function importProjects() {
     }
   }
 
-  // Afficher/masquer selon la position de scroll
+  // Afficher/masquer selon la position de scroll (throttled)
+  let _anchorTick = false;
   window.addEventListener('scroll', () => {
-    const scrolled = window.scrollY > 300;
-    anchorNav.classList.toggle('visible', scrolled);
-    updateSectionIndicator();
+    if (_anchorTick) return;
+    _anchorTick = true;
+    requestAnimationFrame(() => {
+      anchorNav.classList.toggle('visible', window.scrollY > 300);
+      updateSectionIndicator();
+      _anchorTick = false;
+    });
   }, { passive: true });
 
   // Init
