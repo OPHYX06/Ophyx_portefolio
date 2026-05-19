@@ -3368,14 +3368,14 @@ body.pmode #anchor-nav {
 <body class="hov">
 
 <!-- ════════ CURSEUR PERSONNALISÉ ════════ -->
-<div id="cur" style="left: 607px; top: 594px;"></div>
-<div id="cur-r" style="left: 605.786px; top: 591.884px;"></div>
+<div id="cur" style="left: 455px; top: 567px;"></div>
+<div id="cur-r" style="left: 455.008px; top: 567.001px;"></div>
 
 <!-- ════════ TOAST ════════ -->
-<div id="toast" class="" style="background: var(--gold-bright); color: var(--void);">✏️ Mode édition — tapez OPHYX pour quitter</div>
+<div id="toast" class="" style="background: var(--gold-bright); color: var(--void);">✓ 3 projet(s) importé(s) avec succès !</div>
 
 <!-- ════════ BARRE DE PROGRESSION ════════ -->
-<div id="scroll-prog" style="width: 22.4806%;"></div>
+<div id="scroll-prog" style="width: 50.0699%;"></div>
 
 <!-- ════════ SAVING OVERLAY ════════ -->
 <div id="saving" class="">
@@ -3385,7 +3385,7 @@ body.pmode #anchor-nav {
 </div>
 
 <!-- ════════ INTRO BOUSSOLE PIRATE ════════ -->
-<div id="compass-intro" class="" style="display: flex; opacity: 1; transition: opacity 0.25s;">
+<div id="compass-intro" class="ci-phase4" style="display: none; opacity: 1; transition: opacity 0.25s;">
 
   <!-- Couche fissures et éclats — au-dessus du SVG -->
   <div class="ci-ring">
@@ -3465,42 +3465,42 @@ body.pmode #anchor-nav {
     <svg id="ci-shards-svg" viewBox="0 0 260 260" xmlns="http://www.w3.org/2000/svg" overflow="visible">
       <defs>
         <filter id="crack-glow" x="-40%" y="-40%" width="180%" height="180%">
-          <feGaussianBlur stdDeviation="2" result="blur"/>
-          <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+          <feGaussianBlur stdDeviation="2" result="blur"></feGaussianBlur>
+          <feMerge><feMergeNode in="blur"></feMergeNode><feMergeNode in="SourceGraphic"></feMergeNode></feMerge>
         </filter>
       </defs>
 
       <!-- 8 fissures depuis le centre — dessinées en phase 3 -->
       <g id="ci-cracks-group" filter="url(#crack-glow)">
-        <path class="ci-crack" d="M130,130 L129,95 L132,60 L128,22"/>
-        <path class="ci-crack" d="M130,130 L158,108 L185,82 L214,52"/>
-        <path class="ci-crack" d="M130,130 L162,131 L196,129 L238,131"/>
-        <path class="ci-crack" d="M130,130 L155,158 L178,185 L205,215"/>
-        <path class="ci-crack" d="M130,130 L131,162 L129,196 L132,238"/>
-        <path class="ci-crack" d="M130,130 L102,155 L74,178 L44,208"/>
-        <path class="ci-crack" d="M130,130 L98,130 L64,131 L22,129"/>
-        <path class="ci-crack" d="M130,130 L104,104 L78,76 L48,44"/>
+        <path class="ci-crack" d="M130,130 L129,95 L132,60 L128,22"></path>
+        <path class="ci-crack" d="M130,130 L158,108 L185,82 L214,52"></path>
+        <path class="ci-crack" d="M130,130 L162,131 L196,129 L238,131"></path>
+        <path class="ci-crack" d="M130,130 L155,158 L178,185 L205,215"></path>
+        <path class="ci-crack" d="M130,130 L131,162 L129,196 L132,238"></path>
+        <path class="ci-crack" d="M130,130 L102,155 L74,178 L44,208"></path>
+        <path class="ci-crack" d="M130,130 L98,130 L64,131 L22,129"></path>
+        <path class="ci-crack" d="M130,130 L104,104 L78,76 L48,44"></path>
       </g>
 
       <!-- 8 éclats triangulaires — invisibles jusqu'à phase 4, puis s'envolent -->
       <!-- Chaque éclat = un morceau de boussole entre deux fissures adjacentes -->
       <g id="ci-shards-group">
         <!-- N  (entre NO et NE) -->
-        <polygon class="ci-shard ci-shard-1" points="130,130 48,44 130,22 214,52"/>
+        <polygon class="ci-shard ci-shard-1" points="130,130 48,44 130,22 214,52"></polygon>
         <!-- NE (entre N et E) -->
-        <polygon class="ci-shard ci-shard-2" points="130,130 214,52 238,131"/>
+        <polygon class="ci-shard ci-shard-2" points="130,130 214,52 238,131"></polygon>
         <!-- E  (entre NE et SE) -->
-        <polygon class="ci-shard ci-shard-3" points="130,130 238,131 205,215"/>
+        <polygon class="ci-shard ci-shard-3" points="130,130 238,131 205,215"></polygon>
         <!-- SE (entre E et S) -->
-        <polygon class="ci-shard ci-shard-4" points="130,130 205,215 132,238"/>
+        <polygon class="ci-shard ci-shard-4" points="130,130 205,215 132,238"></polygon>
         <!-- S  (entre SE et SO) -->
-        <polygon class="ci-shard ci-shard-5" points="130,130 132,238 44,208"/>
+        <polygon class="ci-shard ci-shard-5" points="130,130 132,238 44,208"></polygon>
         <!-- SO (entre S et O) -->
-        <polygon class="ci-shard ci-shard-6" points="130,130 44,208 22,129"/>
+        <polygon class="ci-shard ci-shard-6" points="130,130 44,208 22,129"></polygon>
         <!-- O  (entre SO et NO) -->
-        <polygon class="ci-shard ci-shard-7" points="130,130 22,129 48,44"/>
+        <polygon class="ci-shard ci-shard-7" points="130,130 22,129 48,44"></polygon>
         <!-- NO (ferme le cercle) -->
-        <polygon class="ci-shard ci-shard-8" points="130,130 48,44 214,52 238,131 205,215 132,238 44,208 22,129"/>
+        <polygon class="ci-shard ci-shard-8" points="130,130 48,44 214,52 238,131 205,215 132,238 44,208 22,129"></polygon>
       </g>
 
     </svg>
@@ -3529,7 +3529,7 @@ body.pmode #anchor-nav {
 </svg>
 
 <!-- ════════ WELCOME OVERLAY ════════ -->
-<div id="welcome-overlay" style="display: none; opacity: 0;" class="">
+<div id="welcome-overlay" style="display: none; opacity: 1; transition: opacity 0.65s, transform 0.65s;" class="hide">
   <div id="welcome-box">
     <span class="wlc-icon" id="wlc-icon">🔊</span>
     <div class="wlc-title" id="wlc-title">Meilleure expérience avec le son</div>
@@ -3576,7 +3576,7 @@ body.pmode #anchor-nav {
     <div class="hname" id="hname">
       <span class="L" style="animation-delay:.5s">O</span><span class="L" style="animation-delay:.58s">P</span><span class="L" style="animation-delay:.66s">H</span><span class="L" style="animation-delay:.74s">Y</span><span class="L" style="animation-delay:.82s">X</span>
     </div>
-    <p class="hsub"><span id="tt">Animateur </span><span id="tcur"></span></p>
+    <p class="hsub"><span id="tt"></span><span id="tcur"></span></p>
     <div class="hcta">
       <a href="#portfolio" class="btn1">Voir mes travaux</a>
       <a href="#contact" class="btn2">Me contacter</a>
@@ -3915,6 +3915,12 @@ body.pmode #anchor-nav {
   </div>
 
   <div class="pgrid" id="pgrid">
+    
+
+    
+
+    
+
     <div class="pcard rv vis" data-cat="montage" data-title="Vidéo inverser les périphériques" data-desc="" data-tools="Davinci Resolve" data-yt="https://youtu.be/5OHTw3MhwMo">
       <div class="pcbg" style="background:linear-gradient(135deg,#060d1a,#1a4060)">🎬</div>
       <button class="pdel" onclick="delCard(this)">✕</button>
@@ -3922,30 +3928,21 @@ body.pmode #anchor-nav {
         <div class="pcat">Montage</div>
         <div class="pnm">Vidéo inverser les périphériques</div>
         <button class="pbtn">Voir le projet</button>
-      </div>
-    </div>
-
-    <div class="pcard rv vis" data-cat="motion" data-title="DA Ophyx — Inspirée Netflix &amp; Stranger Things" data-desc="Voici ma DA inspirée de Netflix et Stranger Things, vous pouvez aussi l'observer en arrière-plan de ce portfolio." data-tools="Davinci Resolve" data-yt="">
+      </div></div><div class="pcard rv vis" data-cat="motion" data-title="DA Ophyx — Inspirée Netflix &amp; Stranger Things" data-desc="Voici ma DA inspirée de Netflix et Stranger Things, vous pouvez aussi l'observer en arrière-plan de ce portfolio." data-tools="Davinci Resolve" data-yt="">
       <div class="pcbg" style="background-image:url(https://res.cloudinary.com/ddiaz4trd/image/upload/v1779135005/image_2026-05-18_220959117_vh4y5p.png);background-size:cover;background-position:center"></div>
       <button class="pdel" onclick="delCard(this)">✕</button>
       <div class="pov">
         <div class="pcat">Motion Design</div>
         <div class="pnm">DA Ophyx — Inspirée Netflix &amp; Stranger Things</div>
         <button class="pbtn">Voir le projet</button>
-      </div>
-    </div>
-
-    <div class="pcard rv vis" data-cat="motion" data-title="Écran de fin YouTube" data-desc="Voici un écran de fin YouTube pour une outro réussie." data-tools="Davinci Resolve" data-yt="">
+      </div></div><div class="pcard rv vis" data-cat="motion" data-title="Écran de fin YouTube" data-desc="Voici un écran de fin YouTube pour une outro réussie." data-tools="Davinci Resolve" data-yt="">
       <div class="pcbg" style="background-image:url(https://res.cloudinary.com/ddiaz4trd/image/upload/v1779135455/image_2026-05-18_221732634_k7a8cy.png);background-size:cover;background-position:center"></div>
       <button class="pdel" onclick="delCard(this)">✕</button>
       <div class="pov">
         <div class="pcat">Motion Design</div>
         <div class="pnm">Écran de fin YouTube</div>
         <button class="pbtn">Voir le projet</button>
-      </div>
-    </div>
-
-    <div class="add-card" id="addCard" onclick="openAPM()">
+      </div></div><div class="add-card" id="addCard" onclick="openAPM()">
       <div class="aci">＋</div>
       <div class="act">Ajouter un projet</div>
     </div>
@@ -4352,12 +4349,12 @@ body.pmode #anchor-nav {
 
 <!-- ════════ ANCRE NAVIGATION SCROLL-TO-TOP ════════ -->
 <div id="anchor-nav" class="visible">
-  <div id="section-indicator" style="opacity: 1;">À propos</div>
+  <div id="section-indicator" style="opacity: 1;">Portfolio</div>
   <button id="anchor-top-btn" onclick="window.scrollTo({top:0,behavior:'smooth'})" title="Retour en haut">⚓</button>
 </div>
 
 <!-- ════════ MODAL EXPORT / IMPORT PROJETS ════════ -->
-<div id="export-modal">
+<div id="export-modal" class="">
   <div id="export-box">
     <button class="mcl" onclick="document.getElementById('export-modal').classList.remove('open')" style="position:absolute;top:1.5rem;right:1.5rem">✕</button>
 
@@ -4390,7 +4387,7 @@ body.pmode #anchor-nav {
 </div>
 
 <!-- ════════ PANNEAU ÉDITEUR ════════ -->
-<div id="epanel" class="">
+<div id="epanel" class="" style="display: none;">
   <span class="ep-lbl">✏️ MODE ÉDITION</span>
   <div class="ep-sep"></div>
   <button class="epbtn a" onclick="openAPM()">＋ Projet</button>
@@ -5946,4 +5943,5 @@ function applyWelcomeEdit() {
 </script>
 
 
-</body><div id="detach-button-host" style="top: -1192px; left: 542.333px;"></div><div class="hidden" id="qr-host"></div></html>
+<div id="detach-button-host" style="top: -1192px; left: 542.333px;"></div><div class="hidden" id="qr-host"></div>
+</body><div id="detach-button-host" style="top: -754px; left: 542.333px;"></div><div class="hidden" id="qr-host"></div></html>
