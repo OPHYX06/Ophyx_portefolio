@@ -4874,6 +4874,7 @@ function openProject(c) {
   const url = c.dataset.yt || c.dataset.videoUrl || '';
   const vid = document.getElementById('mvid');
   vid.innerHTML = buildVideoContent(url);
+
   document.getElementById('mcat').textContent = (c.dataset.cat || '').toUpperCase();
   document.getElementById('mtit').textContent = c.dataset.title || '';
   document.getElementById('mdsc').textContent = c.dataset.desc  || '';
@@ -4887,18 +4888,46 @@ function openProject(c) {
       tg.appendChild(s);
     }
   });
-  // Couper le son de la vidéo background
+
+  // Couper le son de la vidéo background, mémoriser l'état
   const hv = document.getElementById('hero-video');
-  if (hv) { hv._mutedBefore = hv.muted; hv.muted = true; }
+  if (hv) {
+    hv._mutedBefore = hv.muted;
+    hv.muted = true;
+    hv.pause();
+  }
+
+  // Tenter l'autoplay de la vidéo du projet si c'est un <video> local
+  const projVid = vid.querySelector('video');
+  if (projVid) {
+    projVid.muted = false;
+    projVid.play().catch(() => {
+      // Autoplay bloqué par le navigateur : démarrer muet puis démuet
+      projVid.muted = true;
+      projVid.play().then(() => { projVid.muted = false; }).catch(() => {});
+    });
+  }
+
   pmod.classList.add('open');
 }
 
 function closeProjectModal() {
   pmod.classList.remove('open');
+
+  // Stopper proprement la vidéo du projet avant de vider le DOM
+  const projVid = document.querySelector('#mvid video');
+  if (projVid) { projVid.pause(); projVid.src = ''; }
+  const projFrame = document.querySelector('#mvid iframe');
+  if (projFrame) projFrame.src = '';
+
   document.getElementById('mvid').innerHTML = '<div class="mvph">▶</div>';
-  // Remettre le son de la vidéo background
+
+  // Remettre le son + reprendre la vidéo background
   const hv = document.getElementById('hero-video');
-  if (hv) hv.muted = hv._mutedBefore !== undefined ? hv._mutedBefore : true;
+  if (hv) {
+    hv.muted = hv._mutedBefore !== undefined ? hv._mutedBefore : true;
+    if (!hv.muted) hv.play().catch(() => {});
+  }
 }
 
 document.getElementById('pgrid').addEventListener('click', e => {
@@ -4945,6 +4974,7 @@ function addProject() {
   const yt    = document.getElementById('ap-y').value.trim();
   const img   = document.getElementById('ap-i').value.trim();
   const ic    = document.getElementById('ap-ic').value.trim() || '🎬';
+  const vfile = document.getElementById('ap-vfile').files[0];
 
   const labs  = { montage:'Montage', motion:'Motion Design', '3d':'Animation 3D' };
   const grads = {
@@ -4953,32 +4983,44 @@ function addProject() {
     '3d':    'linear-gradient(135deg,#041020,#0a4060)',
   };
 
-  const card = document.createElement('div');
-  card.className      = 'pcard rv vis';
-  card.dataset.cat    = cat;
-  card.dataset.title  = t;
-  card.dataset.desc   = desc;
-  card.dataset.tools  = tools;
-  card.dataset.yt     = yt;
+  function buildCard(videoSrc) {
+    const card = document.createElement('div');
+    card.className      = 'pcard rv vis';
+    card.dataset.cat    = cat;
+    card.dataset.title  = t;
+    card.dataset.desc   = desc;
+    card.dataset.tools  = tools;
+    card.dataset.yt     = videoSrc || yt;
 
-  const bg = img
-    ? `background-image:url(${img});background-size:cover;background-position:center`
-    : `background:${grads[cat]}`;
+    const bg = img
+      ? `background-image:url(${img});background-size:cover;background-position:center`
+      : `background:${grads[cat]}`;
 
-  card.innerHTML = `
-    <div class="pcbg" style="${bg}">${img ? '' : ic}</div>
-    <button class="pdel" onclick="delCard(this)">✕</button>
-    <div class="pov">
-      <div class="pcat">${labs[cat]}</div>
-      <div class="pnm">${t}</div>
-      <button class="pbtn">Voir le projet</button>
-    </div>`;
+    card.innerHTML = `
+      <div class="pcbg" style="${bg}">${img ? '' : ic}</div>
+      <button class="pdel" onclick="delCard(this)">✕</button>
+      <div class="pov">
+        <div class="pcat">${labs[cat]}</div>
+        <div class="pnm">${t}</div>
+        <button class="pbtn">Voir le projet</button>
+      </div>`;
 
-  document.getElementById('pgrid').insertBefore(card, document.getElementById('addCard'));
-  ['ap-t','ap-d','ap-o','ap-y','ap-i'].forEach(id => document.getElementById(id).value = '');
-  document.getElementById('ap-ipv').classList.remove('show');
-  closeAPM();
-  toast('✓ Projet ajouté !');
+    document.getElementById('pgrid').insertBefore(card, document.getElementById('addCard'));
+    ['ap-t','ap-d','ap-o','ap-y','ap-i'].forEach(id => document.getElementById(id).value = '');
+    document.getElementById('ap-vfile').value = '';
+    document.getElementById('ap-ipv').classList.remove('show');
+    closeAPM();
+    toast('✓ Projet ajouté !');
+  }
+
+  // Si un fichier local est sélectionné, on le lit en base64
+  if (vfile) {
+    const r = new FileReader();
+    r.onload = e => buildCard(e.target.result);
+    r.readAsDataURL(vfile);
+  } else {
+    buildCard(yt);
+  }
 }
 
 
