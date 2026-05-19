@@ -4128,14 +4128,14 @@ body.pmode #anchor-nav {
 <body class="">
 
 <!-- ════════ CURSEUR PERSONNALISÉ ════════ -->
-<div id="cur" style="left: 947px; top: 515px;"></div>
-<div id="cur-r" style="left: 947.004px; top: 515.03px;"></div>
+<div id="cur" style="left: 945px; top: 511px;"></div>
+<div id="cur-r" style="left: 944.987px; top: 510.996px;"></div>
 
 <!-- ════════ TOAST ════════ -->
 <div id="toast" class="" style="background: var(--gold-bright); color: var(--void);">✏️ Mode édition — Ctrl+Z pour annuler — tapez OPHYX pour quitter</div>
 
 <!-- ════════ BARRE DE PROGRESSION ════════ -->
-<div id="scroll-prog" style="width: 17.7913%;"></div>
+<div id="scroll-prog" style="width: 0%;"></div>
 
 <!-- ════════ SAVING OVERLAY ════════ -->
 <div id="saving" class="">
@@ -4302,7 +4302,7 @@ body.pmode #anchor-nav {
 </div>
 
 <!-- ════════ NAVIGATION ════════ -->
-<nav id="nb" class="sc">
+<nav id="nb" class="">
   <a href="#hero" class="nlogo">OPHYX</a>
   <ul class="nlinks">
     <li><a href="#about">À propos</a></li>
@@ -4319,8 +4319,8 @@ body.pmode #anchor-nav {
     <source id="hero-vsrc" src="https://res.cloudinary.com/ddiaz4trd/video/upload/v1779134136/ssstwitter.com_1779133941477_zghu91.mp4" type="video/mp4">
   </video>
   <button id="sound-btn" style="display:flex;" onclick="toggleSound()">
-    <span id="snd-icon">🔊</span>
-    <span id="snd-txt">Son actif</span>
+    <span id="snd-icon">🔇</span>
+    <span id="snd-txt">Son désactivé</span>
   </button>
   <canvas id="hcvs" width="1173" height="613" style="display:none;"></canvas>
 
@@ -4336,7 +4336,7 @@ body.pmode #anchor-nav {
     <div class="hname" id="hname">
       <span class="L" style="animation-delay:.5s">O</span><span class="L" style="animation-delay:.58s">P</span><span class="L" style="animation-delay:.66s">H</span><span class="L" style="animation-delay:.74s">Y</span><span class="L" style="animation-delay:.82s">X</span>
     </div>
-    <p class="hsub"><span id="tt">Gra</span><span id="tcur"></span></p>
+    <p class="hsub"><span id="tt">Graphiste 3D</span><span id="tcur"></span></p>
     <div class="hcta">
       <a href="#portfolio" class="btn1">Voir mes travaux</a>
       <a href="#contact" class="btn2">Me contacter</a>
@@ -4923,7 +4923,7 @@ body.pmode #anchor-nav {
     
     
     
-    <div class="tsl"><p class="tq">T'es plutôt bon en montage et en terme de graphisme t'évolues hyper vite donc t'as un potentiel de fou.</p><div class="ta">echo</div><div class="tr">Graphiste</div></div><div class="tsl on"><p class="tq">Montage qualitatif et motion design très bien réalisé</p><div class="ta">Adominos</div><div class="tr">Monteur vidéo — Motion Designer — Content Creator</div></div><div class="tsl"><p class="tq">Incroyable maîtrise du 3D et du motion design. Notre logo reveal a reçu des compliments de toute notre communauté.</p><div class="ta">Zanzar</div><div class="tr">Graphiste — Content Creator</div></div><div class="tdots"><div class="dot" data-i="0"></div><div class="dot on" data-i="1"></div><div class="dot" data-i="2"></div></div>
+    <div class="tsl on"><p class="tq">T'es plutôt bon en montage et en terme de graphisme t'évolues hyper vite donc t'as un potentiel de fou.</p><div class="ta">echo</div><div class="tr">Graphiste</div></div><div class="tsl"><p class="tq">Montage qualitatif et motion design très bien réalisé</p><div class="ta">Adominos</div><div class="tr">Monteur vidéo — Motion Designer — Content Creator</div></div><div class="tsl"><p class="tq">Incroyable maîtrise du 3D et du motion design. Notre logo reveal a reçu des compliments de toute notre communauté.</p><div class="ta">Zanzar</div><div class="tr">Graphiste — Content Creator</div></div><div class="tdots"><div class="dot on" data-i="0"></div><div class="dot" data-i="1"></div><div class="dot" data-i="2"></div></div>
   </div>
 </section>
 
@@ -5108,8 +5108,8 @@ body.pmode #anchor-nav {
 </div>
 
 <!-- ════════ ANCRE NAVIGATION SCROLL-TO-TOP ════════ -->
-<div id="anchor-nav" class="visible">
-  <div id="section-indicator" style="opacity: 1;">À propos</div>
+<div id="anchor-nav" class="">
+  <div id="section-indicator" style="opacity: 1;">Haut de page</div>
   <button id="anchor-top-btn" onclick="window.scrollTo({top:0,behavior:'smooth'})" title="Retour en haut">⚓</button>
 </div>
 
@@ -5197,9 +5197,9 @@ body.pmode #anchor-nav {
       <span class="ep-ico">🎬</span>Changer la vidéo Hero
     </button>
     <div class="ep-sound-row">
-      <span class="ep-sound-ico" id="ep-snd-ico">🔊</span>
-      <span class="ep-sound-lbl" id="ep-snd-lbl">Son actif</span>
-      <button class="ep-sound-toggle" onclick="epToggleSound()">Couper</button>
+      <span class="ep-sound-ico" id="ep-snd-ico">🔇</span>
+      <span class="ep-sound-lbl" id="ep-snd-lbl">Son désactivé</span>
+      <button class="ep-sound-toggle" onclick="epToggleSound()">Activer</button>
     </div>
     <button class="epbtn a" onclick="restartHeroVideo()">
       <span class="ep-ico">🔄</span>Relancer la vidéo
@@ -7393,4 +7393,5 @@ function applyWelcomeEdit() {
 <div id="detach-button-host" style="top: -1192px; left: 542.333px;"></div><div class="hidden" id="qr-host"></div>
 <div id="detach-button-host" style="top: -754px; left: 542.333px;"></div><div class="hidden" id="qr-host"></div>
 <div id="detach-button-host" style="top: 89.3333px; left: 535px;"></div><div class="hidden" id="qr-host"></div><div class="hidden" id="qr-host"></div>
-</body><div id="detach-button-host" style="top: -946px; left: 542.333px;"></div><div class="hidden" id="qr-host"></div></html>
+<div id="detach-button-host" style="top: -946px; left: 542.333px;"></div><div class="hidden" id="qr-host"></div>
+</body><div id="detach-button-host" style="top: 0px; left: 542.333px;"></div><div class="hidden" id="qr-host"></div></html>
