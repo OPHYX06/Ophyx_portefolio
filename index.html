@@ -3498,14 +3498,14 @@ body.pmode #anchor-nav {
 <body class="hov">
 
 <!-- ════════ CURSEUR PERSONNALISÉ ════════ -->
-<div id="cur" style="left: 455px; top: 567px;"></div>
-<div id="cur-r" style="left: 455.008px; top: 567.001px;"></div>
+<div id="cur" style="left: 533px; top: 570px;"></div>
+<div id="cur-r" style="left: 533.317px; top: 570.347px;"></div>
 
 <!-- ════════ TOAST ════════ -->
-<div id="toast" class="" style="background: var(--gold-bright); color: var(--void);">✓ 3 projet(s) importé(s) avec succès !</div>
+<div id="toast" class="show" style="background: var(--gold-bright); color: var(--void);">✏️ Mode édition — tapez OPHYX pour quitter</div>
 
 <!-- ════════ BARRE DE PROGRESSION ════════ -->
-<div id="scroll-prog" style="width: 50.0699%;"></div>
+<div id="scroll-prog" style="width: 50.8748%;"></div>
 
 <!-- ════════ SAVING OVERLAY ════════ -->
 <div id="saving" class="">
@@ -3515,7 +3515,7 @@ body.pmode #anchor-nav {
 </div>
 
 <!-- ════════ INTRO BOUSSOLE PIRATE ════════ -->
-<div id="compass-intro" style="opacity:1;">
+<div id="compass-intro" style="opacity: 1; display: none;" class="ci-phase4">
 
   <!-- Couche fissures et éclats — au-dessus du SVG -->
   <div class="ci-ring">
@@ -3659,7 +3659,7 @@ body.pmode #anchor-nav {
 </svg>
 
 <!-- ════════ WELCOME OVERLAY ════════ -->
-<div id="welcome-overlay" style="display:none;opacity:0;">
+<div id="welcome-overlay" style="display: none; opacity: 0; transition: opacity 0.65s;">
   <div id="welcome-box">
     <span class="wlc-icon" id="wlc-icon">🔊</span>
     <div class="wlc-title" id="wlc-title">Meilleure expérience avec le son</div>
@@ -3706,7 +3706,7 @@ body.pmode #anchor-nav {
     <div class="hname" id="hname">
       <span class="L" style="animation-delay:.5s">O</span><span class="L" style="animation-delay:.58s">P</span><span class="L" style="animation-delay:.66s">H</span><span class="L" style="animation-delay:.74s">Y</span><span class="L" style="animation-delay:.82s">X</span>
     </div>
-    <p class="hsub"><span id="tt"></span><span id="tcur"></span></p>
+    <p class="hsub"><span id="tt">Graphiste</span><span id="tcur"></span></p>
     <div class="hcta">
       <a href="#portfolio" class="btn1">Voir mes travaux</a>
       <a href="#contact" class="btn2">Me contacter</a>
@@ -4058,19 +4058,19 @@ body.pmode #anchor-nav {
         <div class="pcat">Montage</div>
         <div class="pnm">Vidéo inverser les périphériques</div>
         <button class="pbtn">Voir le projet</button>
-      </div></div><div class="pcard rv vis" data-cat="motion" data-title="DA Ophyx — Inspirée Netflix &amp; Stranger Things" data-desc="Voici ma DA inspirée de Netflix et Stranger Things, vous pouvez aussi l'observer en arrière-plan de ce portfolio." data-tools="Davinci Resolve" data-yt="">
-      <div class="pcbg" style="background-image:url(https://res.cloudinary.com/ddiaz4trd/image/upload/v1779135005/image_2026-05-18_220959117_vh4y5p.png);background-size:cover;background-position:center"></div>
-      <button class="pdel" onclick="delCard(this)">✕</button>
-      <div class="pov">
-        <div class="pcat">Motion Design</div>
-        <div class="pnm">DA Ophyx — Inspirée Netflix &amp; Stranger Things</div>
-        <button class="pbtn">Voir le projet</button>
       </div></div><div class="pcard rv vis" data-cat="motion" data-title="Écran de fin YouTube" data-desc="Voici un écran de fin YouTube pour une outro réussie." data-tools="Davinci Resolve" data-yt="">
       <div class="pcbg" style="background-image:url(https://res.cloudinary.com/ddiaz4trd/image/upload/v1779135455/image_2026-05-18_221732634_k7a8cy.png);background-size:cover;background-position:center"></div>
       <button class="pdel" onclick="delCard(this)">✕</button>
       <div class="pov">
         <div class="pcat">Motion Design</div>
         <div class="pnm">Écran de fin YouTube</div>
+        <button class="pbtn">Voir le projet</button>
+      </div></div><div class="pcard rv vis" data-cat="motion" data-title="Ophyx DA inspired by Netflix and Stranger Things" data-desc="Voici ma DA inspirer des introductions Netflix et Stranger Things, vous pouvez l'observer aussi en arrière plans de ce portefolio" data-tools="Davinci Resolve" data-yt="https://res.cloudinary.com/ddiaz4trd/video/upload/v1779134136/ssstwitter.com_1779133941477_zghu91.mp4">
+      <div class="pcbg" style="background:linear-gradient(135deg,#06040a,#2a1050)">🎬</div>
+      <button class="pdel" onclick="delCard(this)">✕</button>
+      <div class="pov">
+        <div class="pcat">Motion Design</div>
+        <div class="pnm">Ophyx DA inspired by Netflix and Stranger Things</div>
         <button class="pbtn">Voir le projet</button>
       </div></div><div class="add-card" id="addCard" onclick="openAPM()">
       <div class="aci">＋</div>
@@ -4293,7 +4293,7 @@ body.pmode #anchor-nav {
     
     
     
-    <div class="tsl"><p class="tq">T'es plutôt bon en montage et en terme de graphisme t'évolues hyper vite donc t'as un potentiel de fou.</p><div class="ta">echo</div><div class="tr">Graphiste</div></div><div class="tsl"><p class="tq">Montage qualitatif et motion design très bien réalisé</p><div class="ta">Adominos</div><div class="tr">Monteur vidéo — Motion Designer — Content Creator</div></div><div class="tsl on"><p class="tq">Incroyable maîtrise du 3D et du motion design. Notre logo reveal a reçu des compliments de toute notre communauté.</p><div class="ta">Zanzar</div><div class="tr">Graphiste — Content Creator</div></div><div class="tdots"><div class="dot" data-i="0"></div><div class="dot" data-i="1"></div><div class="dot on" data-i="2"></div></div>
+    <div class="tsl"><p class="tq">T'es plutôt bon en montage et en terme de graphisme t'évolues hyper vite donc t'as un potentiel de fou.</p><div class="ta">echo</div><div class="tr">Graphiste</div></div><div class="tsl on"><p class="tq">Montage qualitatif et motion design très bien réalisé</p><div class="ta">Adominos</div><div class="tr">Monteur vidéo — Motion Designer — Content Creator</div></div><div class="tsl"><p class="tq">Incroyable maîtrise du 3D et du motion design. Notre logo reveal a reçu des compliments de toute notre communauté.</p><div class="ta">Zanzar</div><div class="tr">Graphiste — Content Creator</div></div><div class="tdots"><div class="dot" data-i="0"></div><div class="dot on" data-i="1"></div><div class="dot" data-i="2"></div></div>
   </div>
 </section>
 
@@ -4478,8 +4478,8 @@ body.pmode #anchor-nav {
 </div>
 
 <!-- ════════ ANCRE NAVIGATION SCROLL-TO-TOP ════════ -->
-<div id="anchor-nav">
-  <div id="section-indicator">Haut de page</div>
+<div id="anchor-nav" class="visible">
+  <div id="section-indicator" style="opacity: 1;">Portfolio</div>
   <button id="anchor-top-btn" onclick="window.scrollTo({top:0,behavior:'smooth'})" title="Retour en haut">⚓</button>
 </div>
 
@@ -4517,7 +4517,7 @@ body.pmode #anchor-nav {
 </div>
 
 <!-- ════════ PANNEAU ÉDITEUR ════════ -->
-<div id="epanel" class="">
+<div id="epanel" class="" style="display: none;">
   <span class="ep-lbl">✏️ MODE ÉDITION</span>
   <div class="ep-sep"></div>
   <button class="epbtn a" onclick="openAPM()">＋ Projet</button>
@@ -4554,9 +4554,9 @@ body.pmode #anchor-nav {
   <div class="mo">
     <button class="mcl" id="pmcl">✕</button>
     <div class="mvid" id="mvid"><div class="mvph">▶</div></div>
-    <div class="mcat" id="mcat">MONTAGE</div>
-    <div class="mtit" id="mtit">Vidéo inverser les périphériques</div>
-    <p class="mdsc" id="mdsc"></p>
+    <div class="mcat" id="mcat">MOTION</div>
+    <div class="mtit" id="mtit">Ophyx DA inspired by Netflix and Stranger Things</div>
+    <p class="mdsc" id="mdsc">Voici ma DA inspirer des introductions Netflix et Stranger Things, vous pouvez l'observer aussi en arrière plans de ce portefolio</p>
     <div class="mtags" id="mtags"><span class="tag">Davinci Resolve</span></div>
   </div>
 </div>
@@ -6080,4 +6080,5 @@ function applyWelcomeEdit() {
 
 
 <div id="detach-button-host" style="top: -1192px; left: 542.333px;"></div><div class="hidden" id="qr-host"></div>
-</body><div id="detach-button-host" style="top: -754px; left: 542.333px;"></div><div class="hidden" id="qr-host"></div></html>
+<div id="detach-button-host" style="top: -754px; left: 542.333px;"></div><div class="hidden" id="qr-host"></div>
+</body><div id="detach-button-host" style="top: 89.3333px; left: 535px;"></div><div class="hidden" id="qr-host"></div><div class="hidden" id="qr-host"></div></html>
