@@ -721,18 +721,12 @@ nav.sc {
   from { transform: rotate(0deg); }
   to   { transform: rotate(2880deg); }
 }
-@keyframes glow-peak {
-  0% {
-    filter:
-      drop-shadow(0 0 18px rgba(200,146,42,.35))
-      drop-shadow(0 0 50px rgba(200,146,42,.12));
-  }
-  100% {
-    filter:
-      drop-shadow(0 0 50px rgba(255,220,60,1))
-      drop-shadow(0 0 100px rgba(200,146,42,.9))
-      drop-shadow(0 0 200px rgba(255,200,40,.7));
-  }
+
+/* Glow qui monte progressivement sur la boussole */
+@keyframes glow-build {
+  0%   { filter: drop-shadow(0 0 10px rgba(200,146,42,.3))  drop-shadow(0 0 30px rgba(200,146,42,.1)); }
+  40%  { filter: drop-shadow(0 0 30px rgba(255,200,60,.8))  drop-shadow(0 0 80px rgba(255,180,40,.5)); }
+  100% { filter: drop-shadow(0 0 60px rgba(255,230,80,1))   drop-shadow(0 0 140px rgba(255,200,40,.9)) drop-shadow(0 0 300px rgba(255,160,0,.7)); }
 }
 
 #compass-intro.ci-phase2 #compass-needle {
@@ -744,57 +738,49 @@ nav.sc {
   transform-origin: 130px 130px;
 }
 #compass-intro.ci-phase2 #compass-svg {
-  animation: glow-peak .8s ease forwards;
+  animation: glow-build 1.4s ease-in forwards;
 }
 
-/* Phase 3 — lignes de fissures apparaissent */
-.ci-crack {
-  stroke: rgba(255, 230, 100, 0);
-  stroke-width: 1.2;
-  fill: none;
-  stroke-linecap: round;
-  stroke-dasharray: 200;
-  stroke-dashoffset: 200;
-  transition: stroke .15s ease, stroke-dashoffset .35s ease, stroke-width .2s ease;
-}
-#compass-intro.ci-phase3 .ci-crack {
-  stroke: rgba(255, 220, 80, .9);
-  stroke-dashoffset: 0;
-  stroke-width: 1.8;
-  filter: drop-shadow(0 0 4px rgba(255,200,50,.8));
-}
-/* Décalages pour que les fissures apparaissent en cascade */
-#compass-intro.ci-phase3 .ci-crack:nth-child(1) { transition-delay: 0s;    }
-#compass-intro.ci-phase3 .ci-crack:nth-child(2) { transition-delay: .04s;  }
-#compass-intro.ci-phase3 .ci-crack:nth-child(3) { transition-delay: .08s;  }
-#compass-intro.ci-phase3 .ci-crack:nth-child(4) { transition-delay: .12s;  }
-#compass-intro.ci-phase3 .ci-crack:nth-child(5) { transition-delay: .16s;  }
-#compass-intro.ci-phase3 .ci-crack:nth-child(6) { transition-delay: .20s;  }
-#compass-intro.ci-phase3 .ci-crack:nth-child(7) { transition-delay: .24s;  }
-#compass-intro.ci-phase3 .ci-crack:nth-child(8) { transition-delay: .28s;  }
+/* ── Fissures et éclats désactivés ── */
+.ci-crack, .ci-shard { display: none; }
 
-/* Phase 4 — éclats s'envolent */
-@keyframes shard-fly-1  { to { transform: translate(  0px,-220px) rotate(-20deg) scale(.3); opacity:0; } }
-@keyframes shard-fly-2  { to { transform: translate(160px,-160px) rotate( 25deg) scale(.3); opacity:0; } }
-@keyframes shard-fly-3  { to { transform: translate(220px,   0px) rotate(-18deg) scale(.3); opacity:0; } }
-@keyframes shard-fly-4  { to { transform: translate(160px, 160px) rotate( 22deg) scale(.3); opacity:0; } }
-@keyframes shard-fly-5  { to { transform: translate(  0px, 220px) rotate(-15deg) scale(.3); opacity:0; } }
-@keyframes shard-fly-6  { to { transform: translate(-160px,160px) rotate( 28deg) scale(.3); opacity:0; } }
-@keyframes shard-fly-7  { to { transform: translate(-220px,  0px) rotate(-22deg) scale(.3); opacity:0; } }
-@keyframes shard-fly-8  { to { transform: translate(-160px,-160px) rotate(18deg) scale(.3); opacity:0; } }
+/* ── Phase 4 : flash blanc-or qui explose depuis le centre puis révèle le site ── */
 
-.ci-shard {
-  transform-origin: 130px 130px;
-  transition: opacity .05s;
+/* Pseudo-élément radial qui grandit depuis le centre */
+#compass-intro::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background: radial-gradient(ellipse 0% 0% at 50% 50%,
+    rgba(255,240,160,1) 0%,
+    rgba(255,200,40,.95) 30%,
+    rgba(200,120,0,.6) 60%,
+    transparent 100%);
+  opacity: 0;
+  pointer-events: none;
+  z-index: 2;
 }
-#compass-intro.ci-phase4 .ci-shard-1 { animation: shard-fly-1 .6s .00s cubic-bezier(.4,0,1,1) forwards; }
-#compass-intro.ci-phase4 .ci-shard-2 { animation: shard-fly-2 .6s .03s cubic-bezier(.4,0,1,1) forwards; }
-#compass-intro.ci-phase4 .ci-shard-3 { animation: shard-fly-3 .6s .06s cubic-bezier(.4,0,1,1) forwards; }
-#compass-intro.ci-phase4 .ci-shard-4 { animation: shard-fly-4 .6s .02s cubic-bezier(.4,0,1,1) forwards; }
-#compass-intro.ci-phase4 .ci-shard-5 { animation: shard-fly-5 .6s .05s cubic-bezier(.4,0,1,1) forwards; }
-#compass-intro.ci-phase4 .ci-shard-6 { animation: shard-fly-6 .6s .01s cubic-bezier(.4,0,1,1) forwards; }
-#compass-intro.ci-phase4 .ci-shard-7 { animation: shard-fly-7 .6s .04s cubic-bezier(.4,0,1,1) forwards; }
-#compass-intro.ci-phase4 .ci-shard-8 { animation: shard-fly-8 .6s .02s cubic-bezier(.4,0,1,1) forwards; }
+
+@keyframes flash-expand {
+  0%   { background: radial-gradient(ellipse   0%   0% at 50% 50%, rgba(255,240,160,1) 0%, rgba(255,200,40,.95) 30%, rgba(200,120,0,.6) 60%, transparent 100%); opacity: 1; }
+  35%  { background: radial-gradient(ellipse 160% 160% at 50% 50%, rgba(255,240,160,1) 0%, rgba(255,200,40,.95) 30%, rgba(200,120,0,.6) 60%, transparent 100%); opacity: 1; }
+  70%  { background: radial-gradient(ellipse 250% 250% at 50% 50%, rgba(255,240,160,.6) 0%, rgba(255,200,40,.4)  30%, rgba(200,120,0,.2) 60%, transparent 100%); opacity: 1; }
+  100% { background: radial-gradient(ellipse 300% 300% at 50% 50%, rgba(255,240,160,0) 0%, transparent 100%); opacity: 0; }
+}
+
+@keyframes intro-fade {
+  0%   { opacity: 1; }
+  100% { opacity: 0; }
+}
+
+#compass-intro.ci-phase4::after {
+  animation: flash-expand 1.2s cubic-bezier(.2,0,.4,1) forwards;
+}
+
+#compass-intro.ci-phase4 {
+  animation: intro-fade 1.2s .4s ease-in forwards;
+  pointer-events: none;
+}
 
 /* Texte disparaît en phase 3 */
 #compass-intro.ci-phase3 .ci-title,
@@ -3372,7 +3358,7 @@ body.pmode #anchor-nav {
 </div>
 
 <!-- ════════ INTRO BOUSSOLE PIRATE ════════ -->
-<div id="compass-intro" class="ci-phase2 ci-phase3 ci-phase4" style="display: none; opacity: 0; transition: opacity 0.25s;">
+<div id="compass-intro" class="" style="display: flex; opacity: 1; transition: opacity 0.25s;">
 
   <!-- Couche fissures et éclats — au-dessus du SVG -->
   <div class="ci-ring">
@@ -3448,39 +3434,47 @@ body.pmode #anchor-nav {
       </g>
     </svg>
 
-    <!-- SVG fissures + éclats (par-dessus) -->
-    <svg id="ci-shards-svg" viewBox="0 0 260 260" xmlns="http://www.w3.org/2000/svg">
+    <!-- SVG fissures + éclats (par-dessus la boussole) -->
+    <svg id="ci-shards-svg" viewBox="0 0 260 260" xmlns="http://www.w3.org/2000/svg" overflow="visible">
+      <defs>
+        <filter id="crack-glow" x="-40%" y="-40%" width="180%" height="180%">
+          <feGaussianBlur stdDeviation="2" result="blur"/>
+          <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+        </filter>
+      </defs>
 
-      <!-- Lignes de fissures — apparaissent en phase 3 -->
-      <g id="ci-cracks">
-        <!-- 8 fissures du centre vers la périphérie, légèrement décalées pour effet organique -->
-        <path class="ci-crack" d="M130,130 L132,8"></path>
-        <path class="ci-crack" d="M130,130 L246,60 L252,40"></path>
-        <path class="ci-crack" d="M130,130 L252,128 L255,115"></path>
-        <path class="ci-crack" d="M130,130 L245,205 L248,220"></path>
-        <path class="ci-crack" d="M130,130 L128,252 L118,255"></path>
-        <path class="ci-crack" d="M130,130 L14,198 L8,215"></path>
-        <path class="ci-crack" d="M130,130 L5,132 L2,120"></path>
-        <path class="ci-crack" d="M130,130 L18,52 L10,38"></path>
+      <!-- 8 fissures depuis le centre — dessinées en phase 3 -->
+      <g id="ci-cracks-group" filter="url(#crack-glow)">
+        <path class="ci-crack" d="M130,130 L129,95 L132,60 L128,22"/>
+        <path class="ci-crack" d="M130,130 L158,108 L185,82 L214,52"/>
+        <path class="ci-crack" d="M130,130 L162,131 L196,129 L238,131"/>
+        <path class="ci-crack" d="M130,130 L155,158 L178,185 L205,215"/>
+        <path class="ci-crack" d="M130,130 L131,162 L129,196 L132,238"/>
+        <path class="ci-crack" d="M130,130 L102,155 L74,178 L44,208"/>
+        <path class="ci-crack" d="M130,130 L98,130 L64,131 L22,129"/>
+        <path class="ci-crack" d="M130,130 L104,104 L78,76 L48,44"/>
       </g>
 
-      <!-- Éclats — 8 triangles couvrant le cercle, en phase 4 ils s'envolent -->
-      <!-- Éclat 1 — Nord -->
-      <polygon class="ci-shard ci-shard-1" points="130,130 82,11 178,11" fill="rgba(4,8,14,.88)" stroke="rgba(200,146,42,.25)" stroke-width=".8"></polygon>
-      <!-- Éclat 2 — Nord-Est -->
-      <polygon class="ci-shard ci-shard-2" points="130,130 178,11 249,82" fill="rgba(4,8,14,.88)" stroke="rgba(200,146,42,.25)" stroke-width=".8"></polygon>
-      <!-- Éclat 3 — Est -->
-      <polygon class="ci-shard ci-shard-3" points="130,130 249,82 249,178" fill="rgba(4,8,14,.88)" stroke="rgba(200,146,42,.25)" stroke-width=".8"></polygon>
-      <!-- Éclat 4 — Sud-Est -->
-      <polygon class="ci-shard ci-shard-4" points="130,130 249,178 178,249" fill="rgba(4,8,14,.88)" stroke="rgba(200,146,42,.25)" stroke-width=".8"></polygon>
-      <!-- Éclat 5 — Sud -->
-      <polygon class="ci-shard ci-shard-5" points="130,130 178,249 82,249" fill="rgba(4,8,14,.88)" stroke="rgba(200,146,42,.25)" stroke-width=".8"></polygon>
-      <!-- Éclat 6 — Sud-Ouest -->
-      <polygon class="ci-shard ci-shard-6" points="130,130 82,249 11,178" fill="rgba(4,8,14,.88)" stroke="rgba(200,146,42,.25)" stroke-width=".8"></polygon>
-      <!-- Éclat 7 — Ouest -->
-      <polygon class="ci-shard ci-shard-7" points="130,130 11,178 11,82" fill="rgba(4,8,14,.88)" stroke="rgba(200,146,42,.25)" stroke-width=".8"></polygon>
-      <!-- Éclat 8 — Nord-Ouest -->
-      <polygon class="ci-shard ci-shard-8" points="130,130 11,82 82,11" fill="rgba(4,8,14,.88)" stroke="rgba(200,146,42,.25)" stroke-width=".8"></polygon>
+      <!-- 8 éclats triangulaires — invisibles jusqu'à phase 4, puis s'envolent -->
+      <!-- Chaque éclat = un morceau de boussole entre deux fissures adjacentes -->
+      <g id="ci-shards-group">
+        <!-- N  (entre NO et NE) -->
+        <polygon class="ci-shard ci-shard-1" points="130,130 48,44 130,22 214,52"/>
+        <!-- NE (entre N et E) -->
+        <polygon class="ci-shard ci-shard-2" points="130,130 214,52 238,131"/>
+        <!-- E  (entre NE et SE) -->
+        <polygon class="ci-shard ci-shard-3" points="130,130 238,131 205,215"/>
+        <!-- SE (entre E et S) -->
+        <polygon class="ci-shard ci-shard-4" points="130,130 205,215 132,238"/>
+        <!-- S  (entre SE et SO) -->
+        <polygon class="ci-shard ci-shard-5" points="130,130 132,238 44,208"/>
+        <!-- SO (entre S et O) -->
+        <polygon class="ci-shard ci-shard-6" points="130,130 44,208 22,129"/>
+        <!-- O  (entre SO et NO) -->
+        <polygon class="ci-shard ci-shard-7" points="130,130 22,129 48,44"/>
+        <!-- NO (ferme le cercle) -->
+        <polygon class="ci-shard ci-shard-8" points="130,130 48,44 214,52 238,131 205,215 132,238 44,208 22,129"/>
+      </g>
 
     </svg>
   </div><!-- /.ci-ring -->
@@ -3508,7 +3502,7 @@ body.pmode #anchor-nav {
 </svg>
 
 <!-- ════════ WELCOME OVERLAY ════════ -->
-<div id="welcome-overlay" style="display: none; opacity: 1; transition: opacity 0.65s, transform 0.65s;" class="hide">
+<div id="welcome-overlay" style="display: none; opacity: 0;" class="">
   <div id="welcome-box">
     <span class="wlc-icon" id="wlc-icon">🔊</span>
     <div class="wlc-title" id="wlc-title">Meilleure expérience avec le son</div>
@@ -4621,15 +4615,29 @@ function ytId(u) {
   return m ? m[1] : null;
 }
 
+function vimeoId(u) {
+  const m = u.match(/vimeo\.com\/(?:video\/)?(\d+)/);
+  return m ? m[1] : null;
+}
+
+function buildVideoContent(url) {
+  if (!url || !url.trim()) return '<div class="mvph">▶</div>';
+  url = url.trim();
+  const yt = ytId(url);
+  if (yt) return `<iframe src="https://www.youtube.com/embed/${yt}?autoplay=1" allowfullscreen allow="autoplay; encrypted-media"></iframe>`;
+  const vm = vimeoId(url);
+  if (vm) return `<iframe src="https://player.vimeo.com/video/${vm}?autoplay=1" allowfullscreen allow="autoplay"></iframe>`;
+  // Lien direct mp4 / blob
+  return `<video controls autoplay style="width:100%;height:100%;object-fit:contain;background:#000" src="${url}"></video>`;
+}
+
 function openProject(c) {
-  const yt  = c.dataset.yt;
+  const url = c.dataset.yt || c.dataset.videoUrl || '';
   const vid = document.getElementById('mvid');
-  vid.innerHTML = yt && ytId(yt)
-    ? `<iframe src="https://www.youtube.com/embed/${ytId(yt)}?autoplay=1" allowfullscreen allow="autoplay"></iframe>`
-    : '<div class="mvph">▶</div>';
-  document.getElementById('mcat').textContent = c.dataset.cat.toUpperCase();
-  document.getElementById('mtit').textContent = c.dataset.title;
-  document.getElementById('mdsc').textContent = c.dataset.desc;
+  vid.innerHTML = buildVideoContent(url);
+  document.getElementById('mcat').textContent = (c.dataset.cat || '').toUpperCase();
+  document.getElementById('mtit').textContent = c.dataset.title || '';
+  document.getElementById('mdsc').textContent = c.dataset.desc  || '';
   const tg = document.getElementById('mtags');
   tg.innerHTML = '';
   (c.dataset.tools || '').split(',').forEach(t => {
@@ -4640,7 +4648,18 @@ function openProject(c) {
       tg.appendChild(s);
     }
   });
+  // Couper le son de la vidéo background
+  const hv = document.getElementById('hero-video');
+  if (hv) { hv._mutedBefore = hv.muted; hv.muted = true; }
   pmod.classList.add('open');
+}
+
+function closeProjectModal() {
+  pmod.classList.remove('open');
+  document.getElementById('mvid').innerHTML = '<div class="mvph">▶</div>';
+  // Remettre le son de la vidéo background
+  const hv = document.getElementById('hero-video');
+  if (hv) hv.muted = hv._mutedBefore !== undefined ? hv._mutedBefore : true;
 }
 
 document.getElementById('pgrid').addEventListener('click', e => {
@@ -4649,16 +4668,10 @@ document.getElementById('pgrid').addEventListener('click', e => {
   if (btn) openProject(btn.closest('.pcard'));
 });
 
-document.getElementById('pmcl').addEventListener('click', () => {
-  pmod.classList.remove('open');
-  document.getElementById('mvid').innerHTML = '<div class="mvph">▶</div>';
-});
+document.getElementById('pmcl').addEventListener('click', closeProjectModal);
 
 pmod.addEventListener('click', e => {
-  if (e.target === pmod) {
-    pmod.classList.remove('open');
-    document.getElementById('mvid').innerHTML = '<div class="mvph">▶</div>';
-  }
+  if (e.target === pmod) closeProjectModal();
 });
 
 
@@ -5554,119 +5567,49 @@ window._compassDismissed = false;
 
   const intro    = document.getElementById('compass-intro');
   const portalSvg = document.getElementById('ci-portal-svg');
-  const portalCircle = document.getElementById('ci-portal-circle');
   const welcome  = document.getElementById('welcome-overlay');
 
-  if (!intro) {
-    if (welcome) { welcome.style.display = 'flex'; welcome.style.opacity = '1'; }
-    return;
-  }
+  if (!intro) { showWelcomeOverlay(); return; }
 
-  // Cacher welcome pendant la boussole
+  if (portalSvg) portalSvg.style.display = 'none';
   if (welcome) { welcome.style.display = 'none'; welcome.style.opacity = '0'; }
-  intro.style.display = 'flex';
 
-  function showWelcome() {
+  function showWelcomeOverlay() {
     if (!welcome) return;
+    welcome.classList.remove('hide');
     welcome.style.display    = 'flex';
     welcome.style.opacity    = '0';
-    welcome.style.transition = 'opacity .65s ease';
+    welcome.style.transition = 'opacity .7s ease';
     requestAnimationFrame(() => requestAnimationFrame(() => {
       welcome.style.opacity = '1';
     }));
   }
 
-  // ── Portail SVG : animation via requestAnimationFrame pour un rendu fluide ──
-  function growPortal() {
-    if (!portalCircle) return;
-    // Le viewBox est 100x100, on anime r de 0 à 90 (couvre tout)
-    // On utilise une easing manuelle pour un effet organique
-    const duration  = 750; // ms
-    const startTime = performance.now();
-
-    function frame(now) {
-      const elapsed = now - startTime;
-      const t = Math.min(elapsed / duration, 1);
-      // Easing : accélération brutale puis légère décélération
-      const ease = t < 0.5
-        ? 4 * t * t * t
-        : 1 - Math.pow(-2 * t + 2, 3) / 2;
-      const r = ease * 92; // 92 = radius maximal (couvre le viewBox 100x100)
-      portalCircle.setAttribute('r', r.toFixed(2));
-      if (t < 1) requestAnimationFrame(frame);
-    }
-
-    if (portalSvg) {
-      portalSvg.style.opacity = '1';
-      portalSvg.style.transition = 'none';
-    }
-    requestAnimationFrame(frame);
-  }
-
-  function revealSite() {
-    window._compassDismissed = true;
-
-    // Cacher intro + SVG éclats
-    intro.style.opacity    = '0';
-    intro.style.transition = 'opacity .25s ease';
-
-    setTimeout(() => {
-      intro.style.display = 'none';
-
-      // Dissiper le portail
-      if (portalSvg) {
-        portalSvg.style.transition = 'opacity .9s ease';
-        portalSvg.style.opacity    = '0';
-        setTimeout(() => { portalSvg.style.display = 'none'; }, 950);
-      }
-
-      showWelcome();
-    }, 250);
-  }
-
-  // ── Skip immédiat au clic ──
   function skipIntro() {
     if (window._compassDismissed) return;
     window._compassDismissed = true;
+    intro.style.transition = 'opacity .3s ease';
     intro.style.opacity    = '0';
-    intro.style.transition = 'opacity .4s ease';
-    if (portalSvg) portalSvg.style.display = 'none';
-    setTimeout(() => { intro.style.display = 'none'; showWelcome(); }, 400);
+    setTimeout(() => { intro.style.display = 'none'; showWelcomeOverlay(); }, 320);
   }
 
   window.dismissCompass = skipIntro;
   intro.addEventListener('click', skipIntro);
 
-  // ── Séquence principale ──
-  // Phase 2 — aiguille frénétique
-  setTimeout(() => {
-    if (window._compassDismissed) return;
-    intro.classList.add('ci-phase2');
-  }, 2600);
+  // 0s    → aiguille se stabilise
+  // 2.6s  → phase 2 : aiguille frénétique + glow monte sur la boussole (~1.4s)
+  // 4.1s  → phase 4 : flash or explose depuis le centre, englobe l'écran, se dissipe → site
+  // 5.4s  → DOM retiré + welcome overlay
+  setTimeout(() => { if (!window._compassDismissed) intro.classList.add('ci-phase2'); }, 2600);
 
-  // Phase 3 — fissures apparaissent
-  setTimeout(() => {
-    if (window._compassDismissed) return;
-    intro.classList.add('ci-phase3');
-  }, 3100);
-
-  // Phase 4 — éclats s'envolent
   setTimeout(() => {
     if (window._compassDismissed) return;
     intro.classList.add('ci-phase4');
-  }, 3500);
-
-  // Portail commence à pousser
-  setTimeout(() => {
-    if (window._compassDismissed) return;
-    growPortal();
-  }, 3600);
-
-  // Site révélé
-  setTimeout(() => {
-    if (window._compassDismissed) return;
-    revealSite();
-  }, 4400);
+    setTimeout(() => {
+      intro.style.display = 'none';
+      showWelcomeOverlay();
+    }, 1300);
+  }, 4100);
 
 })()
 
