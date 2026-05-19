@@ -384,12 +384,13 @@ nav.sc {
 /* Nom OPHYX — grand titre */
 .hname {
   font-family: 'Cinzel', serif;
-  font-size: clamp(5rem,11vw,10rem);
+  font-size: clamp(3.2rem,11vw,10rem);
   font-weight: 900;
   line-height: .88;
   color: var(--white);
   letter-spacing: .08em;
   margin-bottom: 1.5rem;
+  white-space: nowrap;
   text-shadow:
     0 2px 60px rgba(0,0,0,.9),
     0 0 120px rgba(200,146,42,.2);
@@ -3319,23 +3320,152 @@ body.pmode #pmode-badge {
 body.pmode #anchor-nav {
   display: none;
 }
-@media (max-width: 1100px) {
-  .svg { grid-template-columns: repeat(2, 1fr); }
+/* ════════════════════════════════════════
+   MOBILE & TACTILE — CORRECTIONS COMPLÈTES
+   ════════════════════════════════════════ */
+
+/* ── Appareils tactiles : désactiver le curseur custom ── */
+@media (hover: none) and (pointer: coarse) {
+  body { cursor: auto !important; }
+  #cur, #cur-r { display: none !important; }
+
+  a, button, .pcard, .fb, .sc2, .add-card, .svc, .stat, .cii,
+  .eb, .epbtn, .pbtn, .mcl, .dot, .tag, .btp, .sub, .copy-mail,
+  #anchor-top-btn, .vid-tab, .se-add-btn, .se-del { cursor: pointer !important; }
+  input, textarea, select { cursor: text !important; }
+  input[type="range"], input[type="color"], input[type="file"] { cursor: pointer !important; }
+
+  /* Supprimer les backdrop-filter — grosse cause de lag sur Android/iOS */
+  nav, .mo, .apb, .ghb, #export-box, #epanel, #anchor-top-btn,
+  #welcome-box, .mov, .apm, .ghm, #welcome-overlay {
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+  }
+
+  /* Désactiver les hover transforms sur touch */
+  .pcard:hover, .svc:hover, .stat:hover, .sc2:hover,
+  .cii:hover, #anchor-top-btn:hover { transform: none !important; }
+
+  /* Overlay projet toujours visible (pas de hover sur touch) */
+  .pov {
+    opacity: 1 !important;
+    transform: translateY(0) !important;
+    background: linear-gradient(to top, rgba(4,8,15,.95) 0%, rgba(4,8,15,.35) 55%, transparent 100%);
+  }
 }
 
-@media (max-width: 900px) {
+/* ── Tablettes (≤768px) ── */
+@media (max-width: 768px) {
   nav { padding: 1rem 1.5rem; }
   .nlinks { display: none; }
   section { padding: 5rem 1.5rem; }
-  #hero { padding: 0 1.5rem; }
-  .ag, .cg { grid-template-columns: 1fr; gap: 3rem; }
-  .svg, .pgrid { grid-template-columns: 1fr; }
-  .prs { flex-direction: column; gap: 2.5rem; }
+  #hero   { padding: 0 1.5rem; }
+
+  .ag, .cg     { grid-template-columns: 1fr; gap: 3rem; }
+  .svg         { grid-template-columns: 1fr; }
+  .pgrid       { grid-template-columns: repeat(2, 1fr); gap: 1.2rem; }
+  .prs         { flex-direction: column; gap: 2.5rem; }
   .prs::before { display: none; }
-  footer { padding: 1.8rem 1.5rem; flex-direction: column; text-align: center; }
-  #epanel { flex-wrap: wrap; width: calc(100% - 2rem); justify-content: center; border-radius: 8px 8px 0 0; }
-  .deco-anchor { display: none; }
-  .stats { grid-template-columns: repeat(2, 1fr); }
+  .stats       { grid-template-columns: repeat(3, 1fr); }
+
+  footer { padding: 1.8rem 1.5rem; flex-direction: column; text-align: center; gap: 1rem; }
+
+  /* Boussole intro */
+  .ci-ring { width: 220px; height: 220px; }
+  #compass-svg, #ci-shards-svg { width: 220px; height: 220px; }
+
+  /* Welcome box */
+  #welcome-box { padding: 3rem 2rem; max-width: calc(100vw - 3rem); }
+}
+
+/* ── Petits téléphones (≤480px) ── */
+@media (max-width: 480px) {
+  section { padding: 4rem 1rem; }
+  #hero   { padding: 0 1rem; }
+
+  /* Titre OPHYX — lettre-spacing réduit pour éviter tout débordement */
+  .hname {
+    font-size: clamp(2.6rem, 13vw, 4rem);
+    letter-spacing: .04em;
+  }
+
+  /* Sous-titre typing */
+  .hsub { font-size: 1.1rem; }
+
+  /* Boutons CTA */
+  .hcta { flex-direction: column; gap: .8rem; }
+  .btn1, .btn2 { width: 100%; text-align: center; padding: 1rem 1.5rem; }
+
+  /* Boussole intro réduite */
+  .ci-ring { width: 190px; height: 190px; }
+  #compass-svg, #ci-shards-svg { width: 190px; height: 190px; }
+  .ci-title    { font-size: .85rem; letter-spacing: .22em; }
+  .ci-sub      { font-size: .74rem; letter-spacing: .15em; }
+  .ci-bar-wrap { width: 160px; }
+  #compass-intro { gap: 1.4rem; }
+
+  /* Welcome box */
+  #welcome-box  { padding: 2.2rem 1.2rem; max-width: calc(100vw - 2rem); }
+  .wlc-title    { font-size: 1rem; }
+  .wlc-sub      { font-size: .82rem; }
+  .wlc-btns     { gap: .6rem; }
+  .wlc-btn-main { padding: .85rem 1.5rem; font-size: .68rem; }
+
+  /* Sections */
+  .stit  { font-size: clamp(1.6rem, 7.5vw, 2.2rem); }
+  .stats { grid-template-columns: repeat(2, 1fr); gap: .8rem; }
+  .svg   { grid-template-columns: 1fr; }
+  .pgrid { grid-template-columns: 1fr; gap: 1rem; }
+  .ag, .cg { gap: 2rem; }
+  .prs     { gap: 1.8rem; }
+
+  /* Grille skills */
+  .skls { padding: 1.2rem; }
+  #stats-editor { grid-template-columns: 1fr 1fr !important; }
+
+  /* Éditeur panel */
+  #epanel {
+    width: 100% !important;
+    left: 0 !important;
+    right: 0 !important;
+    bottom: 0 !important;
+    top: auto !important;
+    border-radius: 12px 12px 0 0 !important;
+    padding: .7rem .8rem !important;
+    gap: .35rem !important;
+    flex-wrap: wrap !important;
+    justify-content: center !important;
+    max-height: 45vh;
+    overflow-y: auto;
+  }
+  .epbtn { font-size: .58rem; padding: .38rem .6rem; }
+  .ep-lbl { font-size: .62rem; }
+
+  /* Modals */
+  .ghb, .apb { padding: 1.4rem 1rem; }
+  .ghb { max-width: calc(100vw - 1.6rem) !important; }
+  .mo  { padding: 1.8rem 1rem; }
+  .mvid { aspect-ratio: 16/9; }
+  .mtit { font-size: 1.1rem; }
+  .ep-mbox { padding: 1.8rem 1.2rem; }
+
+  /* Ancre nav */
+  #anchor-nav    { bottom: .8rem; right: .7rem; gap: .3rem; }
+  #anchor-top-btn { width: 38px; height: 38px; font-size: 1rem; }
+  #section-indicator { display: none; }
+
+  /* Footer */
+  footer { padding: 1.4rem 1rem; flex-direction: column; text-align: center; gap: .8rem; }
+  .flogo { font-size: 1.4rem; }
+  .fcopy { font-size: .75rem; }
+
+  /* Séparer les infos contact */
+  .cii { padding: .9rem; }
+  .cci { width: 38px; height: 38px; font-size: 1.1rem; }
+
+  /* Tags */
+  .svtags, .mtags { gap: .4rem; }
+  .tag { font-size: .74rem; padding: .28rem .7rem; }
 }
 
 
@@ -3385,7 +3515,7 @@ body.pmode #anchor-nav {
 </div>
 
 <!-- ════════ INTRO BOUSSOLE PIRATE ════════ -->
-<div id="compass-intro" class="ci-phase4" style="display: none; opacity: 1; transition: opacity 0.25s;">
+<div id="compass-intro" style="opacity:1;">
 
   <!-- Couche fissures et éclats — au-dessus du SVG -->
   <div class="ci-ring">
@@ -3529,7 +3659,7 @@ body.pmode #anchor-nav {
 </svg>
 
 <!-- ════════ WELCOME OVERLAY ════════ -->
-<div id="welcome-overlay" style="display: none; opacity: 1; transition: opacity 0.65s, transform 0.65s;" class="hide">
+<div id="welcome-overlay" style="display:none;opacity:0;">
   <div id="welcome-box">
     <span class="wlc-icon" id="wlc-icon">🔊</span>
     <div class="wlc-title" id="wlc-title">Meilleure expérience avec le son</div>
@@ -4348,8 +4478,8 @@ body.pmode #anchor-nav {
 </div>
 
 <!-- ════════ ANCRE NAVIGATION SCROLL-TO-TOP ════════ -->
-<div id="anchor-nav" class="visible">
-  <div id="section-indicator" style="opacity: 1;">Portfolio</div>
+<div id="anchor-nav">
+  <div id="section-indicator">Haut de page</div>
   <button id="anchor-top-btn" onclick="window.scrollTo({top:0,behavior:'smooth'})" title="Retour en haut">⚓</button>
 </div>
 
@@ -4387,7 +4517,7 @@ body.pmode #anchor-nav {
 </div>
 
 <!-- ════════ PANNEAU ÉDITEUR ════════ -->
-<div id="epanel" class="" style="display: none;">
+<div id="epanel" class="">
   <span class="ep-lbl">✏️ MODE ÉDITION</span>
   <div class="ep-sep"></div>
   <button class="epbtn a" onclick="openAPM()">＋ Projet</button>
@@ -4651,31 +4781,41 @@ body.pmode #anchor-nav {
 <script>
 
 // ══════════════════════════════════
-// CURSEUR PERSONNALISÉ
+// CURSEUR PERSONNALISÉ (desktop seulement)
 // ══════════════════════════════════
 const cur  = document.getElementById('cur');
 const cr   = document.getElementById('cur-r');
 let mx = 0, my = 0, rx = 0, ry = 0;
 
-document.addEventListener('mousemove', e => {
-  mx = e.clientX;
-  my = e.clientY;
-  cur.style.left = mx + 'px';
-  cur.style.top  = my + 'px';
-});
+// Détection tactile — désactiver curseur custom sur mobile
+const isTouchDevice = () => window.matchMedia('(hover: none) and (pointer: coarse)').matches;
 
-(function animateCursor() {
-  rx += (mx - rx) * .12;
-  ry += (my - ry) * .12;
-  cr.style.left = rx + 'px';
-  cr.style.top  = ry + 'px';
-  requestAnimationFrame(animateCursor);
-})();
+if (!isTouchDevice()) {
+  document.addEventListener('mousemove', e => {
+    mx = e.clientX;
+    my = e.clientY;
+    cur.style.left = mx + 'px';
+    cur.style.top  = my + 'px';
+  });
 
-document.querySelectorAll('a, button, .pcard, .dot, .fb, .sc2, .add-card, .svc, .stat, .cii').forEach(el => {
-  el.addEventListener('mouseenter', () => document.body.classList.add('hov'));
-  el.addEventListener('mouseleave', () => document.body.classList.remove('hov'));
-});
+  (function animateCursor() {
+    rx += (mx - rx) * .12;
+    ry += (my - ry) * .12;
+    cr.style.left = rx + 'px';
+    cr.style.top  = ry + 'px';
+    requestAnimationFrame(animateCursor);
+  })();
+
+  document.querySelectorAll('a, button, .pcard, .dot, .fb, .sc2, .add-card, .svc, .stat, .cii').forEach(el => {
+    el.addEventListener('mouseenter', () => document.body.classList.add('hov'));
+    el.addEventListener('mouseleave', () => document.body.classList.remove('hov'));
+  });
+} else {
+  // Touch : masquer les éléments de curseur
+  if (cur) cur.style.display = 'none';
+  if (cr)  cr.style.display  = 'none';
+  document.body.style.cursor = 'auto';
+}
 
 
 // ══════════════════════════════════
@@ -5804,112 +5944,92 @@ function applyTextAnimEdits() {
 }
 
 
-// ══════════════════════════════════
-// INTRO BOUSSOLE
-// Flux : Boussole (3.5s) → Welcome overlay → Site
-// ══════════════════════════════════
-// ══════════════════════════════════════════════════
-// INTRO BOUSSOLE — Fusion Portail (B) + Éclatement (C)
-// Timeline :
-//   0ms       → Aiguille se stabilise (animation CSS)
-//   2600ms    → Phase 2 : aiguille frénétique + cadran s'emballe
-//   3300ms    → Phase 3 : anneaux explosent (shock waves)
-//   3700ms    → Phase 4 : portail or émerge du centre
-//   4400ms    → Portail remplit l'écran
-//   4600ms    → Site révélé, portail se dissipe
-//   5000ms    → Welcome overlay apparaît
-// ══════════════════════════════════════════════════
-// ══════════════════════════════════════════════════════
-// INTRO BOUSSOLE — Fusion Portail + Fissures + Éclats
-// Timeline :
-//   0ms      → Aiguille se stabilise (CSS)
-//   2600ms   → Phase 2 : aiguille frénétique, glow peak
-//   3100ms   → Phase 3 : lignes de fissures apparaissent
-//   3500ms   → Phase 4 : éclats s'envolent
-//   3600ms   → Portail or émerge depuis le centre
-//   4300ms   → Portail remplit l'écran
-//   4500ms   → Site révélé
-//   4800ms   → Welcome overlay
-// ══════════════════════════════════════════════════════
+// ══════════════════════════════════════════════════════════════
+// SÉQUENCE D'ENTRÉE :
+//   ÉTAPE 1 — Boussole (animation 3.3s, cliquable pour passer)
+//   ÉTAPE 2 — Message son
+//   ÉTAPE 3 — Site
+// ══════════════════════════════════════════════════════════════
 window._compassDismissed = false;
+window._soundChosen      = false;
 
-(function initCompassIntro() {
+(function initEntrySequence() {
 
-  const intro    = document.getElementById('compass-intro');
+  const introEl   = document.getElementById('compass-intro');
+  const welcomeEl = document.getElementById('welcome-overlay');
   const portalSvg = document.getElementById('ci-portal-svg');
-  const welcome  = document.getElementById('welcome-overlay');
 
-  if (!intro) { showWelcomeOverlay(); return; }
+  // ── État initial ──
+  // Boussole visible immédiatement
+  if (introEl) {
+    introEl.style.display = 'flex';
+    introEl.style.opacity = '1';
+    introEl.classList.remove('ci-phase4');
+  }
+
+  // Welcome caché au départ
+  if (welcomeEl) {
+    welcomeEl.style.display = 'none';
+    welcomeEl.style.opacity = '0';
+    welcomeEl.classList.remove('hide');
+  }
 
   if (portalSvg) portalSvg.style.display = 'none';
-  if (welcome) { welcome.style.display = 'none'; welcome.style.opacity = '0'; }
 
-  function showWelcomeOverlay() {
-    if (!welcome) return;
-    welcome.classList.remove('hide');
-    welcome.style.display    = 'flex';
-    welcome.style.opacity    = '0';
-    welcome.style.transition = 'opacity .7s ease';
+  // ── ÉTAPE 2 : Afficher le welcome après la boussole ──
+  function showWelcome() {
+    if (!welcomeEl) return;
+    welcomeEl.style.display    = 'flex';
+    welcomeEl.style.opacity    = '0';
+    welcomeEl.style.transition = 'opacity .55s ease';
     requestAnimationFrame(() => requestAnimationFrame(() => {
-      welcome.style.opacity = '1';
+      welcomeEl.style.opacity = '1';
     }));
   }
 
-  function skipIntro() {
+  // ── ÉTAPE 1 : Fermer la boussole → afficher le welcome ──
+  function skipCompass() {
     if (window._compassDismissed) return;
     window._compassDismissed = true;
-    intro.style.transition = 'opacity .3s ease';
-    intro.style.opacity    = '0';
-    setTimeout(() => { intro.style.display = 'none'; showWelcomeOverlay(); }, 320);
+    if (window._compassTimer) clearTimeout(window._compassTimer);
+
+    if (!introEl) { showWelcome(); return; }
+    introEl.classList.add('ci-phase4');
+    setTimeout(() => {
+      introEl.style.display = 'none';
+      showWelcome();
+    }, 1100);
   }
 
-  window.dismissCompass = skipIntro;
-  intro.addEventListener('click', skipIntro);
+  window.dismissCompass = skipCompass;
+  if (introEl) introEl.addEventListener('click', skipCompass, { once: true });
 
-  // Timeline simplifiée :
-  // 0s    → aiguille se stabilise doucement (CSS needle-settle 2.6s)
-  // 3.3s  → barre chargement terminée → flash + site révélé
-  // 4.6s  → welcome overlay
-
-  setTimeout(() => {
-    if (window._compassDismissed) return;
-    intro.classList.add('ci-phase4');
-    setTimeout(() => {
-      intro.style.display = 'none';
-      showWelcomeOverlay();
-    }, 1300);
+  // Auto-dismiss boussole après 3.3s
+  window._compassTimer = setTimeout(() => {
+    if (!window._compassDismissed) skipCompass();
   }, 3300);
 
-})()
+})();
 
 
 // ══════════════════════════════════
-// WELCOME OVERLAY
+// WELCOME OVERLAY — boutons son
 // ══════════════════════════════════
-// Cacher welcome overlay si aucune vidéo configurée
-window.addEventListener('DOMContentLoaded', () => {
-  const vsrc = document.getElementById('hero-vsrc');
-  const ov   = document.getElementById('welcome-overlay');
-  if (ov && (!vsrc || !vsrc.src || vsrc.src === '' || vsrc.src === window.location.href || vsrc.src.includes('TON_LIEN'))) {
-    // Pas de vidéo = pas besoin du welcome son
-    // Mais on le montre quand même si l'user a configuré une vidéo
-    // Pour l'instant on garde le welcome visible uniquement si vidéo présente
-    // ov.style.display = 'none'; // décommenter pour cacher si pas de vidéo
-  }
-});
-
 function welcomeSound(withSound) {
   const v = document.getElementById('hero-video');
-  if (withSound && v && v.style.display !== 'none') {
+  if (withSound && v) {
     v.muted = false;
-    document.getElementById('snd-icon').textContent = '🔊';
-    document.getElementById('snd-txt').textContent  = 'Son actif';
+    const si = document.getElementById('snd-icon');
+    const st = document.getElementById('snd-txt');
+    if (si) si.textContent = '🔊';
+    if (st) st.textContent = 'Son actif';
     v.play().catch(() => {});
   }
   const ov = document.getElementById('welcome-overlay');
-  ov.style.transition = 'opacity .65s, transform .65s';
-  ov.classList.add('hide');
-  setTimeout(() => { ov.style.display = 'none'; }, 700);
+  if (!ov) return;
+  ov.style.transition = 'opacity .65s';
+  ov.style.opacity    = '0';
+  setTimeout(() => { ov.style.display = 'none'; }, 680);
 }
 
 
@@ -5917,26 +6037,42 @@ function welcomeSound(withSound) {
 // WELCOME EDITOR
 // ══════════════════════════════════
 function openWelcomeEditor() {
-  document.getElementById('wlc-e-icon').value  = document.getElementById('wlc-icon').textContent.trim();
-  document.getElementById('wlc-e-title').value = document.getElementById('wlc-title').textContent.trim();
-  document.getElementById('wlc-e-sub').value   = document.getElementById('wlc-sub').textContent.trim();
-  document.getElementById('wlc-e-btn').value   = document.getElementById('wlc-btn-main').textContent.trim();
+  const fields = {
+    'wlc-e-icon':  'wlc-icon',
+    'wlc-e-title': 'wlc-title',
+    'wlc-e-sub':   'wlc-sub',
+    'wlc-e-btn':   'wlc-btn-main',
+  };
+  for (const [inp, src] of Object.entries(fields)) {
+    const el = document.getElementById(src);
+    const i  = document.getElementById(inp);
+    if (el && i) i.value = el.textContent.trim();
+  }
   document.getElementById('wlc-modal').classList.add('open');
 }
 
 function applyWelcomeEdit() {
-  document.getElementById('wlc-icon').textContent      = document.getElementById('wlc-e-icon').value;
-  document.getElementById('wlc-title').textContent     = document.getElementById('wlc-e-title').value;
-  document.getElementById('wlc-sub').textContent       = document.getElementById('wlc-e-sub').value;
-  document.getElementById('wlc-btn-main').textContent  = document.getElementById('wlc-e-btn').value;
+  const fields = {
+    'wlc-e-icon':  'wlc-icon',
+    'wlc-e-title': 'wlc-title',
+    'wlc-e-sub':   'wlc-sub',
+    'wlc-e-btn':   'wlc-btn-main',
+  };
+  for (const [inp, target] of Object.entries(fields)) {
+    const i  = document.getElementById(inp);
+    const el = document.getElementById(target);
+    if (i && el) el.textContent = i.value;
+  }
   document.getElementById('wlc-modal').classList.remove('open');
-  // Aperçu : montrer brièvement le welcome overlay pour validation visuelle
+  // Aperçu : ré-afficher le welcome pour validation
   const ov = document.getElementById('welcome-overlay');
-  ov.style.display   = 'flex';
-  ov.style.opacity   = '0';
-  ov.style.transition = 'opacity .4s';
-  ov.classList.remove('hide');
-  requestAnimationFrame(() => requestAnimationFrame(() => { ov.style.opacity = '1'; }));
+  if (ov) {
+    ov.style.display   = 'flex';
+    ov.style.opacity   = '0';
+    ov.style.transition = 'opacity .4s';
+    ov.classList.remove('hide');
+    requestAnimationFrame(() => requestAnimationFrame(() => { ov.style.opacity = '1'; }));
+  }
   toast('Message mis à jour — cliquez "Continuer" pour fermer l\'aperçu');
 }
 
