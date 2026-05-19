@@ -4863,11 +4863,12 @@ function buildVideoContent(url) {
   if (!url || !url.trim()) return '<div class="mvph">▶</div>';
   url = url.trim();
   const yt = ytId(url);
-  if (yt) return `<iframe src="https://www.youtube.com/embed/${yt}?autoplay=1" allowfullscreen allow="autoplay; encrypted-media"></iframe>`;
+  if (yt) return `<iframe src="https://www.youtube.com/embed/${yt}?autoplay=1&mute=0" allowfullscreen allow="autoplay; encrypted-media; fullscreen"></iframe>`;
   const vm = vimeoId(url);
-  if (vm) return `<iframe src="https://player.vimeo.com/video/${vm}?autoplay=1" allowfullscreen allow="autoplay"></iframe>`;
-  // Lien direct mp4 / blob
-  return `<video controls autoplay style="width:100%;height:100%;object-fit:contain;background:#000" src="${url}"></video>`;
+  if (vm) return `<iframe src="https://player.vimeo.com/video/${vm}?autoplay=1" allowfullscreen allow="autoplay; fullscreen"></iframe>`;
+  // Fichier local (blob:) ou lien direct mp4
+  // muted+autoplay est autorisé par tous les navigateurs, on démute après
+  return `<video id="proj-video" controls muted autoplay playsinline style="width:100%;height:100%;object-fit:contain;background:#000"><source src="${url}"></video>`;
 }
 
 function openProject(c) {
@@ -4889,44 +4890,36 @@ function openProject(c) {
     }
   });
 
-  // Couper le son de la vidéo background, mémoriser l'état
+  // Mémoriser l'état du son background et le couper (sans mettre en pause)
   const hv = document.getElementById('hero-video');
   if (hv) {
     hv._mutedBefore = hv.muted;
     hv.muted = true;
-    hv.pause();
   }
 
-  // Tenter l'autoplay de la vidéo du projet si c'est un <video> local
-  const projVid = vid.querySelector('video');
+  // Démarrer la vidéo projet en muet (autorisé par tous les navigateurs), puis démuter
+  const projVid = document.getElementById('proj-video');
   if (projVid) {
-    projVid.muted = false;
-    projVid.play().catch(() => {
-      // Autoplay bloqué par le navigateur : démarrer muet puis démuet
-      projVid.muted = true;
-      projVid.play().then(() => { projVid.muted = false; }).catch(() => {});
-    });
+    projVid.play().then(() => { projVid.muted = false; }).catch(() => {});
   }
 
   pmod.classList.add('open');
 }
 
 function closeProjectModal() {
-  pmod.classList.remove('open');
-
-  // Stopper proprement la vidéo du projet avant de vider le DOM
-  const projVid = document.querySelector('#mvid video');
-  if (projVid) { projVid.pause(); projVid.src = ''; }
+  // Stopper la vidéo projet proprement
+  const projVid = document.getElementById('proj-video');
+  if (projVid) { projVid.pause(); projVid.removeAttribute('src'); projVid.load(); }
   const projFrame = document.querySelector('#mvid iframe');
   if (projFrame) projFrame.src = '';
 
   document.getElementById('mvid').innerHTML = '<div class="mvph">▶</div>';
+  pmod.classList.remove('open');
 
-  // Remettre le son + reprendre la vidéo background
+  // Restaurer l'état du son background (la vidéo n'a jamais été mise en pause)
   const hv = document.getElementById('hero-video');
   if (hv) {
     hv.muted = hv._mutedBefore !== undefined ? hv._mutedBefore : true;
-    if (!hv.muted) hv.play().catch(() => {});
   }
 }
 
@@ -4985,12 +4978,12 @@ function addProject() {
 
   function buildCard(videoSrc) {
     const card = document.createElement('div');
-    card.className      = 'pcard rv vis';
-    card.dataset.cat    = cat;
-    card.dataset.title  = t;
-    card.dataset.desc   = desc;
-    card.dataset.tools  = tools;
-    card.dataset.yt     = videoSrc || yt;
+    card.className     = 'pcard rv vis';
+    card.dataset.cat   = cat;
+    card.dataset.title = t;
+    card.dataset.desc  = desc;
+    card.dataset.tools = tools;
+    card.dataset.yt    = videoSrc || yt;
 
     const bg = img
       ? `background-image:url(${img});background-size:cover;background-position:center`
@@ -5013,11 +5006,10 @@ function addProject() {
     toast('✓ Projet ajouté !');
   }
 
-  // Si un fichier local est sélectionné, on le lit en base64
+  // Fichier local : créer une URL objet (pas de base64, pas de limite de taille)
   if (vfile) {
-    const r = new FileReader();
-    r.onload = e => buildCard(e.target.result);
-    r.readAsDataURL(vfile);
+    const blobUrl = URL.createObjectURL(vfile);
+    buildCard(blobUrl);
   } else {
     buildCard(yt);
   }
