@@ -2861,68 +2861,98 @@ input[type=color] {
 /* ════════════════════════════════════════
    BOUSSOLES DÉCORATIVES D'ARRIÈRE-PLAN
    ════════════════════════════════════════ */
+/* ══════════════════════════════════════════
+   BOUSSOLES DÉCORATIVES — Design impactant
+   ══════════════════════════════════════════ */
+
 .bg-compass {
   position: absolute;
-  width: 340px;
-  height: 340px;
-  color: rgba(200,146,42,.055);
+  width: 520px;
+  height: 520px;
   pointer-events: none;
   z-index: 0;
-  animation: compass-bg-drift 30s linear infinite;
   will-change: transform;
+  filter:
+    drop-shadow(0 0 18px rgba(200, 146, 42, .22))
+    drop-shadow(0 0 55px rgba(200, 146, 42, .09));
 }
 
-/* Chaque section a position:relative déjà via le CSS section */
+/* Sections contenantes */
 #about, #process, #contact {
   position: relative;
-  overflow: hidden; /* Évite le débordement des boussoles */
+  overflow: hidden;
 }
 
-/* S'assurer que le contenu des sections est au-dessus de la boussole */
-#about > *:not(.bg-compass),
+/* Contenu au-dessus */
+#about   > *:not(.bg-compass),
 #process > *:not(.bg-compass),
 #contact > *:not(.bg-compass) {
   position: relative;
   z-index: 1;
 }
 
-@keyframes compass-bg-drift {
-  0%   { transform: var(--compass-transform, rotate(0deg)); }
-  100% { transform: var(--compass-transform, rotate(0deg)) rotate(360deg); }
+/* Positionnement & rotation de base par section */
+#about .bg-compass {
+  right: -80px;
+  top: 50%;
+  transform: translateY(-50%) rotate(18deg);
+  animation: compass-spin-about 55s linear infinite;
 }
 
-/* Adapter la rotation à chaque boussole (la rotation inline est la base, on tourne en plus) */
-#about .bg-compass      { animation-name: compass-spin-slow; }
-#process .bg-compass    { animation-name: compass-spin-slow; animation-direction: reverse; }
-#contact .bg-compass    { animation-name: compass-spin-slow; animation-duration: 40s; }
-
-@keyframes compass-spin-slow {
-  from { transform: rotate(0deg); }
-  to   { transform: rotate(360deg); }
+#process .bg-compass {
+  left: -80px;
+  top: 50%;
+  transform: translateY(-50%) rotate(-12deg);
+  animation: compass-spin-process 70s linear infinite reverse;
 }
 
-/* Repositionnement précis via le style inline — l'animation ne doit pas écraser le translate */
-#about .bg-compass    { right: 2%; top: 50%; animation-name: none; transform: translateY(-50%) rotate(12deg); }
-#process .bg-compass  { left: 1%; top: 50%; animation-name: none; transform: translateY(-50%) rotate(-8deg); }
-#contact .bg-compass  { right: 3%; bottom: 5%; animation-name: none; transform: rotate(20deg); }
+#contact .bg-compass {
+  right: -60px;
+  bottom: -60px;
+  transform: rotate(25deg);
+  animation: compass-spin-contact 90s linear infinite;
+}
 
-/* Rotation de l'aiguille dans chaque boussole décorative */
-#about .bg-compass polygon:first-of-type,
-#process .bg-compass polygon:first-of-type,
-#contact .bg-compass polygon:first-of-type {
+/* Rotations individuelles qui préservent le positionnement */
+@keyframes compass-spin-about {
+  0%   { transform: translateY(-50%) rotate(18deg); }
+  100% { transform: translateY(-50%) rotate(378deg); }
+}
+
+@keyframes compass-spin-process {
+  0%   { transform: translateY(-50%) rotate(-12deg); }
+  100% { transform: translateY(-50%) rotate(-372deg); }
+}
+
+@keyframes compass-spin-contact {
+  0%   { transform: rotate(25deg); }
+  100% { transform: rotate(385deg); }
+}
+
+/* Aiguille des boussoles déco — oscille lentement */
+.bg-compass .needle-group {
   transform-origin: 150px 150px;
-  animation: compass-needle-drift 12s ease-in-out infinite;
+  animation: needle-drift-deco 14s ease-in-out infinite;
 }
 
-#process .bg-compass polygon:first-of-type { animation-delay: -4s; animation-duration: 15s; }
-#contact .bg-compass polygon:first-of-type { animation-delay: -8s; animation-duration: 18s; }
-
-@keyframes compass-needle-drift {
-  0%   { transform: rotate(-6deg); }
-  30%  { transform: rotate(8deg); }
-  65%  { transform: rotate(-3deg); }
-  100% { transform: rotate(-6deg); }
+#process .bg-compass .needle-group {
+  animation-delay: -5s;
+  animation-duration: 18s;
 }
+
+#contact .bg-compass .needle-group {
+  animation-delay: -9s;
+  animation-duration: 22s;
+}
+
+@keyframes needle-drift-deco {
+  0%   { transform: rotate(-8deg); }
+  30%  { transform: rotate(6deg); }
+  60%  { transform: rotate(-4deg); }
+  85%  { transform: rotate(9deg); }
+  100% { transform: rotate(-8deg); }
+}
+
 
 /* ════════════════════════════════════════
    FONCTIONNALITÉ 1 : MODE PRÉSENTATION
@@ -3168,6 +3198,31 @@ body.pmode #anchor-nav {
   .stats { grid-template-columns: repeat(2, 1fr); }
 }
 
+
+/* Hint click pour passer la boussole */
+.ci-click-hint {
+  font-family: 'Rajdhani', sans-serif;
+  font-size: .75rem;
+  font-weight: 600;
+  letter-spacing: .25em;
+  text-transform: uppercase;
+  color: rgba(200, 146, 42, .35);
+  text-align: center;
+  opacity: 0;
+  animation: fup .6s 2.5s forwards;
+  cursor: pointer;
+  transition: color .3s;
+  user-select: none;
+}
+.ci-click-hint:hover {
+  color: rgba(200, 146, 42, .7);
+}
+
+/* Compass entier cliquable */
+#compass-intro {
+  cursor: pointer;
+}
+
 </style>
 </head>
 <body class="">
@@ -3280,6 +3335,7 @@ body.pmode #anchor-nav {
   <div class="ci-bar-wrap">
     <div class="ci-bar"></div>
   </div>
+  <div class="ci-click-hint" onclick="dismissCompass()">Cliquer pour passer</div>
 </div>
 
 <!-- ════════ WELCOME OVERLAY ════════ -->
@@ -3346,21 +3402,102 @@ body.pmode #anchor-nav {
 <section id="about">
   <!-- Boussole décorative fond -->
   <svg class="bg-compass" aria-hidden="true" viewBox="0 0 300 300" xmlns="http://www.w3.org/2000/svg" style="right:2%;top:50%;transform:translateY(-50%) rotate(12deg)">
-    <circle cx="150" cy="150" r="140" fill="none" stroke="currentColor" stroke-width="1" stroke-dasharray="4 8" opacity=".6"/>
-    <circle cx="150" cy="150" r="110" fill="none" stroke="currentColor" stroke-width="0.5" opacity=".4"/>
-    <line x1="150" y1="18" x2="150" y2="42" stroke="currentColor" stroke-width="1.5" opacity=".7"/>
-    <line x1="282" y1="150" x2="258" y2="150" stroke="currentColor" stroke-width="1" opacity=".5"/>
-    <line x1="150" y1="282" x2="150" y2="258" stroke="currentColor" stroke-width="1" opacity=".5"/>
-    <line x1="18" y1="150" x2="42" y2="150" stroke="currentColor" stroke-width="1" opacity=".5"/>
-    <text x="150" y="12" text-anchor="middle" fill="currentColor" font-family="Cinzel,serif" font-size="14" font-weight="700" opacity=".8">N</text>
-    <text x="292" y="155" text-anchor="middle" fill="currentColor" font-family="Cinzel,serif" font-size="11" opacity=".5">E</text>
-    <text x="150" y="298" text-anchor="middle" fill="currentColor" font-family="Cinzel,serif" font-size="11" opacity=".5">S</text>
-    <text x="8" y="155" text-anchor="middle" fill="currentColor" font-family="Cinzel,serif" font-size="11" opacity=".5">O</text>
-    <polygon points="150,60 156,148 150,140 144,148" fill="currentColor" opacity=".7"/>
-    <polygon points="150,240 156,152 150,160 144,152" fill="currentColor" opacity=".3"/>
-    <circle cx="150" cy="150" r="6" fill="currentColor" opacity=".8"/>
-    <circle cx="150" cy="150" r="3" fill="none" stroke="currentColor" stroke-width="1.5" opacity=".6"/>
-  </svg>
+  <defs>
+    <radialGradient id="cgrad-righ" cx="50%" cy="50%" r="50%">
+      <stop offset="0%"   stop-color="rgba(200,146,42,.18)"/>
+      <stop offset="60%"  stop-color="rgba(200,146,42,.06)"/>
+      <stop offset="100%" stop-color="rgba(200,146,42,0)"/>
+    </radialGradient>
+  </defs>
+
+  <!-- Halo de fond -->
+  <circle cx="150" cy="150" r="148" fill="url(#cgrad-righ)" />
+
+  <!-- Anneaux extérieurs -->
+  <circle cx="150" cy="150" r="145" fill="none" stroke="rgba(200,146,42,.35)" stroke-width="1.5"/>
+  <circle cx="150" cy="150" r="138" fill="none" stroke="rgba(200,146,42,.12)" stroke-width="0.8" stroke-dasharray="3 7"/>
+  <circle cx="150" cy="150" r="122" fill="none" stroke="rgba(200,146,42,.20)" stroke-width="1"/>
+  <circle cx="150" cy="150" r="110" fill="none" stroke="rgba(200,146,42,.08)" stroke-width="0.6" stroke-dasharray="2 5"/>
+  <circle cx="150" cy="150" r="88"  fill="none" stroke="rgba(200,146,42,.15)" stroke-width="0.8"/>
+  <circle cx="150" cy="150" r="55"  fill="none" stroke="rgba(200,146,42,.10)" stroke-width="0.6" stroke-dasharray="2 4"/>
+
+  <!-- Graduations principales (toutes les 30°) -->
+  <g stroke="rgba(200,146,42,.55)" stroke-width="2">
+    <line x1="150" y1="10"  x2="150" y2="30"/>
+    <line x1="150" y1="270" x2="150" y2="290"/>
+    <line x1="10"  y1="150" x2="30"  y2="150"/>
+    <line x1="270" y1="150" x2="290" y2="150"/>
+  </g>
+  <!-- Graduations secondaires (45°) -->
+  <g stroke="rgba(200,146,42,.30)" stroke-width="1.2">
+    <line x1="47"  y1="47"  x2="62"  y2="62"/>
+    <line x1="253" y1="47"  x2="238" y2="62"/>
+    <line x1="47"  y1="253" x2="62"  y2="238"/>
+    <line x1="253" y1="253" x2="238" y2="238"/>
+  </g>
+  <!-- Petites graduations (toutes les 15°) -->
+  <g stroke="rgba(200,146,42,.18)" stroke-width="0.8">
+    <line x1="150" y1="5"   x2="150" y2="15"  transform="rotate(15  150 150)"/>
+    <line x1="150" y1="5"   x2="150" y2="15"  transform="rotate(30  150 150)"/>
+    <line x1="150" y1="5"   x2="150" y2="15"  transform="rotate(60  150 150)"/>
+    <line x1="150" y1="5"   x2="150" y2="15"  transform="rotate(75  150 150)"/>
+    <line x1="150" y1="5"   x2="150" y2="15"  transform="rotate(105 150 150)"/>
+    <line x1="150" y1="5"   x2="150" y2="15"  transform="rotate(120 150 150)"/>
+    <line x1="150" y1="5"   x2="150" y2="15"  transform="rotate(150 150 150)"/>
+    <line x1="150" y1="5"   x2="150" y2="15"  transform="rotate(165 150 150)"/>
+    <line x1="150" y1="5"   x2="150" y2="15"  transform="rotate(195 150 150)"/>
+    <line x1="150" y1="5"   x2="150" y2="15"  transform="rotate(210 150 150)"/>
+    <line x1="150" y1="5"   x2="150" y2="15"  transform="rotate(240 150 150)"/>
+    <line x1="150" y1="5"   x2="150" y2="15"  transform="rotate(255 150 150)"/>
+    <line x1="150" y1="5"   x2="150" y2="15"  transform="rotate(285 150 150)"/>
+    <line x1="150" y1="5"   x2="150" y2="15"  transform="rotate(300 150 150)"/>
+    <line x1="150" y1="5"   x2="150" y2="15"  transform="rotate(330 150 150)"/>
+    <line x1="150" y1="5"   x2="150" y2="15"  transform="rotate(345 150 150)"/>
+  </g>
+
+  <!-- Points cardinaux -->
+  <text x="150" y="36"  text-anchor="middle" font-family="Cinzel,serif" font-size="13" font-weight="700" fill="rgba(200,146,42,.90)" letter-spacing="1">N</text>
+  <text x="150" y="275" text-anchor="middle" font-family="Cinzel,serif" font-size="11" font-weight="400" fill="rgba(200,146,42,.50)" letter-spacing="1">S</text>
+  <text x="272" y="155" text-anchor="middle" font-family="Cinzel,serif" font-size="11" font-weight="400" fill="rgba(200,146,42,.50)" letter-spacing="1">E</text>
+  <text x="28"  y="155" text-anchor="middle" font-family="Cinzel,serif" font-size="11" font-weight="400" fill="rgba(200,146,42,.50)" letter-spacing="1">O</text>
+
+  <!-- Croix de centre -->
+  <line x1="150" y1="85"  x2="150" y2="215" stroke="rgba(200,146,42,.12)" stroke-width="0.6"/>
+  <line x1="85"  y1="150" x2="215" y2="150" stroke="rgba(200,146,42,.12)" stroke-width="0.6"/>
+
+  <!-- Aiguille (groupe animé) -->
+  <g class="needle-group">
+    <!-- Aiguille Nord — dorée -->
+    <polygon points="150,62 144,150 150,140 156,150"
+      fill="rgba(200,146,42,.85)"
+      stroke="rgba(200,146,42,.4)"
+      stroke-width="0.8"/>
+    <!-- Aiguille Sud — sombre -->
+    <polygon points="150,238 144,150 150,160 156,150"
+      fill="rgba(120,88,25,.55)"
+      stroke="rgba(200,146,42,.2)"
+      stroke-width="0.5"/>
+    <!-- Centre pivot -->
+    <circle cx="150" cy="150" r="5.5" fill="rgba(200,146,42,.70)" stroke="rgba(200,146,42,.4)" stroke-width="1"/>
+    <circle cx="150" cy="150" r="2.5" fill="rgba(255,220,120,.80)"/>
+  </g>
+
+  <!-- Étoile à 8 branches derrière l'aiguille -->
+  <g fill="none" stroke="rgba(200,146,42,.18)" stroke-width="0.7">
+    <line x1="150" y1="95"  x2="150" y2="205" transform="rotate(22.5 150 150)"/>
+    <line x1="150" y1="95"  x2="150" y2="205" transform="rotate(45   150 150)"/>
+    <line x1="150" y1="95"  x2="150" y2="205" transform="rotate(67.5 150 150)"/>
+    <line x1="150" y1="95"  x2="150" y2="205"/>
+  </g>
+
+  <!-- Anneau décoratif avec petits losanges aux cardinaux -->
+  <g fill="rgba(200,146,42,.45)">
+    <polygon points="150,7  154,13  150,19  146,13" />
+    <polygon points="293,150 287,154 281,150 287,146" />
+    <polygon points="150,293 154,287 150,281 146,287" />
+    <polygon points="7,150  13,154  19,150  13,146" />
+  </g>
+</svg>
   <div class="ag">
     <!-- Texte -->
     <div class="at rv">
@@ -3539,21 +3676,102 @@ body.pmode #anchor-nav {
 <section id="process">
   <!-- Boussole décorative fond -->
   <svg class="bg-compass" aria-hidden="true" viewBox="0 0 300 300" xmlns="http://www.w3.org/2000/svg" style="left:1%;top:50%;transform:translateY(-50%) rotate(-8deg)">
-    <circle cx="150" cy="150" r="140" fill="none" stroke="currentColor" stroke-width="1" stroke-dasharray="4 8" opacity=".6"/>
-    <circle cx="150" cy="150" r="110" fill="none" stroke="currentColor" stroke-width="0.5" opacity=".4"/>
-    <line x1="150" y1="18" x2="150" y2="42" stroke="currentColor" stroke-width="1.5" opacity=".7"/>
-    <line x1="282" y1="150" x2="258" y2="150" stroke="currentColor" stroke-width="1" opacity=".5"/>
-    <line x1="150" y1="282" x2="150" y2="258" stroke="currentColor" stroke-width="1" opacity=".5"/>
-    <line x1="18" y1="150" x2="42" y2="150" stroke="currentColor" stroke-width="1" opacity=".5"/>
-    <text x="150" y="12" text-anchor="middle" fill="currentColor" font-family="Cinzel,serif" font-size="14" font-weight="700" opacity=".8">N</text>
-    <text x="292" y="155" text-anchor="middle" fill="currentColor" font-family="Cinzel,serif" font-size="11" opacity=".5">E</text>
-    <text x="150" y="298" text-anchor="middle" fill="currentColor" font-family="Cinzel,serif" font-size="11" opacity=".5">S</text>
-    <text x="8" y="155" text-anchor="middle" fill="currentColor" font-family="Cinzel,serif" font-size="11" opacity=".5">O</text>
-    <polygon points="150,60 156,148 150,140 144,148" fill="currentColor" opacity=".7"/>
-    <polygon points="150,240 156,152 150,160 144,152" fill="currentColor" opacity=".3"/>
-    <circle cx="150" cy="150" r="6" fill="currentColor" opacity=".8"/>
-    <circle cx="150" cy="150" r="3" fill="none" stroke="currentColor" stroke-width="1.5" opacity=".6"/>
-  </svg>
+  <defs>
+    <radialGradient id="cgrad-left" cx="50%" cy="50%" r="50%">
+      <stop offset="0%"   stop-color="rgba(200,146,42,.18)"/>
+      <stop offset="60%"  stop-color="rgba(200,146,42,.06)"/>
+      <stop offset="100%" stop-color="rgba(200,146,42,0)"/>
+    </radialGradient>
+  </defs>
+
+  <!-- Halo de fond -->
+  <circle cx="150" cy="150" r="148" fill="url(#cgrad-left)" />
+
+  <!-- Anneaux extérieurs -->
+  <circle cx="150" cy="150" r="145" fill="none" stroke="rgba(200,146,42,.35)" stroke-width="1.5"/>
+  <circle cx="150" cy="150" r="138" fill="none" stroke="rgba(200,146,42,.12)" stroke-width="0.8" stroke-dasharray="3 7"/>
+  <circle cx="150" cy="150" r="122" fill="none" stroke="rgba(200,146,42,.20)" stroke-width="1"/>
+  <circle cx="150" cy="150" r="110" fill="none" stroke="rgba(200,146,42,.08)" stroke-width="0.6" stroke-dasharray="2 5"/>
+  <circle cx="150" cy="150" r="88"  fill="none" stroke="rgba(200,146,42,.15)" stroke-width="0.8"/>
+  <circle cx="150" cy="150" r="55"  fill="none" stroke="rgba(200,146,42,.10)" stroke-width="0.6" stroke-dasharray="2 4"/>
+
+  <!-- Graduations principales (toutes les 30°) -->
+  <g stroke="rgba(200,146,42,.55)" stroke-width="2">
+    <line x1="150" y1="10"  x2="150" y2="30"/>
+    <line x1="150" y1="270" x2="150" y2="290"/>
+    <line x1="10"  y1="150" x2="30"  y2="150"/>
+    <line x1="270" y1="150" x2="290" y2="150"/>
+  </g>
+  <!-- Graduations secondaires (45°) -->
+  <g stroke="rgba(200,146,42,.30)" stroke-width="1.2">
+    <line x1="47"  y1="47"  x2="62"  y2="62"/>
+    <line x1="253" y1="47"  x2="238" y2="62"/>
+    <line x1="47"  y1="253" x2="62"  y2="238"/>
+    <line x1="253" y1="253" x2="238" y2="238"/>
+  </g>
+  <!-- Petites graduations (toutes les 15°) -->
+  <g stroke="rgba(200,146,42,.18)" stroke-width="0.8">
+    <line x1="150" y1="5"   x2="150" y2="15"  transform="rotate(15  150 150)"/>
+    <line x1="150" y1="5"   x2="150" y2="15"  transform="rotate(30  150 150)"/>
+    <line x1="150" y1="5"   x2="150" y2="15"  transform="rotate(60  150 150)"/>
+    <line x1="150" y1="5"   x2="150" y2="15"  transform="rotate(75  150 150)"/>
+    <line x1="150" y1="5"   x2="150" y2="15"  transform="rotate(105 150 150)"/>
+    <line x1="150" y1="5"   x2="150" y2="15"  transform="rotate(120 150 150)"/>
+    <line x1="150" y1="5"   x2="150" y2="15"  transform="rotate(150 150 150)"/>
+    <line x1="150" y1="5"   x2="150" y2="15"  transform="rotate(165 150 150)"/>
+    <line x1="150" y1="5"   x2="150" y2="15"  transform="rotate(195 150 150)"/>
+    <line x1="150" y1="5"   x2="150" y2="15"  transform="rotate(210 150 150)"/>
+    <line x1="150" y1="5"   x2="150" y2="15"  transform="rotate(240 150 150)"/>
+    <line x1="150" y1="5"   x2="150" y2="15"  transform="rotate(255 150 150)"/>
+    <line x1="150" y1="5"   x2="150" y2="15"  transform="rotate(285 150 150)"/>
+    <line x1="150" y1="5"   x2="150" y2="15"  transform="rotate(300 150 150)"/>
+    <line x1="150" y1="5"   x2="150" y2="15"  transform="rotate(330 150 150)"/>
+    <line x1="150" y1="5"   x2="150" y2="15"  transform="rotate(345 150 150)"/>
+  </g>
+
+  <!-- Points cardinaux -->
+  <text x="150" y="36"  text-anchor="middle" font-family="Cinzel,serif" font-size="13" font-weight="700" fill="rgba(200,146,42,.90)" letter-spacing="1">N</text>
+  <text x="150" y="275" text-anchor="middle" font-family="Cinzel,serif" font-size="11" font-weight="400" fill="rgba(200,146,42,.50)" letter-spacing="1">S</text>
+  <text x="272" y="155" text-anchor="middle" font-family="Cinzel,serif" font-size="11" font-weight="400" fill="rgba(200,146,42,.50)" letter-spacing="1">E</text>
+  <text x="28"  y="155" text-anchor="middle" font-family="Cinzel,serif" font-size="11" font-weight="400" fill="rgba(200,146,42,.50)" letter-spacing="1">O</text>
+
+  <!-- Croix de centre -->
+  <line x1="150" y1="85"  x2="150" y2="215" stroke="rgba(200,146,42,.12)" stroke-width="0.6"/>
+  <line x1="85"  y1="150" x2="215" y2="150" stroke="rgba(200,146,42,.12)" stroke-width="0.6"/>
+
+  <!-- Aiguille (groupe animé) -->
+  <g class="needle-group">
+    <!-- Aiguille Nord — dorée -->
+    <polygon points="150,62 144,150 150,140 156,150"
+      fill="rgba(200,146,42,.85)"
+      stroke="rgba(200,146,42,.4)"
+      stroke-width="0.8"/>
+    <!-- Aiguille Sud — sombre -->
+    <polygon points="150,238 144,150 150,160 156,150"
+      fill="rgba(120,88,25,.55)"
+      stroke="rgba(200,146,42,.2)"
+      stroke-width="0.5"/>
+    <!-- Centre pivot -->
+    <circle cx="150" cy="150" r="5.5" fill="rgba(200,146,42,.70)" stroke="rgba(200,146,42,.4)" stroke-width="1"/>
+    <circle cx="150" cy="150" r="2.5" fill="rgba(255,220,120,.80)"/>
+  </g>
+
+  <!-- Étoile à 8 branches derrière l'aiguille -->
+  <g fill="none" stroke="rgba(200,146,42,.18)" stroke-width="0.7">
+    <line x1="150" y1="95"  x2="150" y2="205" transform="rotate(22.5 150 150)"/>
+    <line x1="150" y1="95"  x2="150" y2="205" transform="rotate(45   150 150)"/>
+    <line x1="150" y1="95"  x2="150" y2="205" transform="rotate(67.5 150 150)"/>
+    <line x1="150" y1="95"  x2="150" y2="205"/>
+  </g>
+
+  <!-- Anneau décoratif avec petits losanges aux cardinaux -->
+  <g fill="rgba(200,146,42,.45)">
+    <polygon points="150,7  154,13  150,19  146,13" />
+    <polygon points="293,150 287,154 281,150 287,146" />
+    <polygon points="150,293 154,287 150,281 146,287" />
+    <polygon points="7,150  13,154  19,150  13,146" />
+  </g>
+</svg>
   <div style="max-width:1240px;margin:0 auto">
     <div class="slbl rv">Comment je travaille</div>
     <h2 class="stit rv">Mon <span class="acc">Process</span></h2>
@@ -3627,21 +3845,102 @@ body.pmode #anchor-nav {
 <section id="contact">
   <!-- Boussole décorative fond -->
   <svg class="bg-compass" aria-hidden="true" viewBox="0 0 300 300" xmlns="http://www.w3.org/2000/svg" style="right:3%;bottom:5%;transform:rotate(20deg)">
-    <circle cx="150" cy="150" r="140" fill="none" stroke="currentColor" stroke-width="1" stroke-dasharray="4 8" opacity=".6"/>
-    <circle cx="150" cy="150" r="110" fill="none" stroke="currentColor" stroke-width="0.5" opacity=".4"/>
-    <line x1="150" y1="18" x2="150" y2="42" stroke="currentColor" stroke-width="1.5" opacity=".7"/>
-    <line x1="282" y1="150" x2="258" y2="150" stroke="currentColor" stroke-width="1" opacity=".5"/>
-    <line x1="150" y1="282" x2="150" y2="258" stroke="currentColor" stroke-width="1" opacity=".5"/>
-    <line x1="18" y1="150" x2="42" y2="150" stroke="currentColor" stroke-width="1" opacity=".5"/>
-    <text x="150" y="12" text-anchor="middle" fill="currentColor" font-family="Cinzel,serif" font-size="14" font-weight="700" opacity=".8">N</text>
-    <text x="292" y="155" text-anchor="middle" fill="currentColor" font-family="Cinzel,serif" font-size="11" opacity=".5">E</text>
-    <text x="150" y="298" text-anchor="middle" fill="currentColor" font-family="Cinzel,serif" font-size="11" opacity=".5">S</text>
-    <text x="8" y="155" text-anchor="middle" fill="currentColor" font-family="Cinzel,serif" font-size="11" opacity=".5">O</text>
-    <polygon points="150,60 156,148 150,140 144,148" fill="currentColor" opacity=".7"/>
-    <polygon points="150,240 156,152 150,160 144,152" fill="currentColor" opacity=".3"/>
-    <circle cx="150" cy="150" r="6" fill="currentColor" opacity=".8"/>
-    <circle cx="150" cy="150" r="3" fill="none" stroke="currentColor" stroke-width="1.5" opacity=".6"/>
-  </svg>
+  <defs>
+    <radialGradient id="cgrad-righ" cx="50%" cy="50%" r="50%">
+      <stop offset="0%"   stop-color="rgba(200,146,42,.18)"/>
+      <stop offset="60%"  stop-color="rgba(200,146,42,.06)"/>
+      <stop offset="100%" stop-color="rgba(200,146,42,0)"/>
+    </radialGradient>
+  </defs>
+
+  <!-- Halo de fond -->
+  <circle cx="150" cy="150" r="148" fill="url(#cgrad-righ)" />
+
+  <!-- Anneaux extérieurs -->
+  <circle cx="150" cy="150" r="145" fill="none" stroke="rgba(200,146,42,.35)" stroke-width="1.5"/>
+  <circle cx="150" cy="150" r="138" fill="none" stroke="rgba(200,146,42,.12)" stroke-width="0.8" stroke-dasharray="3 7"/>
+  <circle cx="150" cy="150" r="122" fill="none" stroke="rgba(200,146,42,.20)" stroke-width="1"/>
+  <circle cx="150" cy="150" r="110" fill="none" stroke="rgba(200,146,42,.08)" stroke-width="0.6" stroke-dasharray="2 5"/>
+  <circle cx="150" cy="150" r="88"  fill="none" stroke="rgba(200,146,42,.15)" stroke-width="0.8"/>
+  <circle cx="150" cy="150" r="55"  fill="none" stroke="rgba(200,146,42,.10)" stroke-width="0.6" stroke-dasharray="2 4"/>
+
+  <!-- Graduations principales (toutes les 30°) -->
+  <g stroke="rgba(200,146,42,.55)" stroke-width="2">
+    <line x1="150" y1="10"  x2="150" y2="30"/>
+    <line x1="150" y1="270" x2="150" y2="290"/>
+    <line x1="10"  y1="150" x2="30"  y2="150"/>
+    <line x1="270" y1="150" x2="290" y2="150"/>
+  </g>
+  <!-- Graduations secondaires (45°) -->
+  <g stroke="rgba(200,146,42,.30)" stroke-width="1.2">
+    <line x1="47"  y1="47"  x2="62"  y2="62"/>
+    <line x1="253" y1="47"  x2="238" y2="62"/>
+    <line x1="47"  y1="253" x2="62"  y2="238"/>
+    <line x1="253" y1="253" x2="238" y2="238"/>
+  </g>
+  <!-- Petites graduations (toutes les 15°) -->
+  <g stroke="rgba(200,146,42,.18)" stroke-width="0.8">
+    <line x1="150" y1="5"   x2="150" y2="15"  transform="rotate(15  150 150)"/>
+    <line x1="150" y1="5"   x2="150" y2="15"  transform="rotate(30  150 150)"/>
+    <line x1="150" y1="5"   x2="150" y2="15"  transform="rotate(60  150 150)"/>
+    <line x1="150" y1="5"   x2="150" y2="15"  transform="rotate(75  150 150)"/>
+    <line x1="150" y1="5"   x2="150" y2="15"  transform="rotate(105 150 150)"/>
+    <line x1="150" y1="5"   x2="150" y2="15"  transform="rotate(120 150 150)"/>
+    <line x1="150" y1="5"   x2="150" y2="15"  transform="rotate(150 150 150)"/>
+    <line x1="150" y1="5"   x2="150" y2="15"  transform="rotate(165 150 150)"/>
+    <line x1="150" y1="5"   x2="150" y2="15"  transform="rotate(195 150 150)"/>
+    <line x1="150" y1="5"   x2="150" y2="15"  transform="rotate(210 150 150)"/>
+    <line x1="150" y1="5"   x2="150" y2="15"  transform="rotate(240 150 150)"/>
+    <line x1="150" y1="5"   x2="150" y2="15"  transform="rotate(255 150 150)"/>
+    <line x1="150" y1="5"   x2="150" y2="15"  transform="rotate(285 150 150)"/>
+    <line x1="150" y1="5"   x2="150" y2="15"  transform="rotate(300 150 150)"/>
+    <line x1="150" y1="5"   x2="150" y2="15"  transform="rotate(330 150 150)"/>
+    <line x1="150" y1="5"   x2="150" y2="15"  transform="rotate(345 150 150)"/>
+  </g>
+
+  <!-- Points cardinaux -->
+  <text x="150" y="36"  text-anchor="middle" font-family="Cinzel,serif" font-size="13" font-weight="700" fill="rgba(200,146,42,.90)" letter-spacing="1">N</text>
+  <text x="150" y="275" text-anchor="middle" font-family="Cinzel,serif" font-size="11" font-weight="400" fill="rgba(200,146,42,.50)" letter-spacing="1">S</text>
+  <text x="272" y="155" text-anchor="middle" font-family="Cinzel,serif" font-size="11" font-weight="400" fill="rgba(200,146,42,.50)" letter-spacing="1">E</text>
+  <text x="28"  y="155" text-anchor="middle" font-family="Cinzel,serif" font-size="11" font-weight="400" fill="rgba(200,146,42,.50)" letter-spacing="1">O</text>
+
+  <!-- Croix de centre -->
+  <line x1="150" y1="85"  x2="150" y2="215" stroke="rgba(200,146,42,.12)" stroke-width="0.6"/>
+  <line x1="85"  y1="150" x2="215" y2="150" stroke="rgba(200,146,42,.12)" stroke-width="0.6"/>
+
+  <!-- Aiguille (groupe animé) -->
+  <g class="needle-group">
+    <!-- Aiguille Nord — dorée -->
+    <polygon points="150,62 144,150 150,140 156,150"
+      fill="rgba(200,146,42,.85)"
+      stroke="rgba(200,146,42,.4)"
+      stroke-width="0.8"/>
+    <!-- Aiguille Sud — sombre -->
+    <polygon points="150,238 144,150 150,160 156,150"
+      fill="rgba(120,88,25,.55)"
+      stroke="rgba(200,146,42,.2)"
+      stroke-width="0.5"/>
+    <!-- Centre pivot -->
+    <circle cx="150" cy="150" r="5.5" fill="rgba(200,146,42,.70)" stroke="rgba(200,146,42,.4)" stroke-width="1"/>
+    <circle cx="150" cy="150" r="2.5" fill="rgba(255,220,120,.80)"/>
+  </g>
+
+  <!-- Étoile à 8 branches derrière l'aiguille -->
+  <g fill="none" stroke="rgba(200,146,42,.18)" stroke-width="0.7">
+    <line x1="150" y1="95"  x2="150" y2="205" transform="rotate(22.5 150 150)"/>
+    <line x1="150" y1="95"  x2="150" y2="205" transform="rotate(45   150 150)"/>
+    <line x1="150" y1="95"  x2="150" y2="205" transform="rotate(67.5 150 150)"/>
+    <line x1="150" y1="95"  x2="150" y2="205"/>
+  </g>
+
+  <!-- Anneau décoratif avec petits losanges aux cardinaux -->
+  <g fill="rgba(200,146,42,.45)">
+    <polygon points="150,7  154,13  150,19  146,13" />
+    <polygon points="293,150 287,154 281,150 287,146" />
+    <polygon points="150,293 154,287 150,281 146,287" />
+    <polygon points="7,150  13,154  19,150  13,146" />
+  </g>
+</svg>
   <div class="cg">
     <!-- Infos -->
     <div class="rv">
@@ -4827,6 +5126,8 @@ function importProjects() {
   updateSectionIndicator();
 
 })();
+
+function toast(msg, col) {
   const t = document.getElementById('toast');
   t.textContent = msg;
   t.style.background = col || 'var(--gold-bright)';
@@ -5092,6 +5393,8 @@ function applyTextAnimEdits() {
 // INTRO BOUSSOLE
 // Flux : Boussole (3.5s) → Welcome overlay → Site
 // ══════════════════════════════════
+window._compassDismissed = false;
+
 (function initCompassIntro() {
 
   const intro   = document.getElementById('compass-intro');
@@ -5113,11 +5416,21 @@ function applyTextAnimEdits() {
 
   function dismissCompass() {
     if (!intro) return;
+    if (window._compassDismissed) return;
+    window._compassDismissed = true;
     intro.classList.add('fade-out');
     setTimeout(() => {
       intro.style.display = 'none';
       showWelcomeOverlay();
     }, 800);
+  }
+
+  // Exposer globalement pour le click HTML
+  window.dismissCompass = dismissCompass;
+
+  // Clic n'importe où sur la boussole = passer
+  if (intro) {
+    intro.addEventListener('click', () => dismissCompass());
   }
 
   // Lance la séquence dès que le DOM est prêt
@@ -5136,6 +5449,18 @@ function applyTextAnimEdits() {
 // ══════════════════════════════════
 // WELCOME OVERLAY
 // ══════════════════════════════════
+// Cacher welcome overlay si aucune vidéo configurée
+window.addEventListener('DOMContentLoaded', () => {
+  const vsrc = document.getElementById('hero-vsrc');
+  const ov   = document.getElementById('welcome-overlay');
+  if (ov && (!vsrc || !vsrc.src || vsrc.src === '' || vsrc.src === window.location.href || vsrc.src.includes('TON_LIEN'))) {
+    // Pas de vidéo = pas besoin du welcome son
+    // Mais on le montre quand même si l'user a configuré une vidéo
+    // Pour l'instant on garde le welcome visible uniquement si vidéo présente
+    // ov.style.display = 'none'; // décommenter pour cacher si pas de vidéo
+  }
+});
+
 function welcomeSound(withSound) {
   const v = document.getElementById('hero-video');
   if (withSound && v && v.style.display !== 'none') {
