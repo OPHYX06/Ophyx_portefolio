@@ -648,9 +648,7 @@ nav.sc {
   inset: 0;
   width: 260px;
   height: 260px;
-  filter:
-    drop-shadow(0 0 18px rgba(200,146,42,.35))
-    drop-shadow(0 0 50px rgba(200,146,42,.12));
+  /* Lueur supprimée */
   transition: filter .3s ease;
 }
 
@@ -722,23 +720,17 @@ nav.sc {
   to   { transform: rotate(2880deg); }
 }
 
-/* Glow qui monte progressivement sur la boussole */
-@keyframes glow-build {
-  0%   { filter: drop-shadow(0 0 10px rgba(200,146,42,.3))  drop-shadow(0 0 30px rgba(200,146,42,.1)); }
-  40%  { filter: drop-shadow(0 0 30px rgba(255,200,60,.8))  drop-shadow(0 0 80px rgba(255,180,40,.5)); }
-  100% { filter: drop-shadow(0 0 60px rgba(255,230,80,1))   drop-shadow(0 0 140px rgba(255,200,40,.9)) drop-shadow(0 0 300px rgba(255,160,0,.7)); }
-}
+/* Glow-build désactivé — animation simple sans lueur */
 
+/* Phase 2 désactivée — l'aiguille reste stable */
 #compass-intro.ci-phase2 #compass-needle {
-  animation: needle-frantic .95s cubic-bezier(.4,0,1,1) forwards !important;
-  transform-origin: 130px 130px;
+  /* pas d'animation frénétique */
 }
 #compass-intro.ci-phase2 #compass-dial {
-  animation: dial-frantic .85s linear forwards !important;
-  transform-origin: 130px 130px;
+  /* cadran reste à vitesse normale */
 }
 #compass-intro.ci-phase2 #compass-svg {
-  animation: glow-build 1.4s ease-in forwards;
+  /* pas de glow */
 }
 
 /* ── Fissures et éclats désactivés ── */
@@ -746,27 +738,7 @@ nav.sc {
 
 /* ── Phase 4 : flash blanc-or qui explose depuis le centre puis révèle le site ── */
 
-/* Pseudo-élément radial qui grandit depuis le centre */
-#compass-intro::after {
-  content: '';
-  position: fixed;
-  inset: 0;
-  background: radial-gradient(ellipse 0% 0% at 50% 50%,
-    rgba(255,240,160,1) 0%,
-    rgba(255,200,40,.95) 30%,
-    rgba(200,120,0,.6) 60%,
-    transparent 100%);
-  opacity: 0;
-  pointer-events: none;
-  z-index: 2;
-}
-
-@keyframes flash-expand {
-  0%   { background: radial-gradient(ellipse   0%   0% at 50% 50%, rgba(255,240,160,1) 0%, rgba(255,200,40,.95) 30%, rgba(200,120,0,.6) 60%, transparent 100%); opacity: 1; }
-  35%  { background: radial-gradient(ellipse 160% 160% at 50% 50%, rgba(255,240,160,1) 0%, rgba(255,200,40,.95) 30%, rgba(200,120,0,.6) 60%, transparent 100%); opacity: 1; }
-  70%  { background: radial-gradient(ellipse 250% 250% at 50% 50%, rgba(255,240,160,.6) 0%, rgba(255,200,40,.4)  30%, rgba(200,120,0,.2) 60%, transparent 100%); opacity: 1; }
-  100% { background: radial-gradient(ellipse 300% 300% at 50% 50%, rgba(255,240,160,0) 0%, transparent 100%); opacity: 0; }
-}
+/* Phase 4 : simple fondu sans flash doré */
 
 @keyframes intro-fade {
   0%   { opacity: 1; }
@@ -774,11 +746,12 @@ nav.sc {
 }
 
 #compass-intro.ci-phase4::after {
-  animation: flash-expand 1.2s cubic-bezier(.2,0,.4,1) forwards;
+  /* flash désactivé */
+  display: none;
 }
 
 #compass-intro.ci-phase4 {
-  animation: intro-fade 1.2s .4s ease-in forwards;
+  animation: intro-fade 1s ease-in forwards;
   pointer-events: none;
 }
 
@@ -2991,13 +2964,16 @@ input[type=color] {
 }
 
 /* Sections contenantes */
-#about, #process, #contact {
+#about, #services, #portfolio, #testi, #process, #contact {
   position: relative;
   overflow: hidden;
 }
 
 /* Contenu au-dessus */
 #about   > *:not(.bg-compass),
+#services > *:not(.bg-compass),
+#portfolio > *:not(.bg-compass),
+#testi   > *:not(.bg-compass),
 #process > *:not(.bg-compass),
 #contact > *:not(.bg-compass) {
   position: relative;
@@ -3010,6 +2986,27 @@ input[type=color] {
   top: 50%;
   transform: translateY(-50%) rotate(18deg);
   animation: compass-spin-about 55s linear infinite;
+}
+
+#services .bg-compass {
+  left: -90px;
+  top: 40%;
+  transform: translateY(-50%) rotate(-22deg);
+  animation: compass-spin-services 65s linear infinite reverse;
+}
+
+#portfolio .bg-compass {
+  right: -70px;
+  bottom: 10%;
+  transform: rotate(30deg);
+  animation: compass-spin-portfolio 75s linear infinite;
+}
+
+#testi .bg-compass {
+  left: -60px;
+  top: 50%;
+  transform: translateY(-50%) rotate(8deg);
+  animation: compass-spin-testi 80s linear infinite reverse;
 }
 
 #process .bg-compass {
@@ -3032,6 +3029,21 @@ input[type=color] {
   100% { transform: translateY(-50%) rotate(378deg); }
 }
 
+@keyframes compass-spin-services {
+  0%   { transform: translateY(-50%) rotate(-22deg); }
+  100% { transform: translateY(-50%) rotate(-382deg); }
+}
+
+@keyframes compass-spin-portfolio {
+  0%   { transform: rotate(30deg); }
+  100% { transform: rotate(390deg); }
+}
+
+@keyframes compass-spin-testi {
+  0%   { transform: translateY(-50%) rotate(8deg); }
+  100% { transform: translateY(-50%) rotate(-352deg); }
+}
+
 @keyframes compass-spin-process {
   0%   { transform: translateY(-50%) rotate(-12deg); }
   100% { transform: translateY(-50%) rotate(-372deg); }
@@ -3046,6 +3058,21 @@ input[type=color] {
 .bg-compass .needle-group {
   transform-origin: 150px 150px;
   animation: needle-drift-deco 14s ease-in-out infinite;
+}
+
+#services .bg-compass .needle-group {
+  animation-delay: -3s;
+  animation-duration: 16s;
+}
+
+#portfolio .bg-compass .needle-group {
+  animation-delay: -7s;
+  animation-duration: 20s;
+}
+
+#testi .bg-compass .needle-group {
+  animation-delay: -11s;
+  animation-duration: 25s;
 }
 
 #process .bg-compass .needle-group {
@@ -3532,8 +3559,8 @@ body.pmode #anchor-nav {
     <source id="hero-vsrc" src="https://res.cloudinary.com/ddiaz4trd/video/upload/v1779134136/ssstwitter.com_1779133941477_zghu91.mp4" type="video/mp4">
   </video>
   <button id="sound-btn" style="display:flex;" onclick="toggleSound()">
-    <span id="snd-icon">🔊</span>
-    <span id="snd-txt">Son actif</span>
+    <span id="snd-icon">🔇</span>
+    <span id="snd-txt">Son désactivé</span>
   </button>
   <canvas id="hcvs" width="1173" height="613" style="display:none;"></canvas>
 
@@ -3719,6 +3746,77 @@ body.pmode #anchor-nav {
 
 <!-- ════════ SERVICES ════════ -->
 <section id="services">
+  <!-- Boussole décorative fond -->
+  <svg class="bg-compass" aria-hidden="true" viewBox="0 0 300 300" xmlns="http://www.w3.org/2000/svg" style="left:-90px;top:40%;transform:translateY(-50%) rotate(-22deg)">
+  <defs>
+    <radialGradient id="cgrad-svc" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="rgba(200,146,42,.18)"></stop>
+      <stop offset="60%" stop-color="rgba(200,146,42,.06)"></stop>
+      <stop offset="100%" stop-color="rgba(200,146,42,0)"></stop>
+    </radialGradient>
+  </defs>
+  <circle cx="150" cy="150" r="148" fill="url(#cgrad-svc)"></circle>
+  <circle cx="150" cy="150" r="145" fill="none" stroke="rgba(200,146,42,.35)" stroke-width="1.5"></circle>
+  <circle cx="150" cy="150" r="138" fill="none" stroke="rgba(200,146,42,.12)" stroke-width="0.8" stroke-dasharray="3 7"></circle>
+  <circle cx="150" cy="150" r="122" fill="none" stroke="rgba(200,146,42,.20)" stroke-width="1"></circle>
+  <circle cx="150" cy="150" r="110" fill="none" stroke="rgba(200,146,42,.08)" stroke-width="0.6" stroke-dasharray="2 5"></circle>
+  <circle cx="150" cy="150" r="88" fill="none" stroke="rgba(200,146,42,.15)" stroke-width="0.8"></circle>
+  <circle cx="150" cy="150" r="55" fill="none" stroke="rgba(200,146,42,.10)" stroke-width="0.6" stroke-dasharray="2 4"></circle>
+  <g stroke="rgba(200,146,42,.55)" stroke-width="2">
+    <line x1="150" y1="10" x2="150" y2="30"></line>
+    <line x1="150" y1="270" x2="150" y2="290"></line>
+    <line x1="10" y1="150" x2="30" y2="150"></line>
+    <line x1="270" y1="150" x2="290" y2="150"></line>
+  </g>
+  <g stroke="rgba(200,146,42,.30)" stroke-width="1.2">
+    <line x1="47" y1="47" x2="62" y2="62"></line>
+    <line x1="253" y1="47" x2="238" y2="62"></line>
+    <line x1="47" y1="253" x2="62" y2="238"></line>
+    <line x1="253" y1="253" x2="238" y2="238"></line>
+  </g>
+  <g stroke="rgba(200,146,42,.18)" stroke-width="0.8">
+    <line x1="150" y1="5" x2="150" y2="15" transform="rotate(15  150 150)"></line>
+    <line x1="150" y1="5" x2="150" y2="15" transform="rotate(30  150 150)"></line>
+    <line x1="150" y1="5" x2="150" y2="15" transform="rotate(60  150 150)"></line>
+    <line x1="150" y1="5" x2="150" y2="15" transform="rotate(75  150 150)"></line>
+    <line x1="150" y1="5" x2="150" y2="15" transform="rotate(105 150 150)"></line>
+    <line x1="150" y1="5" x2="150" y2="15" transform="rotate(120 150 150)"></line>
+    <line x1="150" y1="5" x2="150" y2="15" transform="rotate(150 150 150)"></line>
+    <line x1="150" y1="5" x2="150" y2="15" transform="rotate(165 150 150)"></line>
+    <line x1="150" y1="5" x2="150" y2="15" transform="rotate(195 150 150)"></line>
+    <line x1="150" y1="5" x2="150" y2="15" transform="rotate(210 150 150)"></line>
+    <line x1="150" y1="5" x2="150" y2="15" transform="rotate(240 150 150)"></line>
+    <line x1="150" y1="5" x2="150" y2="15" transform="rotate(255 150 150)"></line>
+    <line x1="150" y1="5" x2="150" y2="15" transform="rotate(285 150 150)"></line>
+    <line x1="150" y1="5" x2="150" y2="15" transform="rotate(300 150 150)"></line>
+    <line x1="150" y1="5" x2="150" y2="15" transform="rotate(330 150 150)"></line>
+    <line x1="150" y1="5" x2="150" y2="15" transform="rotate(345 150 150)"></line>
+  </g>
+  <text x="150" y="36" text-anchor="middle" font-family="Cinzel,serif" font-size="13" font-weight="700" fill="rgba(200,146,42,.90)" letter-spacing="1">N</text>
+  <text x="150" y="275" text-anchor="middle" font-family="Cinzel,serif" font-size="11" fill="rgba(200,146,42,.50)">S</text>
+  <text x="272" y="155" text-anchor="middle" font-family="Cinzel,serif" font-size="11" fill="rgba(200,146,42,.50)">E</text>
+  <text x="28" y="155" text-anchor="middle" font-family="Cinzel,serif" font-size="11" fill="rgba(200,146,42,.50)">O</text>
+  <line x1="150" y1="85" x2="150" y2="215" stroke="rgba(200,146,42,.12)" stroke-width="0.6"></line>
+  <line x1="85" y1="150" x2="215" y2="150" stroke="rgba(200,146,42,.12)" stroke-width="0.6"></line>
+  <g class="needle-group">
+    <polygon points="150,62 144,150 150,140 156,150" fill="rgba(200,146,42,.85)" stroke="rgba(200,146,42,.4)" stroke-width="0.8"></polygon>
+    <polygon points="150,238 144,150 150,160 156,150" fill="rgba(120,88,25,.55)" stroke="rgba(200,146,42,.2)" stroke-width="0.5"></polygon>
+    <circle cx="150" cy="150" r="5.5" fill="rgba(200,146,42,.70)" stroke="rgba(200,146,42,.4)" stroke-width="1"></circle>
+    <circle cx="150" cy="150" r="2.5" fill="rgba(255,220,120,.80)"></circle>
+  </g>
+  <g fill="none" stroke="rgba(200,146,42,.18)" stroke-width="0.7">
+    <line x1="150" y1="95" x2="150" y2="205" transform="rotate(22.5 150 150)"></line>
+    <line x1="150" y1="95" x2="150" y2="205" transform="rotate(45   150 150)"></line>
+    <line x1="150" y1="95" x2="150" y2="205" transform="rotate(67.5 150 150)"></line>
+    <line x1="150" y1="95" x2="150" y2="205"></line>
+  </g>
+  <g fill="rgba(200,146,42,.45)">
+    <polygon points="150,7  154,13  150,19  146,13"></polygon>
+    <polygon points="293,150 287,154 281,150 287,146"></polygon>
+    <polygon points="150,293 154,287 150,281 146,287"></polygon>
+    <polygon points="7,150  13,154  19,150  13,146"></polygon>
+  </g>
+  </svg>
   <div style="max-width:1240px;margin:0 auto">
     <div class="slbl rv vis">Ce que je fais</div>
     <h2 class="stit rv vis">Mes <span class="acc">Services</span></h2>
@@ -3732,6 +3830,77 @@ body.pmode #anchor-nav {
 
 <!-- ════════ PORTFOLIO ════════ -->
 <section id="portfolio">
+  <!-- Boussole décorative fond -->
+  <svg class="bg-compass" aria-hidden="true" viewBox="0 0 300 300" xmlns="http://www.w3.org/2000/svg" style="right:-70px;bottom:10%;transform:rotate(30deg)">
+  <defs>
+    <radialGradient id="cgrad-port" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="rgba(200,146,42,.18)"></stop>
+      <stop offset="60%" stop-color="rgba(200,146,42,.06)"></stop>
+      <stop offset="100%" stop-color="rgba(200,146,42,0)"></stop>
+    </radialGradient>
+  </defs>
+  <circle cx="150" cy="150" r="148" fill="url(#cgrad-port)"></circle>
+  <circle cx="150" cy="150" r="145" fill="none" stroke="rgba(200,146,42,.35)" stroke-width="1.5"></circle>
+  <circle cx="150" cy="150" r="138" fill="none" stroke="rgba(200,146,42,.12)" stroke-width="0.8" stroke-dasharray="3 7"></circle>
+  <circle cx="150" cy="150" r="122" fill="none" stroke="rgba(200,146,42,.20)" stroke-width="1"></circle>
+  <circle cx="150" cy="150" r="110" fill="none" stroke="rgba(200,146,42,.08)" stroke-width="0.6" stroke-dasharray="2 5"></circle>
+  <circle cx="150" cy="150" r="88" fill="none" stroke="rgba(200,146,42,.15)" stroke-width="0.8"></circle>
+  <circle cx="150" cy="150" r="55" fill="none" stroke="rgba(200,146,42,.10)" stroke-width="0.6" stroke-dasharray="2 4"></circle>
+  <g stroke="rgba(200,146,42,.55)" stroke-width="2">
+    <line x1="150" y1="10" x2="150" y2="30"></line>
+    <line x1="150" y1="270" x2="150" y2="290"></line>
+    <line x1="10" y1="150" x2="30" y2="150"></line>
+    <line x1="270" y1="150" x2="290" y2="150"></line>
+  </g>
+  <g stroke="rgba(200,146,42,.30)" stroke-width="1.2">
+    <line x1="47" y1="47" x2="62" y2="62"></line>
+    <line x1="253" y1="47" x2="238" y2="62"></line>
+    <line x1="47" y1="253" x2="62" y2="238"></line>
+    <line x1="253" y1="253" x2="238" y2="238"></line>
+  </g>
+  <g stroke="rgba(200,146,42,.18)" stroke-width="0.8">
+    <line x1="150" y1="5" x2="150" y2="15" transform="rotate(15  150 150)"></line>
+    <line x1="150" y1="5" x2="150" y2="15" transform="rotate(30  150 150)"></line>
+    <line x1="150" y1="5" x2="150" y2="15" transform="rotate(60  150 150)"></line>
+    <line x1="150" y1="5" x2="150" y2="15" transform="rotate(75  150 150)"></line>
+    <line x1="150" y1="5" x2="150" y2="15" transform="rotate(105 150 150)"></line>
+    <line x1="150" y1="5" x2="150" y2="15" transform="rotate(120 150 150)"></line>
+    <line x1="150" y1="5" x2="150" y2="15" transform="rotate(150 150 150)"></line>
+    <line x1="150" y1="5" x2="150" y2="15" transform="rotate(165 150 150)"></line>
+    <line x1="150" y1="5" x2="150" y2="15" transform="rotate(195 150 150)"></line>
+    <line x1="150" y1="5" x2="150" y2="15" transform="rotate(210 150 150)"></line>
+    <line x1="150" y1="5" x2="150" y2="15" transform="rotate(240 150 150)"></line>
+    <line x1="150" y1="5" x2="150" y2="15" transform="rotate(255 150 150)"></line>
+    <line x1="150" y1="5" x2="150" y2="15" transform="rotate(285 150 150)"></line>
+    <line x1="150" y1="5" x2="150" y2="15" transform="rotate(300 150 150)"></line>
+    <line x1="150" y1="5" x2="150" y2="15" transform="rotate(330 150 150)"></line>
+    <line x1="150" y1="5" x2="150" y2="15" transform="rotate(345 150 150)"></line>
+  </g>
+  <text x="150" y="36" text-anchor="middle" font-family="Cinzel,serif" font-size="13" font-weight="700" fill="rgba(200,146,42,.90)" letter-spacing="1">N</text>
+  <text x="150" y="275" text-anchor="middle" font-family="Cinzel,serif" font-size="11" fill="rgba(200,146,42,.50)">S</text>
+  <text x="272" y="155" text-anchor="middle" font-family="Cinzel,serif" font-size="11" fill="rgba(200,146,42,.50)">E</text>
+  <text x="28" y="155" text-anchor="middle" font-family="Cinzel,serif" font-size="11" fill="rgba(200,146,42,.50)">O</text>
+  <line x1="150" y1="85" x2="150" y2="215" stroke="rgba(200,146,42,.12)" stroke-width="0.6"></line>
+  <line x1="85" y1="150" x2="215" y2="150" stroke="rgba(200,146,42,.12)" stroke-width="0.6"></line>
+  <g class="needle-group">
+    <polygon points="150,62 144,150 150,140 156,150" fill="rgba(200,146,42,.85)" stroke="rgba(200,146,42,.4)" stroke-width="0.8"></polygon>
+    <polygon points="150,238 144,150 150,160 156,150" fill="rgba(120,88,25,.55)" stroke="rgba(200,146,42,.2)" stroke-width="0.5"></polygon>
+    <circle cx="150" cy="150" r="5.5" fill="rgba(200,146,42,.70)" stroke="rgba(200,146,42,.4)" stroke-width="1"></circle>
+    <circle cx="150" cy="150" r="2.5" fill="rgba(255,220,120,.80)"></circle>
+  </g>
+  <g fill="none" stroke="rgba(200,146,42,.18)" stroke-width="0.7">
+    <line x1="150" y1="95" x2="150" y2="205" transform="rotate(22.5 150 150)"></line>
+    <line x1="150" y1="95" x2="150" y2="205" transform="rotate(45   150 150)"></line>
+    <line x1="150" y1="95" x2="150" y2="205" transform="rotate(67.5 150 150)"></line>
+    <line x1="150" y1="95" x2="150" y2="205"></line>
+  </g>
+  <g fill="rgba(200,146,42,.45)">
+    <polygon points="150,7  154,13  150,19  146,13"></polygon>
+    <polygon points="293,150 287,154 281,150 287,146"></polygon>
+    <polygon points="150,293 154,287 150,281 146,287"></polygon>
+    <polygon points="7,150  13,154  19,150  13,146"></polygon>
+  </g>
+  </svg>
   <div class="ph">
     <div>
       <div class="slbl rv vis">Réalisations</div>
@@ -3918,6 +4087,77 @@ body.pmode #anchor-nav {
 
 <!-- ════════ TÉMOIGNAGES ════════ -->
 <section id="testi">
+  <!-- Boussole décorative fond -->
+  <svg class="bg-compass" aria-hidden="true" viewBox="0 0 300 300" xmlns="http://www.w3.org/2000/svg" style="left:-60px;top:50%;transform:translateY(-50%) rotate(8deg)">
+  <defs>
+    <radialGradient id="cgrad-testi" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="rgba(200,146,42,.18)"></stop>
+      <stop offset="60%" stop-color="rgba(200,146,42,.06)"></stop>
+      <stop offset="100%" stop-color="rgba(200,146,42,0)"></stop>
+    </radialGradient>
+  </defs>
+  <circle cx="150" cy="150" r="148" fill="url(#cgrad-testi)"></circle>
+  <circle cx="150" cy="150" r="145" fill="none" stroke="rgba(200,146,42,.35)" stroke-width="1.5"></circle>
+  <circle cx="150" cy="150" r="138" fill="none" stroke="rgba(200,146,42,.12)" stroke-width="0.8" stroke-dasharray="3 7"></circle>
+  <circle cx="150" cy="150" r="122" fill="none" stroke="rgba(200,146,42,.20)" stroke-width="1"></circle>
+  <circle cx="150" cy="150" r="110" fill="none" stroke="rgba(200,146,42,.08)" stroke-width="0.6" stroke-dasharray="2 5"></circle>
+  <circle cx="150" cy="150" r="88" fill="none" stroke="rgba(200,146,42,.15)" stroke-width="0.8"></circle>
+  <circle cx="150" cy="150" r="55" fill="none" stroke="rgba(200,146,42,.10)" stroke-width="0.6" stroke-dasharray="2 4"></circle>
+  <g stroke="rgba(200,146,42,.55)" stroke-width="2">
+    <line x1="150" y1="10" x2="150" y2="30"></line>
+    <line x1="150" y1="270" x2="150" y2="290"></line>
+    <line x1="10" y1="150" x2="30" y2="150"></line>
+    <line x1="270" y1="150" x2="290" y2="150"></line>
+  </g>
+  <g stroke="rgba(200,146,42,.30)" stroke-width="1.2">
+    <line x1="47" y1="47" x2="62" y2="62"></line>
+    <line x1="253" y1="47" x2="238" y2="62"></line>
+    <line x1="47" y1="253" x2="62" y2="238"></line>
+    <line x1="253" y1="253" x2="238" y2="238"></line>
+  </g>
+  <g stroke="rgba(200,146,42,.18)" stroke-width="0.8">
+    <line x1="150" y1="5" x2="150" y2="15" transform="rotate(15  150 150)"></line>
+    <line x1="150" y1="5" x2="150" y2="15" transform="rotate(30  150 150)"></line>
+    <line x1="150" y1="5" x2="150" y2="15" transform="rotate(60  150 150)"></line>
+    <line x1="150" y1="5" x2="150" y2="15" transform="rotate(75  150 150)"></line>
+    <line x1="150" y1="5" x2="150" y2="15" transform="rotate(105 150 150)"></line>
+    <line x1="150" y1="5" x2="150" y2="15" transform="rotate(120 150 150)"></line>
+    <line x1="150" y1="5" x2="150" y2="15" transform="rotate(150 150 150)"></line>
+    <line x1="150" y1="5" x2="150" y2="15" transform="rotate(165 150 150)"></line>
+    <line x1="150" y1="5" x2="150" y2="15" transform="rotate(195 150 150)"></line>
+    <line x1="150" y1="5" x2="150" y2="15" transform="rotate(210 150 150)"></line>
+    <line x1="150" y1="5" x2="150" y2="15" transform="rotate(240 150 150)"></line>
+    <line x1="150" y1="5" x2="150" y2="15" transform="rotate(255 150 150)"></line>
+    <line x1="150" y1="5" x2="150" y2="15" transform="rotate(285 150 150)"></line>
+    <line x1="150" y1="5" x2="150" y2="15" transform="rotate(300 150 150)"></line>
+    <line x1="150" y1="5" x2="150" y2="15" transform="rotate(330 150 150)"></line>
+    <line x1="150" y1="5" x2="150" y2="15" transform="rotate(345 150 150)"></line>
+  </g>
+  <text x="150" y="36" text-anchor="middle" font-family="Cinzel,serif" font-size="13" font-weight="700" fill="rgba(200,146,42,.90)" letter-spacing="1">N</text>
+  <text x="150" y="275" text-anchor="middle" font-family="Cinzel,serif" font-size="11" fill="rgba(200,146,42,.50)">S</text>
+  <text x="272" y="155" text-anchor="middle" font-family="Cinzel,serif" font-size="11" fill="rgba(200,146,42,.50)">E</text>
+  <text x="28" y="155" text-anchor="middle" font-family="Cinzel,serif" font-size="11" fill="rgba(200,146,42,.50)">O</text>
+  <line x1="150" y1="85" x2="150" y2="215" stroke="rgba(200,146,42,.12)" stroke-width="0.6"></line>
+  <line x1="85" y1="150" x2="215" y2="150" stroke="rgba(200,146,42,.12)" stroke-width="0.6"></line>
+  <g class="needle-group">
+    <polygon points="150,62 144,150 150,140 156,150" fill="rgba(200,146,42,.85)" stroke="rgba(200,146,42,.4)" stroke-width="0.8"></polygon>
+    <polygon points="150,238 144,150 150,160 156,150" fill="rgba(120,88,25,.55)" stroke="rgba(200,146,42,.2)" stroke-width="0.5"></polygon>
+    <circle cx="150" cy="150" r="5.5" fill="rgba(200,146,42,.70)" stroke="rgba(200,146,42,.4)" stroke-width="1"></circle>
+    <circle cx="150" cy="150" r="2.5" fill="rgba(255,220,120,.80)"></circle>
+  </g>
+  <g fill="none" stroke="rgba(200,146,42,.18)" stroke-width="0.7">
+    <line x1="150" y1="95" x2="150" y2="205" transform="rotate(22.5 150 150)"></line>
+    <line x1="150" y1="95" x2="150" y2="205" transform="rotate(45   150 150)"></line>
+    <line x1="150" y1="95" x2="150" y2="205" transform="rotate(67.5 150 150)"></line>
+    <line x1="150" y1="95" x2="150" y2="205"></line>
+  </g>
+  <g fill="rgba(200,146,42,.45)">
+    <polygon points="150,7  154,13  150,19  146,13"></polygon>
+    <polygon points="293,150 287,154 281,150 287,146"></polygon>
+    <polygon points="150,293 154,287 150,281 146,287"></polygon>
+    <polygon points="7,150  13,154  19,150  13,146"></polygon>
+  </g>
+  </svg>
   <div style="max-width:1240px;margin:0 auto;text-align:center">
     <div class="slbl rv vis" style="justify-content:center">Ils me font confiance</div>
     <h2 class="stit rv vis">Leurs Avis parlent d'eux-mêmes.</h2>
@@ -4103,10 +4343,7 @@ body.pmode #anchor-nav {
   <a href="#hero" class="btp">↑ Retour en haut</a>
 </footer>
 
-<!-- ════════ BOUTON MODE PRÉSENTATION ════════ -->
-<button id="presentation-btn" onclick="enterPresentation()">
-  🎬 Présentation
-</button>
+<!-- Bouton présentation déplacé dans le panneau éditeur -->
 
 <!-- ════════ BADGE MODE PRÉSENTATION ════════ -->
 <div id="pmode-badge" onclick="exitPresentation()" title="Cliquer pour quitter le mode présentation">
@@ -4153,7 +4390,7 @@ body.pmode #anchor-nav {
 </div>
 
 <!-- ════════ PANNEAU ÉDITEUR ════════ -->
-<div id="epanel" class="" style="display: none;">
+<div id="epanel" class="">
   <span class="ep-lbl">✏️ MODE ÉDITION</span>
   <div class="ep-sep"></div>
   <button class="epbtn a" onclick="openAPM()">＋ Projet</button>
@@ -4177,6 +4414,8 @@ body.pmode #anchor-nav {
   <button class="epbtn a" onclick="openWelcomeEditor()">💬 Message accueil</button>
   <button class="epbtn a" onclick="document.getElementById('fsp-modal').classList.add('open')">📧 Contact mail</button>
   <button class="epbtn a" onclick="document.getElementById('export-modal').classList.add('open')">📦 Export/Import</button>
+  <div class="ep-sep"></div>
+  <button class="epbtn a" onclick="enterPresentation()">🎬 Présentation</button>
   <div class="ep-sep"></div>
   <button class="epbtn g" id="pub-btn" onclick="publish()">🚀 Publier</button>
   <button class="epbtn red" onclick="exitEdit()">✕ Quitter</button>
@@ -5596,11 +5835,10 @@ window._compassDismissed = false;
   window.dismissCompass = skipIntro;
   intro.addEventListener('click', skipIntro);
 
-  // 0s    → aiguille se stabilise
-  // 2.6s  → phase 2 : aiguille frénétique + glow monte sur la boussole (~1.4s)
-  // 4.1s  → phase 4 : flash or explose depuis le centre, englobe l'écran, se dissipe → site
-  // 5.4s  → DOM retiré + welcome overlay
-  setTimeout(() => { if (!window._compassDismissed) intro.classList.add('ci-phase2'); }, 2600);
+  // Timeline simplifiée :
+  // 0s    → aiguille se stabilise doucement (CSS needle-settle 2.6s)
+  // 3.3s  → barre chargement terminée → flash + site révélé
+  // 4.6s  → welcome overlay
 
   setTimeout(() => {
     if (window._compassDismissed) return;
@@ -5609,7 +5847,7 @@ window._compassDismissed = false;
       intro.style.display = 'none';
       showWelcomeOverlay();
     }, 1300);
-  }, 4100);
+  }, 3300);
 
 })()
 
