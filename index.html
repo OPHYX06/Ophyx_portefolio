@@ -558,46 +558,179 @@ nav.sc {
 }
 
 /* ════════════════════════════════════════
-   SÉPARAEUR VAGUE OCÉANIQUE
+   SÉPARATEUR DÉGRADÉ — REMPLACEMENT VAGUES
    ════════════════════════════════════════ */
 .wave-divider {
   position: relative;
-  overflow: hidden;
-  height: 120px;
+  height: 60px;
   margin-top: -1px;
-  line-height: 0;
+  margin-bottom: -1px;
+  overflow: hidden;
+  pointer-events: none;
 }
 
-.wave-divider svg {
-  display: block;
-  width: 100%;
+/* Ligne dorée centrale */
+.wave-divider::before {
+  content: '';
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  width: 260px;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(200,146,42,.55), transparent);
+  z-index: 2;
+}
+
+/* Point central doré */
+.wave-divider::after {
+  content: '⚓';
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  font-size: .65rem;
+  color: rgba(200,146,42,.35);
+  letter-spacing: 0;
+  z-index: 3;
+  line-height: 1;
+}
+
+/* Fond du séparateur — dégradé entre les deux sections */
+.wave-divider.wdv-a {
+  background: linear-gradient(180deg, var(--void2) 0%, var(--void) 100%);
+}
+.wave-divider.wdv-b {
+  background: linear-gradient(180deg, var(--void) 0%, var(--void2) 100%);
+}
+.wave-divider.wdv-c {
+  background: linear-gradient(180deg, var(--void2) 0%, var(--void3) 100%);
+}
+.wave-divider.wdv-d {
+  background: linear-gradient(180deg, var(--void3) 0%, var(--void2) 100%);
+}
+.wave-divider.wdv-e {
+  background: linear-gradient(180deg, var(--void2) 0%, var(--void) 100%);
+}
+.wave-divider.wdv-f {
+  background: linear-gradient(180deg, var(--void) 0%, var(--void2) 100%);
+}
+
+/* ════════════════════════════════════════
+   INTRO BOUSSOLE PIRATE
+   ════════════════════════════════════════ */
+#compass-intro {
+  position: fixed;
+  inset: 0;
+  z-index: 100000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: radial-gradient(ellipse 80% 80% at 50% 50%, #040810 0%, #020509 100%);
+  flex-direction: column;
+  gap: 2.2rem;
+  transition: opacity .8s ease, transform .8s ease;
+}
+
+#compass-intro.fade-out {
+  opacity: 0;
+  transform: scale(1.04);
+  pointer-events: none;
+}
+
+/* Anneau extérieur */
+.ci-ring {
+  position: relative;
+  width: 260px;
+  height: 260px;
+}
+
+/* SVG boussole */
+#compass-svg {
+  width: 260px;
+  height: 260px;
+  filter: drop-shadow(0 0 18px rgba(200,146,42,.35)) drop-shadow(0 0 50px rgba(200,146,42,.12));
+}
+
+/* Aiguille rotation */
+@keyframes needle-settle {
+  0%   { transform: rotate(-200deg); }
+  40%  { transform: rotate(15deg); }
+  58%  { transform: rotate(-8deg); }
+  72%  { transform: rotate(5deg); }
+  84%  { transform: rotate(-2deg); }
+  92%  { transform: rotate(1deg); }
+  100% { transform: rotate(0deg); }
+}
+
+#compass-needle {
+  transform-origin: 130px 130px;
+  animation: needle-settle 2.6s cubic-bezier(.25,1,.5,1) forwards;
+  animation-delay: .4s;
+  transform: rotate(-200deg);
+}
+
+/* Cadran tourne lentement */
+@keyframes dial-drift {
+  0%   { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+#compass-dial {
+  transform-origin: 130px 130px;
+  animation: dial-drift 18s linear infinite;
+}
+
+/* Texte d'intro sous la boussole */
+.ci-title {
+  font-family: 'Cinzel', serif;
+  font-size: 1.1rem;
+  font-weight: 700;
+  letter-spacing: .4em;
+  text-transform: uppercase;
+  color: rgba(200,146,42,.9);
+  text-align: center;
+  text-shadow: 0 0 25px rgba(200,146,42,.4);
+  opacity: 0;
+  animation: fup .7s .6s forwards;
+}
+
+.ci-sub {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: .92rem;
+  font-style: italic;
+  letter-spacing: .25em;
+  text-transform: uppercase;
+  color: rgba(240,232,212,.35);
+  text-align: center;
+  opacity: 0;
+  animation: fup .7s 1s forwards;
+}
+
+/* Barre de chargement style parchemin */
+.ci-bar-wrap {
+  width: 220px;
+  height: 2px;
+  background: rgba(200,146,42,.1);
+  border-radius: 2px;
+  overflow: hidden;
+  opacity: 0;
+  animation: fup .5s 1.3s forwards;
+}
+
+.ci-bar {
   height: 100%;
+  width: 0%;
+  background: linear-gradient(90deg, var(--gold-dark), var(--gold-bright), var(--gold-glow));
+  border-radius: 2px;
+  animation: ci-load 2s 1.3s cubic-bezier(.4,0,.2,1) forwards;
+  box-shadow: 0 0 8px var(--gold-glow);
 }
 
-.wave-divider--gold .wave-path {
-  fill: rgba(200,146,42,.08);
+@keyframes ci-load {
+  0%   { width: 0%; }
+  100% { width: 100%; }
 }
-
-.wave-divider--dark .wave-path-a {
-  fill: var(--void2);
-}
-.wave-divider--dark .wave-path-b {
-  fill: var(--void);
-  opacity: .7;
-}
-
-/* Animation des vagues */
-@keyframes wave-a {
-  0%   { transform: translateX(0); }
-  100% { transform: translateX(-50%); }
-}
-@keyframes wave-b {
-  0%   { transform: translateX(-50%); }
-  100% { transform: translateX(0); }
-}
-
-.wave-anim-a { animation: wave-a 12s linear infinite; }
-.wave-anim-b { animation: wave-b 16s linear infinite; }
 
 /* ════════════════════════════════════════
    SECTIONS — BASE
@@ -2726,8 +2859,296 @@ input[type=color] {
 }
 
 /* ════════════════════════════════════════
-   RESPONSIVE
+   BOUSSOLES DÉCORATIVES D'ARRIÈRE-PLAN
    ════════════════════════════════════════ */
+.bg-compass {
+  position: absolute;
+  width: 340px;
+  height: 340px;
+  color: rgba(200,146,42,.055);
+  pointer-events: none;
+  z-index: 0;
+  animation: compass-bg-drift 30s linear infinite;
+  will-change: transform;
+}
+
+/* Chaque section a position:relative déjà via le CSS section */
+#about, #process, #contact {
+  position: relative;
+  overflow: hidden; /* Évite le débordement des boussoles */
+}
+
+/* S'assurer que le contenu des sections est au-dessus de la boussole */
+#about > *:not(.bg-compass),
+#process > *:not(.bg-compass),
+#contact > *:not(.bg-compass) {
+  position: relative;
+  z-index: 1;
+}
+
+@keyframes compass-bg-drift {
+  0%   { transform: var(--compass-transform, rotate(0deg)); }
+  100% { transform: var(--compass-transform, rotate(0deg)) rotate(360deg); }
+}
+
+/* Adapter la rotation à chaque boussole (la rotation inline est la base, on tourne en plus) */
+#about .bg-compass      { animation-name: compass-spin-slow; }
+#process .bg-compass    { animation-name: compass-spin-slow; animation-direction: reverse; }
+#contact .bg-compass    { animation-name: compass-spin-slow; animation-duration: 40s; }
+
+@keyframes compass-spin-slow {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
+
+/* Repositionnement précis via le style inline — l'animation ne doit pas écraser le translate */
+#about .bg-compass    { right: 2%; top: 50%; animation-name: none; transform: translateY(-50%) rotate(12deg); }
+#process .bg-compass  { left: 1%; top: 50%; animation-name: none; transform: translateY(-50%) rotate(-8deg); }
+#contact .bg-compass  { right: 3%; bottom: 5%; animation-name: none; transform: rotate(20deg); }
+
+/* Rotation de l'aiguille dans chaque boussole décorative */
+#about .bg-compass polygon:first-of-type,
+#process .bg-compass polygon:first-of-type,
+#contact .bg-compass polygon:first-of-type {
+  transform-origin: 150px 150px;
+  animation: compass-needle-drift 12s ease-in-out infinite;
+}
+
+#process .bg-compass polygon:first-of-type { animation-delay: -4s; animation-duration: 15s; }
+#contact .bg-compass polygon:first-of-type { animation-delay: -8s; animation-duration: 18s; }
+
+@keyframes compass-needle-drift {
+  0%   { transform: rotate(-6deg); }
+  30%  { transform: rotate(8deg); }
+  65%  { transform: rotate(-3deg); }
+  100% { transform: rotate(-6deg); }
+}
+
+/* ════════════════════════════════════════
+   FONCTIONNALITÉ 1 : MODE PRÉSENTATION
+   Masque toute l'UI éditeur pour présenter
+   le portfolio en plein écran à un client
+   ════════════════════════════════════════ */
+#presentation-btn {
+  position: fixed;
+  bottom: 5.5rem;
+  right: 1.5rem;
+  z-index: 8500;
+  background: rgba(4,8,15,.88);
+  border: 1px solid rgba(200,146,42,.35);
+  color: var(--gold-pale);
+  font-family: 'Cinzel', serif;
+  font-size: .68rem;
+  font-weight: 600;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  padding: .55rem 1rem;
+  cursor: none;
+  border-radius: 6px;
+  backdrop-filter: blur(12px);
+  display: none;
+  align-items: center;
+  gap: .5rem;
+  transition: all .3s;
+  box-shadow: 0 4px 20px rgba(0,0,0,.4);
+}
+
+#presentation-btn:hover {
+  background: rgba(200,146,42,.12);
+  border-color: var(--gold-bright);
+  color: var(--white);
+  transform: translateY(-2px);
+}
+
+body.emode #presentation-btn {
+  display: flex;
+}
+
+/* En mode présentation : curseur normal, aucun indicateur d'édition */
+body.pmode {
+  cursor: auto !important;
+}
+
+body.pmode #cur,
+body.pmode #cur-r,
+body.pmode #epanel,
+body.pmode #scroll-prog,
+body.pmode #presentation-btn {
+  display: none !important;
+}
+
+body.pmode [contenteditable] {
+  border-bottom: none !important;
+  cursor: auto !important;
+}
+
+/* Badge "MODE PRÉSENTATION" discret */
+#pmode-badge {
+  position: fixed;
+  top: 1rem;
+  right: 1rem;
+  z-index: 99000;
+  background: rgba(200,146,42,.85);
+  color: var(--void);
+  font-family: 'Cinzel', serif;
+  font-size: .65rem;
+  font-weight: 700;
+  letter-spacing: .15em;
+  text-transform: uppercase;
+  padding: .4rem .9rem;
+  border-radius: 4px;
+  display: none;
+  gap: .5rem;
+  align-items: center;
+  cursor: pointer;
+  box-shadow: 0 4px 20px rgba(200,146,42,.3);
+  transition: opacity .3s;
+}
+
+body.pmode #pmode-badge {
+  display: flex;
+}
+
+/* ════════════════════════════════════════
+   FONCTIONNALITÉ 2 : EXPORT / IMPORT PROJETS JSON
+   ════════════════════════════════════════ */
+#export-modal {
+  position: fixed;
+  inset: 0;
+  background: rgba(4,8,15,.97);
+  backdrop-filter: blur(18px);
+  z-index: 9600;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity .3s;
+}
+
+#export-modal.open {
+  opacity: 1;
+  pointer-events: all;
+}
+
+#export-box {
+  background: var(--void2);
+  border: 1px solid var(--border);
+  border-top: 2px solid var(--gold-bright);
+  width: 100%;
+  max-width: 560px;
+  padding: 2.8rem;
+  border-radius: 14px;
+  position: relative;
+  max-height: 88vh;
+  overflow-y: auto;
+}
+
+#export-json-view {
+  width: 100%;
+  min-height: 160px;
+  max-height: 260px;
+  background: rgba(0,0,0,.5);
+  border: 1px solid rgba(200,146,42,.2);
+  color: rgba(240,232,212,.75);
+  padding: 1rem;
+  font-family: 'Courier New', monospace;
+  font-size: .8rem;
+  line-height: 1.7;
+  resize: vertical;
+  border-radius: 8px;
+  outline: none;
+  margin-top: .75rem;
+}
+
+#export-json-view:focus {
+  border-color: var(--gold-bright);
+}
+
+.export-zone {
+  margin-bottom: 1.5rem;
+  padding: 1.4rem;
+  border: 1px solid rgba(200,146,42,.12);
+  border-radius: 10px;
+  background: rgba(255,255,255,.02);
+}
+
+.export-zone-title {
+  font-family: 'Cinzel', serif;
+  font-size: .78rem;
+  font-weight: 600;
+  color: var(--gold-bright);
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  margin-bottom: .8rem;
+}
+
+/* ════════════════════════════════════════
+   FONCTIONNALITÉ 3 : ANCRE FLOTTANTE SCROLL-TO-TOP
+   Visible partout, style pirate, avec indicateur de section
+   ════════════════════════════════════════ */
+#anchor-nav {
+  position: fixed;
+  bottom: 2rem;
+  right: 1.5rem;
+  z-index: 8000;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: .5rem;
+  opacity: 0;
+  transform: translateY(10px);
+  transition: opacity .4s, transform .4s;
+  pointer-events: none;
+}
+
+#anchor-nav.visible {
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: all;
+}
+
+#anchor-top-btn {
+  width: 46px;
+  height: 46px;
+  background: rgba(4,8,15,.88);
+  border: 1px solid rgba(200,146,42,.4);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: none;
+  color: var(--gold-bright);
+  font-size: 1.3rem;
+  transition: all .3s;
+  backdrop-filter: blur(12px);
+  box-shadow: 0 4px 24px rgba(0,0,0,.4), 0 0 20px rgba(200,146,42,.08);
+}
+
+#anchor-top-btn:hover {
+  background: rgba(200,146,42,.14);
+  border-color: var(--gold-bright);
+  transform: translateY(-3px) scale(1.08);
+  box-shadow: 0 8px 32px rgba(0,0,0,.5), 0 0 25px rgba(200,146,42,.18);
+}
+
+#section-indicator {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: .7rem;
+  font-style: italic;
+  letter-spacing: .16em;
+  text-transform: uppercase;
+  color: rgba(200,146,42,.55);
+  text-align: center;
+  white-space: nowrap;
+  transition: opacity .3s;
+}
+
+/* Masquer en mode présentation */
+body.pmode #anchor-nav {
+  display: none;
+}
 @media (max-width: 1100px) {
   .svg { grid-template-columns: repeat(2, 1fr); }
 }
@@ -2766,6 +3187,99 @@ input[type=color] {
   <div class="save-title">Publication en cours…</div>
   <div class="save-bar-wrap"><div class="save-bar" id="save-bar" style="width:0%"></div></div>
   <div class="save-msg" id="save-msg">Connexion à GitHub…</div>
+</div>
+
+<!-- ════════ INTRO BOUSSOLE PIRATE ════════ -->
+<div id="compass-intro">
+  <div class="ci-ring">
+    <svg id="compass-svg" viewBox="0 0 260 260" xmlns="http://www.w3.org/2000/svg">
+      <!-- Fond circulaire -->
+      <circle cx="130" cy="130" r="125" fill="rgba(4,8,15,.95)" stroke="rgba(200,146,42,.3)" stroke-width="1.5"/>
+      <!-- Ombre intérieure -->
+      <circle cx="130" cy="130" r="122" fill="none" stroke="rgba(200,146,42,.08)" stroke-width="6"/>
+
+      <!-- Cadran tournant avec les points cardinaux -->
+      <g id="compass-dial">
+        <!-- Cercle pointillé -->
+        <circle cx="130" cy="130" r="108" fill="none" stroke="rgba(200,146,42,.12)" stroke-width="1" stroke-dasharray="3 6"/>
+        <!-- Graduations -->
+        <g stroke="rgba(200,146,42,.25)" stroke-width="1">
+          <line x1="130" y1="28" x2="130" y2="42"/>
+          <line x1="232" y1="130" x2="218" y2="130"/>
+          <line x1="130" y1="232" x2="130" y2="218"/>
+          <line x1="28" y1="130" x2="42" y2="130"/>
+        </g>
+        <!-- Petites graduations -->
+        <g stroke="rgba(200,146,42,.15)" stroke-width=".8">
+          <line x1="174" y1="33" x2="170" y2="45"/>
+          <line x1="207" y1="53" x2="197" y2="62"/>
+          <line x1="227" y1="86" x2="216" y2="92"/>
+          <line x1="227" y1="174" x2="216" y2="168"/>
+          <line x1="207" y1="207" x2="197" y2="198"/>
+          <line x1="174" y1="227" x2="170" y2="215"/>
+          <line x1="86" y1="227" x2="90" y2="215"/>
+          <line x1="53" y1="207" x2="63" y2="198"/>
+          <line x1="33" y1="174" x2="45" y2="168"/>
+          <line x1="33" y1="86" x2="45" y2="92"/>
+          <line x1="53" y1="53" x2="63" y2="62"/>
+          <line x1="86" y1="33" x2="90" y2="45"/>
+        </g>
+        <!-- Lettres cardinales -->
+        <text x="130" y="22" text-anchor="middle" fill="rgba(200,146,42,.9)" font-family="Cinzel,serif" font-size="13" font-weight="700" letter-spacing="1">N</text>
+        <text x="240" y="135" text-anchor="middle" fill="rgba(200,146,42,.5)" font-family="Cinzel,serif" font-size="11">E</text>
+        <text x="130" y="248" text-anchor="middle" fill="rgba(200,146,42,.5)" font-family="Cinzel,serif" font-size="11">S</text>
+        <text x="20" y="135" text-anchor="middle" fill="rgba(200,146,42,.5)" font-family="Cinzel,serif" font-size="11">O</text>
+      </g>
+
+      <!-- Cercle intérieur décoratif -->
+      <circle cx="130" cy="130" r="70" fill="none" stroke="rgba(200,146,42,.1)" stroke-width="1"/>
+      <circle cx="130" cy="130" r="55" fill="rgba(4,8,15,.6)" stroke="rgba(200,146,42,.15)" stroke-width="1"/>
+
+      <!-- Rose des vents — base -->
+      <g opacity=".18" fill="rgba(200,146,42,1)">
+        <polygon points="130,72 136,126 130,118 124,126"/>
+        <polygon points="130,188 136,134 130,142 124,134"/>
+        <polygon points="72,130 126,124 118,130 126,136"/>
+        <polygon points="188,130 134,124 142,130 134,136"/>
+      </g>
+
+      <!-- Aiguille principale -->
+      <g id="compass-needle">
+        <!-- Flèche nord (dorée) -->
+        <polygon points="130,52 137,128 130,122 123,128" fill="rgba(200,146,42,.95)" filter="url(#glow-needle)"/>
+        <!-- Flèche sud (sombre) -->
+        <polygon points="130,208 137,132 130,138 123,132" fill="rgba(100,80,40,.5)"/>
+        <!-- Pivot central -->
+        <circle cx="130" cy="130" r="5" fill="var(--gold-bright)" filter="url(#glow-needle)"/>
+        <circle cx="130" cy="130" r="2.5" fill="var(--void)"/>
+      </g>
+
+      <!-- Filtre glow pour l'aiguille -->
+      <defs>
+        <filter id="glow-needle" x="-30%" y="-30%" width="160%" height="160%">
+          <feGaussianBlur stdDeviation="3" result="blur"/>
+          <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+        </filter>
+      </defs>
+
+      <!-- Anneau dorée extérieur -->
+      <circle cx="130" cy="130" r="125" fill="none" stroke="url(#ring-grad)" stroke-width="2"/>
+      <defs>
+        <linearGradient id="ring-grad" x1="0%" y1="0%" x2="100%" y2="100%">
+          <stop offset="0%" stop-color="rgba(200,146,42,.8)"/>
+          <stop offset="30%" stop-color="rgba(240,200,96,.3)"/>
+          <stop offset="60%" stop-color="rgba(200,146,42,.9)"/>
+          <stop offset="100%" stop-color="rgba(122,80,16,.4)"/>
+        </linearGradient>
+      </defs>
+    </svg>
+  </div>
+
+  <div class="ci-title">OPHYX</div>
+  <div class="ci-sub">Portfolio</div>
+  <div class="ci-bar-wrap">
+    <div class="ci-bar"></div>
+  </div>
 </div>
 
 <!-- ════════ WELCOME OVERLAY ════════ -->
@@ -2825,16 +3339,28 @@ input[type=color] {
   <div class="sci"><span>Scroll</span><div class="scl"></div></div>
 </section>
 
-<!-- ════════ VAGUE SÉPARATRICE ════════ -->
-<div class="wave-divider">
-  <svg viewBox="0 0 1440 120" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
-    <path class="wave-path wave-anim-a" d="M0,60 C240,100 480,20 720,60 C960,100 1200,20 1440,60 L1440,120 L0,120 Z" fill="rgba(6,13,24,0.8)"/>
-    <path class="wave-path wave-anim-b" d="M0,80 C360,40 720,100 1080,60 C1260,40 1380,70 1440,80 L1440,120 L0,120 Z" fill="rgba(200,146,42,0.04)"/>
-  </svg>
-</div>
+<!-- ════════ SÉPARATEUR ════════ -->
+<div class="wave-divider wdv-a"></div>
 
 <!-- ════════ À PROPOS ════════ -->
 <section id="about">
+  <!-- Boussole décorative fond -->
+  <svg class="bg-compass" aria-hidden="true" viewBox="0 0 300 300" xmlns="http://www.w3.org/2000/svg" style="right:2%;top:50%;transform:translateY(-50%) rotate(12deg)">
+    <circle cx="150" cy="150" r="140" fill="none" stroke="currentColor" stroke-width="1" stroke-dasharray="4 8" opacity=".6"/>
+    <circle cx="150" cy="150" r="110" fill="none" stroke="currentColor" stroke-width="0.5" opacity=".4"/>
+    <line x1="150" y1="18" x2="150" y2="42" stroke="currentColor" stroke-width="1.5" opacity=".7"/>
+    <line x1="282" y1="150" x2="258" y2="150" stroke="currentColor" stroke-width="1" opacity=".5"/>
+    <line x1="150" y1="282" x2="150" y2="258" stroke="currentColor" stroke-width="1" opacity=".5"/>
+    <line x1="18" y1="150" x2="42" y2="150" stroke="currentColor" stroke-width="1" opacity=".5"/>
+    <text x="150" y="12" text-anchor="middle" fill="currentColor" font-family="Cinzel,serif" font-size="14" font-weight="700" opacity=".8">N</text>
+    <text x="292" y="155" text-anchor="middle" fill="currentColor" font-family="Cinzel,serif" font-size="11" opacity=".5">E</text>
+    <text x="150" y="298" text-anchor="middle" fill="currentColor" font-family="Cinzel,serif" font-size="11" opacity=".5">S</text>
+    <text x="8" y="155" text-anchor="middle" fill="currentColor" font-family="Cinzel,serif" font-size="11" opacity=".5">O</text>
+    <polygon points="150,60 156,148 150,140 144,148" fill="currentColor" opacity=".7"/>
+    <polygon points="150,240 156,152 150,160 144,152" fill="currentColor" opacity=".3"/>
+    <circle cx="150" cy="150" r="6" fill="currentColor" opacity=".8"/>
+    <circle cx="150" cy="150" r="3" fill="none" stroke="currentColor" stroke-width="1.5" opacity=".6"/>
+  </svg>
   <div class="ag">
     <!-- Texte -->
     <div class="at rv">
@@ -2894,13 +3420,8 @@ input[type=color] {
   </div>
 </section>
 
-<!-- ════════ VAGUE SÉPARATRICE 2 ════════ -->
-<div class="wave-divider" style="transform:rotate(180deg);margin-bottom:-1px;margin-top:0">
-  <svg viewBox="0 0 1440 120" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
-    <path d="M0,40 C180,90 360,10 540,50 C720,90 900,10 1080,50 C1260,90 1380,30 1440,50 L1440,0 L0,0 Z" fill="rgba(4,8,15,0.95)" class="wave-anim-a"/>
-    <path d="M0,20 C300,60 600,0 900,40 C1080,60 1300,20 1440,30 L1440,0 L0,0 Z" fill="rgba(200,146,42,0.04)" class="wave-anim-b"/>
-  </svg>
-</div>
+<!-- ════════ SÉPARATEUR ════════ -->
+<div class="wave-divider wdv-b"></div>
 
 <!-- ════════ SERVICES ════════ -->
 <section id="services">
@@ -2955,13 +3476,8 @@ input[type=color] {
   </div>
 </section>
 
-<!-- ════════ VAGUE SÉPARATRICE 3 ════════ -->
-<div class="wave-divider" style="background:var(--void);">
-  <svg viewBox="0 0 1440 100" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
-    <path d="M0,50 C360,90 720,10 1080,50 C1260,70 1380,40 1440,50 L1440,100 L0,100 Z" fill="rgba(6,13,24,0.9)" class="wave-anim-b"/>
-    <path d="M0,70 C240,30 480,90 720,50 C960,10 1200,70 1440,40 L1440,100 L0,100 Z" fill="rgba(13,37,64,0.4)" class="wave-anim-a"/>
-  </svg>
-</div>
+<!-- ════════ SÉPARATEUR ════════ -->
+<div class="wave-divider wdv-c"></div>
 
 <!-- ════════ PORTFOLIO ════════ -->
 <section id="portfolio">
@@ -3016,16 +3532,28 @@ input[type=color] {
   </div>
 </section>
 
-<!-- ════════ VAGUE 4 ════════ -->
-<div class="wave-divider" style="transform:rotate(180deg);margin-bottom:-1px;background:var(--void2);">
-  <svg viewBox="0 0 1440 100" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
-    <path d="M0,30 C480,80 960,10 1440,50 L1440,0 L0,0 Z" fill="rgba(4,8,15,0.9)" class="wave-anim-a"/>
-    <path d="M0,50 C360,20 720,80 1080,40 C1260,20 1380,55 1440,50 L1440,0 L0,0 Z" fill="rgba(200,146,42,0.04)" class="wave-anim-b"/>
-  </svg>
-</div>
+<!-- ════════ SÉPARATEUR ════════ -->
+<div class="wave-divider wdv-d"></div>
 
 <!-- ════════ PROCESS ════════ -->
 <section id="process">
+  <!-- Boussole décorative fond -->
+  <svg class="bg-compass" aria-hidden="true" viewBox="0 0 300 300" xmlns="http://www.w3.org/2000/svg" style="left:1%;top:50%;transform:translateY(-50%) rotate(-8deg)">
+    <circle cx="150" cy="150" r="140" fill="none" stroke="currentColor" stroke-width="1" stroke-dasharray="4 8" opacity=".6"/>
+    <circle cx="150" cy="150" r="110" fill="none" stroke="currentColor" stroke-width="0.5" opacity=".4"/>
+    <line x1="150" y1="18" x2="150" y2="42" stroke="currentColor" stroke-width="1.5" opacity=".7"/>
+    <line x1="282" y1="150" x2="258" y2="150" stroke="currentColor" stroke-width="1" opacity=".5"/>
+    <line x1="150" y1="282" x2="150" y2="258" stroke="currentColor" stroke-width="1" opacity=".5"/>
+    <line x1="18" y1="150" x2="42" y2="150" stroke="currentColor" stroke-width="1" opacity=".5"/>
+    <text x="150" y="12" text-anchor="middle" fill="currentColor" font-family="Cinzel,serif" font-size="14" font-weight="700" opacity=".8">N</text>
+    <text x="292" y="155" text-anchor="middle" fill="currentColor" font-family="Cinzel,serif" font-size="11" opacity=".5">E</text>
+    <text x="150" y="298" text-anchor="middle" fill="currentColor" font-family="Cinzel,serif" font-size="11" opacity=".5">S</text>
+    <text x="8" y="155" text-anchor="middle" fill="currentColor" font-family="Cinzel,serif" font-size="11" opacity=".5">O</text>
+    <polygon points="150,60 156,148 150,140 144,148" fill="currentColor" opacity=".7"/>
+    <polygon points="150,240 156,152 150,160 144,152" fill="currentColor" opacity=".3"/>
+    <circle cx="150" cy="150" r="6" fill="currentColor" opacity=".8"/>
+    <circle cx="150" cy="150" r="3" fill="none" stroke="currentColor" stroke-width="1.5" opacity=".6"/>
+  </svg>
   <div style="max-width:1240px;margin:0 auto">
     <div class="slbl rv">Comment je travaille</div>
     <h2 class="stit rv">Mon <span class="acc">Process</span></h2>
@@ -3059,12 +3587,8 @@ input[type=color] {
   </div>
 </section>
 
-<!-- ════════ VAGUE 5 ════════ -->
-<div class="wave-divider" style="background:var(--void2);">
-  <svg viewBox="0 0 1440 100" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
-    <path d="M0,60 C360,20 720,90 1080,45 C1260,25 1380,60 1440,60 L1440,100 L0,100 Z" fill="rgba(6,13,24,0.95)" class="wave-anim-b"/>
-  </svg>
-</div>
+<!-- ════════ SÉPARATEUR ════════ -->
+<div class="wave-divider wdv-e"></div>
 
 <!-- ════════ TÉMOIGNAGES ════════ -->
 <section id="testi">
@@ -3096,15 +3620,28 @@ input[type=color] {
   </div>
 </section>
 
-<!-- ════════ VAGUE 6 ════════ -->
-<div class="wave-divider" style="transform:rotate(180deg);margin-bottom:-1px;background:var(--void);">
-  <svg viewBox="0 0 1440 100" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
-    <path d="M0,40 C480,90 960,10 1440,50 L1440,0 L0,0 Z" fill="rgba(6,13,24,0.95)" class="wave-anim-a"/>
-  </svg>
-</div>
+<!-- ════════ SÉPARATEUR ════════ -->
+<div class="wave-divider wdv-f"></div>
 
 <!-- ════════ CONTACT ════════ -->
 <section id="contact">
+  <!-- Boussole décorative fond -->
+  <svg class="bg-compass" aria-hidden="true" viewBox="0 0 300 300" xmlns="http://www.w3.org/2000/svg" style="right:3%;bottom:5%;transform:rotate(20deg)">
+    <circle cx="150" cy="150" r="140" fill="none" stroke="currentColor" stroke-width="1" stroke-dasharray="4 8" opacity=".6"/>
+    <circle cx="150" cy="150" r="110" fill="none" stroke="currentColor" stroke-width="0.5" opacity=".4"/>
+    <line x1="150" y1="18" x2="150" y2="42" stroke="currentColor" stroke-width="1.5" opacity=".7"/>
+    <line x1="282" y1="150" x2="258" y2="150" stroke="currentColor" stroke-width="1" opacity=".5"/>
+    <line x1="150" y1="282" x2="150" y2="258" stroke="currentColor" stroke-width="1" opacity=".5"/>
+    <line x1="18" y1="150" x2="42" y2="150" stroke="currentColor" stroke-width="1" opacity=".5"/>
+    <text x="150" y="12" text-anchor="middle" fill="currentColor" font-family="Cinzel,serif" font-size="14" font-weight="700" opacity=".8">N</text>
+    <text x="292" y="155" text-anchor="middle" fill="currentColor" font-family="Cinzel,serif" font-size="11" opacity=".5">E</text>
+    <text x="150" y="298" text-anchor="middle" fill="currentColor" font-family="Cinzel,serif" font-size="11" opacity=".5">S</text>
+    <text x="8" y="155" text-anchor="middle" fill="currentColor" font-family="Cinzel,serif" font-size="11" opacity=".5">O</text>
+    <polygon points="150,60 156,148 150,140 144,148" fill="currentColor" opacity=".7"/>
+    <polygon points="150,240 156,152 150,160 144,152" fill="currentColor" opacity=".3"/>
+    <circle cx="150" cy="150" r="6" fill="currentColor" opacity=".8"/>
+    <circle cx="150" cy="150" r="3" fill="none" stroke="currentColor" stroke-width="1.5" opacity=".6"/>
+  </svg>
   <div class="cg">
     <!-- Infos -->
     <div class="rv">
@@ -3181,6 +3718,55 @@ input[type=color] {
   <a href="#hero" class="btp">↑ Retour en haut</a>
 </footer>
 
+<!-- ════════ BOUTON MODE PRÉSENTATION ════════ -->
+<button id="presentation-btn" onclick="enterPresentation()">
+  🎬 Présentation
+</button>
+
+<!-- ════════ BADGE MODE PRÉSENTATION ════════ -->
+<div id="pmode-badge" onclick="exitPresentation()" title="Cliquer pour quitter le mode présentation">
+  <span>🎬</span> Mode présentation — Cliquer pour quitter
+</div>
+
+<!-- ════════ ANCRE NAVIGATION SCROLL-TO-TOP ════════ -->
+<div id="anchor-nav">
+  <div id="section-indicator">Haut de page</div>
+  <button id="anchor-top-btn" onclick="window.scrollTo({top:0,behavior:'smooth'})" title="Retour en haut">⚓</button>
+</div>
+
+<!-- ════════ MODAL EXPORT / IMPORT PROJETS ════════ -->
+<div id="export-modal">
+  <div id="export-box">
+    <button class="mcl" onclick="document.getElementById('export-modal').classList.remove('open')" style="position:absolute;top:1.5rem;right:1.5rem">✕</button>
+
+    <div class="ghh" style="margin-bottom:1.5rem">📦 Export &amp; Import des projets</div>
+
+    <div class="export-zone">
+      <div class="export-zone-title">📤 Exporter</div>
+      <p class="ghs" style="margin-bottom:1rem">Copie ce JSON pour sauvegarder tes projets, ou colle-le sur un autre appareil.</p>
+      <textarea id="export-json-view" readonly placeholder="Clique sur Générer pour voir le JSON…"></textarea>
+      <div class="br" style="margin-top:1rem">
+        <button class="eb p" onclick="generateExportJSON()">Générer le JSON</button>
+        <button class="eb s" onclick="copyExportJSON()">📋 Copier</button>
+      </div>
+    </div>
+
+    <div class="export-zone">
+      <div class="export-zone-title">📥 Importer</div>
+      <p class="ghs" style="margin-bottom:1rem">Colle un JSON exporté précédemment pour restaurer des projets.</p>
+      <textarea id="import-json-input" class="" style="width:100%;min-height:110px;background:rgba(0,0,0,.4);border:1px solid rgba(200,146,42,.2);color:rgba(240,232,212,.75);padding:1rem;font-family:'Courier New',monospace;font-size:.8rem;line-height:1.7;resize:vertical;border-radius:8px;outline:none;margin-top:.5rem" placeholder="Colle ton JSON ici…"></textarea>
+      <div class="br" style="margin-top:1rem">
+        <button class="eb p" onclick="importProjects()">✓ Importer les projets</button>
+        <button class="eb s" onclick="document.getElementById('import-json-input').value=''">Effacer</button>
+      </div>
+    </div>
+
+    <div class="br" style="margin-top:.5rem">
+      <button class="eb s" onclick="document.getElementById('export-modal').classList.remove('open')">Fermer</button>
+    </div>
+  </div>
+</div>
+
 <!-- ════════ PANNEAU ÉDITEUR ════════ -->
 <div id="epanel" class="">
   <span class="ep-lbl">✏️ MODE ÉDITION</span>
@@ -3205,6 +3791,8 @@ input[type=color] {
   <button class="epbtn a" onclick="document.getElementById('vid-modal').classList.add('open')">🎬 Vidéo Hero</button>
   <button class="epbtn a" onclick="openWelcomeEditor()">💬 Message accueil</button>
   <button class="epbtn a" onclick="document.getElementById('fsp-modal').classList.add('open')">📧 Contact mail</button>
+  <button class="epbtn a" onclick="document.getElementById('export-modal').classList.add('open')">📦 Export/Import</button>
+  <div class="ep-sep"></div>
   <button class="epbtn g" id="pub-btn" onclick="publish()">🚀 Publier</button>
   <button class="epbtn red" onclick="exitEdit()">✕ Quitter</button>
 </div>
@@ -3241,15 +3829,15 @@ input[type=color] {
     <div class="fg">
       <label>Vidéo du projet</label>
       <div class="vid-tabs">
-        <button class="vid-tab" onclick="switchVidTab(this,'link')">🔗 Lien URL</button>
-        <button class="vid-tab on" onclick="switchVidTab(this,'upload')">📁 Fichier vidéo</button>
+        <button class="vid-tab on" onclick="switchVidTab(this,'link')">🔗 Lien URL</button>
+        <button class="vid-tab" onclick="switchVidTab(this,'upload')">📁 Fichier vidéo</button>
       </div>
-      <div class="vid-tab-panel" id="vtp-link">
+      <div class="vid-tab-panel on" id="vtp-link">
         <input type="text" id="ap-y" placeholder="https://youtube.com/watch?v=…">
         <div style="font-family:'Lato',sans-serif;font-size:.72rem;color:var(--muted);margin-top:.3rem">YouTube, Vimeo, ou lien direct .mp4</div>
       </div>
-      <div class="vid-tab-panel on" id="vtp-upload">
-        <input type="file" id="ap-vfile" accept="video/*" style="background:rgba(255,255,255,.04);border:1px dashed rgba(200,146,42,.25);color:var(--white);padding:.65rem;width:100%;font-size:.88rem;border-radius:4px">
+      <div class="vid-tab-panel" id="vtp-upload">
+        <input type="file" id="ap-vfile" accept="video/*" style="background:rgba(255,255,255,.04);border:1px dashed rgba(200,146,42,.25);color:var(--white);padding:.65rem;width:100%;font-size:.88rem;border-radius:4px;cursor:pointer">
         <div style="font-family:'Lato',sans-serif;font-size:.72rem;color:var(--muted);margin-top:.3rem">MP4, MOV, WebM</div>
       </div>
     </div>
@@ -3436,22 +4024,27 @@ document.querySelectorAll('a, button, .pcard, .dot, .fb, .sc2, .add-card, .svc, 
 // ══════════════════════════════════
 // HERO — TYPING EFFECT
 // ══════════════════════════════════
+// Les lettres OPHYX sont déjà en HTML — on ne les recrée pas pour éviter
+// de détruire les spans avec animation-delay déjà appliqués.
+// Si le conteneur est vide (fallback), on les injecte.
 const hn = document.getElementById('hname');
-hn.innerHTML = '';
-'OPHYX'.split('').forEach((c, i) => {
-  const s = document.createElement('span');
-  s.className = 'L';
-  s.textContent = c;
-  s.style.animationDelay = (.5 + i * .08) + 's';
-  hn.appendChild(s);
-});
+if (!hn.querySelector('.L')) {
+  'OPHYX'.split('').forEach((c, i) => {
+    const s = document.createElement('span');
+    s.className = 'L';
+    s.textContent = c;
+    s.style.animationDelay = (.5 + i * .08) + 's';
+    hn.appendChild(s);
+  });
+}
 
 const phr = ['Monteur Vidéo', 'Motion Designer', 'Animateur 3D', 'Créateur Visuel', 'Graphiste 3D'];
-let pi = 0, ci = 0, typ = true, typingPaused = false;
+let pi = 0, ci = 0, typ = true, typingPaused = false, twRunning = false;
 const tel = document.getElementById('tt');
 
 function tw() {
-  if (typingPaused) return;
+  if (typingPaused) { twRunning = false; return; }
+  twRunning = true;
   if (typ) {
     tel.textContent = phr[pi].slice(0, ++ci);
     if (ci === phr[pi].length) { typ = false; setTimeout(tw, 1900); return; }
@@ -3461,6 +4054,8 @@ function tw() {
   }
   setTimeout(tw, typ ? 78 : 44);
 }
+
+// Lancer avec délai initial
 setTimeout(tw, 1600);
 
 
@@ -3542,11 +4137,13 @@ const io = new IntersectionObserver(entries => {
     if (!x.isIntersecting) return;
     x.target.classList.add('vis');
 
-    // Compteurs animés
+    // Compteurs animés — guard pour ne pas relancer si déjà terminé
     x.target.querySelectorAll('.ctr').forEach(c => {
+      if (c.dataset.done === '1') return; // Déjà animé
+      c.dataset.done = '1';
       const tg = +c.dataset.t;
       let v = 0;
-      const st = tg / 60;
+      const st = Math.max(tg / 60, 1);
       const t = setInterval(() => {
         v = Math.min(v + st, tg);
         c.textContent = Math.round(v) + '+';
@@ -3554,10 +4151,15 @@ const io = new IntersectionObserver(entries => {
       }, 25);
     });
 
-    // Barres de compétences
+    // Barres de compétences — guard idem
     x.target.querySelectorAll('.sbf').forEach(b => {
+      if (b.dataset.animated === '1') return;
+      b.dataset.animated = '1';
       b.style.width = b.dataset.w + '%';
     });
+
+    // Ne plus observer cet élément une fois révélé
+    io.unobserve(x.target);
   });
 }, { threshold: .15 });
 
@@ -3727,22 +4329,26 @@ let tc = 0, testiPaused = false;
 function goTo(n) {
   const tsls = document.querySelectorAll('.tsl');
   const dots  = document.querySelectorAll('.dot');
+  if (!tsls.length) return; // Guard : pas de témoignages
   tsls[tc]?.classList.remove('on');
   dots[tc]?.classList.remove('on');
-  tc = n % tsls.length;
+  tc = ((n % tsls.length) + tsls.length) % tsls.length; // Toujours positif
   tsls[tc]?.classList.add('on');
   dots[tc]?.classList.add('on');
 }
 
-document.querySelector('.tdots').addEventListener('click', e => {
-  const d = e.target.closest('.dot');
-  if (d) goTo(+d.dataset.i);
-});
+const tdotsEl = document.querySelector('.tdots');
+if (tdotsEl) {
+  tdotsEl.addEventListener('click', e => {
+    const d = e.target.closest('.dot');
+    if (d) goTo(+d.dataset.i);
+  });
+}
 
 setInterval(() => {
   if (!testiPaused) {
     const l = document.querySelectorAll('.tsl').length;
-    goTo((tc + 1) % l);
+    if (l > 1) goTo((tc + 1) % l);
   }
 }, 4800);
 
@@ -3795,7 +4401,8 @@ function exitEdit() {
   });
   typingPaused = false;
   testiPaused  = false;
-  tw();
+  // Redémarrer l'animation typing seulement si elle ne tourne plus
+  if (!twRunning) tw();
 }
 
 
@@ -3916,15 +4523,20 @@ function closeModal(id) {
 
 document.addEventListener('keydown', function (e) {
   if (e.key === 'Escape') {
-    ['skillsmod','textanimmod','ghmod','apmod','pmod'].forEach(id => {
+    // Mode présentation géré séparément
+    if (document.body.classList.contains('pmode')) { exitPresentation(); return; }
+
+    ['skillsmod','textanimmod','ghmod','apmod','pmod','export-modal'].forEach(id => {
       const el = document.getElementById(id);
       if (el && el.classList.contains('open')) {
         el.classList.remove('open');
         if (id === 'pmod') document.getElementById('mvid').innerHTML = '<div class="mvph">▶</div>';
       }
     });
+    // Fermer ep-modals et wlc-modal si présents
     document.querySelectorAll('.ep-modal').forEach(m => m.classList.remove('open'));
-    document.getElementById('wlc-modal').classList.remove('open');
+    const wlcMod = document.getElementById('wlc-modal');
+    if (wlcMod) wlcMod.classList.remove('open');
   }
 });
 
@@ -4039,9 +4651,182 @@ async function sendContact(e) {
 
 
 // ══════════════════════════════════
-// TOAST
+// FONCTIONNALITÉ 1 : MODE PRÉSENTATION
+// Masque toute UI éditeur pour montrer le site à un client
 // ══════════════════════════════════
-function toast(msg, col) {
+function enterPresentation() {
+  document.body.classList.add('pmode');
+  // Forcer le curseur normal pour naviguer
+  document.body.style.cursor = 'auto';
+  toast('Mode présentation — cliquez la bannière dorée pour quitter');
+}
+
+function exitPresentation() {
+  document.body.classList.remove('pmode');
+  document.body.style.cursor = '';
+}
+
+// Raccourci clavier : Escape quitte la présentation aussi
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape' && document.body.classList.contains('pmode')) {
+    exitPresentation();
+  }
+});
+
+
+// ══════════════════════════════════
+// FONCTIONNALITÉ 2 : EXPORT / IMPORT PROJETS JSON
+// Sauvegarde et restauration de la grille portfolio
+// ══════════════════════════════════
+function serializeProjects() {
+  const projects = [];
+  document.querySelectorAll('.pcard').forEach(card => {
+    const bgEl  = card.querySelector('.pcbg');
+    const bgStyle = bgEl ? bgEl.getAttribute('style') : '';
+    const bgImg = bgStyle.match(/url\(([^)]+)\)/)?.[1] || '';
+    const iconEl = bgEl && !bgImg ? bgEl.textContent.trim() : '';
+    projects.push({
+      title:    card.dataset.title || '',
+      cat:      card.dataset.cat   || 'montage',
+      desc:     card.dataset.desc  || '',
+      tools:    card.dataset.tools || '',
+      yt:       card.dataset.yt    || '',
+      img:      bgImg,
+      icon:     iconEl,
+      bgStyle:  bgImg ? '' : bgStyle,
+    });
+  });
+  return projects;
+}
+
+function generateExportJSON() {
+  const json = JSON.stringify(serializeProjects(), null, 2);
+  document.getElementById('export-json-view').value = json;
+  toast('JSON généré ! Copie-le pour le sauvegarder.');
+}
+
+function copyExportJSON() {
+  const val = document.getElementById('export-json-view').value;
+  if (!val) { toast('Génère d\'abord le JSON !'); return; }
+  navigator.clipboard.writeText(val)
+    .then(() => toast('JSON copié dans le presse-papier !'))
+    .catch(() => toast('Copie manuelle : sélectionne tout le JSON'));
+}
+
+function importProjects() {
+  const raw = document.getElementById('import-json-input').value.trim();
+  if (!raw) { toast('Colle ton JSON d\'abord !'); return; }
+
+  let projects;
+  try {
+    projects = JSON.parse(raw);
+    if (!Array.isArray(projects)) throw new Error('Format invalide');
+  } catch {
+    toast('❌ JSON invalide — vérifie le format', '#880000');
+    return;
+  }
+
+  const grid    = document.getElementById('pgrid');
+  const addCard = document.getElementById('addCard');
+  const labs    = { montage:'Montage', motion:'Motion Design', '3d':'Animation 3D' };
+  const grads   = {
+    montage: 'linear-gradient(135deg,#040810,#1a4060)',
+    motion:  'linear-gradient(135deg,#06040a,#2a1050)',
+    '3d':    'linear-gradient(135deg,#041020,#0a4060)',
+  };
+
+  // Supprimer les projets existants
+  document.querySelectorAll('.pcard').forEach(c => c.remove());
+
+  projects.forEach(p => {
+    const card = document.createElement('div');
+    card.className     = 'pcard rv vis';
+    card.dataset.cat   = p.cat || 'montage';
+    card.dataset.title = p.title || '';
+    card.dataset.desc  = p.desc  || '';
+    card.dataset.tools = p.tools || '';
+    card.dataset.yt    = p.yt    || '';
+
+    const bg = p.img
+      ? `background-image:url(${p.img});background-size:cover;background-position:center`
+      : (p.bgStyle || `background:${grads[p.cat] || grads.montage}`);
+
+    card.innerHTML = `
+      <div class="pcbg" style="${bg}">${p.img ? '' : (p.icon || '🎬')}</div>
+      <button class="pdel" onclick="delCard(this)">✕</button>
+      <div class="pov">
+        <div class="pcat">${labs[p.cat] || 'Montage'}</div>
+        <div class="pnm">${p.title}</div>
+        <button class="pbtn">Voir le projet</button>
+      </div>`;
+
+    grid.insertBefore(card, addCard);
+  });
+
+  document.getElementById('import-json-input').value = '';
+  document.getElementById('export-modal').classList.remove('open');
+  toast(`✓ ${projects.length} projet(s) importé(s) avec succès !`);
+}
+
+
+// ══════════════════════════════════
+// FONCTIONNALITÉ 3 : ANCRE NAVIGATION & INDICATEUR DE SECTION
+// Bouton scroll-to-top avec nom de la section courante
+// ══════════════════════════════════
+(function initAnchorNav() {
+
+  const anchorNav  = document.getElementById('anchor-nav');
+  const sectionInd = document.getElementById('section-indicator');
+
+  // Mapping sections → noms affichés
+  const sectionNames = {
+    'hero':      'Haut de page',
+    'about':     'À propos',
+    'services':  'Services',
+    'portfolio': 'Portfolio',
+    'process':   'Process',
+    'testi':     'Témoignages',
+    'contact':   'Contact',
+  };
+
+  const sections = Array.from(document.querySelectorAll('section[id], #hero'));
+  let currentSection = 'hero';
+
+  function updateSectionIndicator() {
+    // Trouver la section la plus visible
+    let best = 'hero';
+    let bestY = Infinity;
+
+    sections.forEach(sec => {
+      const rect = sec.getBoundingClientRect();
+      const absY = Math.abs(rect.top);
+      if (rect.top <= window.innerHeight * .5 && absY < bestY) {
+        bestY = absY;
+        best  = sec.id;
+      }
+    });
+
+    if (best !== currentSection) {
+      currentSection = best;
+      sectionInd.style.opacity = '0';
+      setTimeout(() => {
+        sectionInd.textContent = sectionNames[currentSection] || currentSection;
+        sectionInd.style.opacity = '1';
+      }, 180);
+    }
+  }
+
+  // Afficher/masquer selon la position de scroll
+  window.addEventListener('scroll', () => {
+    const scrolled = window.scrollY > 300;
+    anchorNav.classList.toggle('visible', scrolled);
+    updateSectionIndicator();
+  }, { passive: true });
+
+  // Init
+  updateSectionIndicator();
+
+})();
   const t = document.getElementById('toast');
   t.textContent = msg;
   t.style.background = col || 'var(--gold-bright)';
@@ -4304,6 +5089,51 @@ function applyTextAnimEdits() {
 
 
 // ══════════════════════════════════
+// INTRO BOUSSOLE
+// Flux : Boussole (3.5s) → Welcome overlay → Site
+// ══════════════════════════════════
+(function initCompassIntro() {
+
+  const intro   = document.getElementById('compass-intro');
+  const welcome = document.getElementById('welcome-overlay');
+
+  // Masquer le welcome au départ — la boussole prend la main
+  if (welcome) welcome.style.display = 'none';
+
+  function showWelcomeOverlay() {
+    if (!welcome) return;
+    welcome.style.display  = 'flex';
+    welcome.style.opacity  = '0';
+    welcome.style.transition = 'opacity .55s ease';
+    // Double rAF pour garantir la transition CSS
+    requestAnimationFrame(() => requestAnimationFrame(() => {
+      welcome.style.opacity = '1';
+    }));
+  }
+
+  function dismissCompass() {
+    if (!intro) return;
+    intro.classList.add('fade-out');
+    setTimeout(() => {
+      intro.style.display = 'none';
+      showWelcomeOverlay();
+    }, 800);
+  }
+
+  // Lance la séquence dès que le DOM est prêt
+  // (le script est en bas de body, le DOM est déjà chargé)
+  if (intro) {
+    intro.style.display = 'flex';
+    setTimeout(dismissCompass, 3600);
+  } else {
+    // Intro absente : afficher directement le welcome
+    showWelcomeOverlay();
+  }
+
+})();
+
+
+// ══════════════════════════════════
 // WELCOME OVERLAY
 // ══════════════════════════════════
 function welcomeSound(withSound) {
@@ -4314,14 +5144,10 @@ function welcomeSound(withSound) {
     document.getElementById('snd-txt').textContent  = 'Son actif';
   }
   const ov = document.getElementById('welcome-overlay');
+  ov.style.transition = 'opacity .65s, transform .65s';
   ov.classList.add('hide');
-  setTimeout(() => ov.style.display = 'none', 700);
+  setTimeout(() => { ov.style.display = 'none'; }, 700);
 }
-
-window.addEventListener('DOMContentLoaded', () => {
-  const ov = document.getElementById('welcome-overlay');
-  ov.style.display = 'flex';
-});
 
 
 // ══════════════════════════════════
@@ -4341,9 +5167,14 @@ function applyWelcomeEdit() {
   document.getElementById('wlc-sub').textContent       = document.getElementById('wlc-e-sub').value;
   document.getElementById('wlc-btn-main').textContent  = document.getElementById('wlc-e-btn').value;
   document.getElementById('wlc-modal').classList.remove('open');
+  // Aperçu : montrer brièvement le welcome overlay pour validation visuelle
   const ov = document.getElementById('welcome-overlay');
-  ov.style.display = 'flex'; ov.classList.remove('hide');
-  toast('Message mis à jour ! Aperçu affiché.');
+  ov.style.display   = 'flex';
+  ov.style.opacity   = '0';
+  ov.style.transition = 'opacity .4s';
+  ov.classList.remove('hide');
+  requestAnimationFrame(() => requestAnimationFrame(() => { ov.style.opacity = '1'; }));
+  toast('Message mis à jour — cliquez "Continuer" pour fermer l\'aperçu');
 }
 
 </script>
