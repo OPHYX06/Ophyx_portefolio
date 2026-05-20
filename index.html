@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="fr" style="--sea-bright: #3700ff; --sea: hsl(253,100%,35%); --sea-glow: hsl(253,100%,65%); --sea-mist: #3700ff20; --white: #8205ff;" class="js-ready"><head>
+<html lang="fr" style="--sea-bright: #3700ff; --sea: hsl(253,100%,35%); --sea-glow: hsl(253,100%,65%); --sea-mist: #3700ff20; --white: #8205ff;"><head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>OPHYX — Portfolio</title>
@@ -4748,7 +4748,7 @@ body.pmode #anchor-nav {
 <div id="cur-r" style="left: 930.022px; top: 539.97px;"></div>
 
 <!-- ════════ TOAST ════════ -->
-<div id="toast" class="show" style="background: var(--gold-bright); color: var(--void);">✏️ Mode édition — Ctrl+Z pour annuler — tapez OPHYX pour quitter</div>
+<div id="toast"></div>
 
 <!-- ════════ BARRE DE PROGRESSION ════════ -->
 <div id="scroll-prog" style="width: 0%;"></div>
@@ -4761,7 +4761,7 @@ body.pmode #anchor-nav {
 </div>
 
 <!-- ════════ INTRO BOUSSOLE PIRATE ════════ -->
-<div id="compass-intro" class="ci-phase4" style="display: none; opacity: 1;">
+<div id="compass-intro">
 
   <!-- Couche fissures et éclats — au-dessus du SVG -->
   <div class="ci-ring">
@@ -7936,16 +7936,28 @@ function _isEffectivelyBold(el) {
 }
 
 function _applyAccentBold() {
+  // Parcours récursif de tous les noeuds texte dans le sous-arbre
+  function _walkTextNodes(root) {
+    const walker = document.createTreeWalker(root, NodeFilter.SHOW_TEXT, null);
+    const nodes = [];
+    let node;
+    while ((node = walker.nextNode())) nodes.push(node);
+    return nodes;
+  }
+
   document.querySelectorAll(_ACCENT_SCOPE).forEach(el => {
     if (_isEffectivelyBold(el)) return; // déjà gras → skip
-    // Parcourir les noeuds texte directs
-    Array.from(el.childNodes).forEach(node => {
-      if (node.nodeType !== Node.TEXT_NODE) return;
-      if (!_ACCENT_RE.test(node.textContent)) { _ACCENT_RE.lastIndex = 0; return; }
-      _ACCENT_RE.lastIndex = 0;
+    _walkTextNodes(el).forEach(node => {
+      // Ne pas re-traiter un noeud déjà dans un span accentBold
+      if (node.parentNode && node.parentNode.dataset && node.parentNode.dataset.accentBold) return;
+      const accentRe = /[àâäáãåæçèéêëìíîïñòóôõöùúûüýÿœÀÂÄÁÃÅÆÇÈÉÊËÌÍÎÏÑÒÓÔÕÖÙÚÛÜÝŸŒ]/g;
+      if (!accentRe.test(node.textContent)) return;
       const span = document.createElement('span');
       span.dataset.accentBold = '1';
-      span.innerHTML = node.textContent.replace(_ACCENT_RE, ch => `<strong style="font-weight:700">${ch}</strong>`);
+      span.innerHTML = node.textContent.replace(
+        /[àâäáãåæçèéêëìíîïñòóôõöùúûüýÿœÀÂÄÁÃÅÆÇÈÉÊËÌÍÎÏÑÒÓÔÕÖÙÚÛÜÝŸŒ]/g,
+        ch => `<strong style="font-weight:700">${ch}</strong>`
+      );
       node.parentNode.replaceChild(span, node);
     });
   });
@@ -8629,9 +8641,12 @@ window._soundChosen      = false;
 
     // Fondu de sortie via ci-phase4
     introEl.classList.add('ci-phase4');
+    // Lancer le welcome 150ms avant que la boussole soit cachée → fondu enchaîné sans blanc
+    setTimeout(() => {
+      showWelcome();
+    }, 850);
     setTimeout(() => {
       introEl.style.display = 'none';
-      showWelcome();
     }, 1050);
   }
 
