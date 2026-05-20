@@ -10,7 +10,7 @@
 <link rel="dns-prefetch" href="//player.vimeo.com">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;0,700;1,300;1,400;1,600&amp;family=Cinzel:wght@400;600;700;900&amp;family=Lato:wght@300;400;700&amp;display=swap&amp;display=swap&amp;text=ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789%20%2C.!%3F-_" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;0,700;1,300;1,400;1,600&amp;family=Cinzel:wght@400;600;700;900&amp;family=Lato:wght@300;400;700&amp;display=swap&amp;text=ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789%20%2C.!%3F-_" rel="stylesheet">
 
 <style>
 
@@ -20,6 +20,11 @@
    Sans .js-ready, tout reste invisible → zéro flash. */
 body { visibility: hidden; }
 html.js-ready body { visibility: visible; }
+
+/* ══ FONT DISPLAY : swap évite le texte invisible pendant le chargement des polices ══ */
+@font-face { font-family: 'Cinzel'; font-display: swap; src: local('Cinzel'); }
+@font-face { font-family: 'Lato'; font-display: swap; src: local('Lato'); }
+@font-face { font-family: 'Cormorant Garamond'; font-display: swap; src: local('Cormorant Garamond'); }
 
 /* ════════════════════════════════════════
    CSS CUSTOM PROPERTIES — PIRATES × NETFLIX
@@ -4900,7 +4905,7 @@ body.pmode #anchor-nav {
 
 <!-- ════════ HERO ════════ -->
 <section id="hero">
-  <video id="hero-video" autoplay="" loop="" muted="" playsinline="" style="display:block;">
+  <video id="hero-video" autoplay="" loop="" muted="" playsinline="" preload="none" style="display:block;">
     <source id="hero-vsrc" src="https://res.cloudinary.com/ddiaz4trd/video/upload/v1779134136/ssstwitter.com_1779133941477_zghu91.mp4" type="video/mp4">
   </video>
   <button id="sound-btn" style="display:flex;" onclick="toggleSound()">
@@ -9324,8 +9329,22 @@ document.addEventListener('keydown', e => {
   }
 });
 
-// Log initial
-dbgLog('info', '🔧 OPHYX DevTools initialisé');
+// ── Boussoles décoratives : pause hors viewport (économie CPU/batterie mobile) ──
+(function() {
+  const compasses = document.querySelectorAll('.bg-compass');
+  if (!compasses.length || !window.IntersectionObserver) return;
+
+  const obs = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      const state = entry.isIntersecting ? 'running' : 'paused';
+      entry.target.style.animationPlayState = state;
+      const needle = entry.target.querySelector('.needle-group');
+      if (needle) needle.style.animationPlayState = state;
+    });
+  }, { rootMargin: '100px' });
+
+  compasses.forEach(c => obs.observe(c));
+})();
 dbgLog('info', `UA : ${navigator.userAgent.slice(0, 80)}`);
 dbgLog('info', `Viewport : ${innerWidth}×${innerHeight} — DPR : ${devicePixelRatio}`);
 dbgLog('info', `Mobile : ${isMobile ? 'OUI' : 'NON'} — Touch : ${'ontouchstart' in window ? 'OUI' : 'NON'}`);
