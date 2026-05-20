@@ -10,7 +10,7 @@
 <link rel="dns-prefetch" href="//player.vimeo.com">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;0,700;1,300;1,400;1,600&amp;family=Cinzel:wght@400;600;700;900&amp;family=Lato:wght@300;400;700&amp;display=swap&amp;text=ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789%20%2C.!%3F-_" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700;900&amp;family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;0,700;1,300;1,400;1,600&amp;family=Cinzel:wght@400;600;700;900&amp;family=Lato:wght@300;400;700&amp;display=swap&amp;text=ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789%20%2C.!%3F-_" rel="stylesheet">
 
 <style>
 
@@ -23,8 +23,26 @@ html.js-ready body { visibility: visible; }
 
 /* ══ FONT DISPLAY : swap évite le texte invisible pendant le chargement des polices ══ */
 @font-face { font-family: 'Cinzel'; font-display: swap; src: local('Cinzel'); }
+@font-face { font-family: 'Cinzel Decorative'; font-display: swap; src: local('Cinzel Decorative'); }
 @font-face { font-family: 'Lato'; font-display: swap; src: local('Lato'); }
 @font-face { font-family: 'Cormorant Garamond'; font-display: swap; src: local('Cormorant Garamond'); }
+
+/* ══ FIX ACCENTS EN MAJUSCULE ══
+   Cinzel ne supporte pas É È À Ç etc. en uppercase.
+   unicode-range force le fallback "Georgia, serif" uniquement
+   pour les caractères accentués — le reste reste en Cinzel. */
+@font-face {
+  font-family: 'CinzelAccentFix';
+  src: local('Georgia');
+  unicode-range: U+00C0-00FF, U+0100-024F;
+}
+
+/* Appliquer le fix sur tous les éléments qui utilisent Cinzel */
+.hname, .nlogo, .stit, .slbl, .ci-title, .ci-sub,
+.prn, .svc-num, .flogo, .ta, .mcat, .mtit, .ghh,
+.pcat, .pnm, .ep-lbl, .wlc-title, h1, h2, h3 {
+  font-family: 'CinzelAccentFix', 'Cinzel', serif;
+}
 
 /* ════════════════════════════════════════
    CSS CUSTOM PROPERTIES — PIRATES × NETFLIX
@@ -8863,48 +8881,127 @@ function applyContactInfo() {
 
 // ── SÉLECTEUR DE POLICE ──
 const FONTS = [
-  { name: 'Cinzel',    css: "'Cinzel', serif",           import: 'Cinzel:wght@400;600;700;900' },
-  { name: 'Playfair',  css: "'Playfair Display', serif",  import: 'Playfair+Display:wght@400;600;700;900' },
-  { name: 'Josefin',   css: "'Josefin Sans', sans-serif", import: 'Josefin+Sans:wght@300;400;600;700' },
-  { name: 'Oswald',    css: "'Oswald', sans-serif",        import: 'Oswald:wght@300;400;600;700' },
-  { name: 'Uncial',    css: "'Uncial Antiqua', cursive",  import: 'Uncial+Antiqua' },
-  { name: 'Teko',      css: "'Teko', sans-serif",          import: 'Teko:wght@300;400;600;700' },
+  { name: 'Cinzel',             css: "'CinzelAccentFix','Cinzel', serif",                  import: 'Cinzel:wght@400;600;700;900',                     weights: [400,600,700,900] },
+  { name: 'Cinzel Decorative',  css: "'Cinzel Decorative', serif",                         import: 'Cinzel+Decorative:wght@400;700;900',               weights: [400,700,900] },
+  { name: 'Playfair',           css: "'Playfair Display', serif",                          import: 'Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700', weights: [400,700,900], italic: true },
+  { name: 'Josefin',            css: "'Josefin Sans', sans-serif",                         import: 'Josefin+Sans:wght@300;400;600;700',                weights: [300,400,600,700] },
+  { name: 'Oswald',             css: "'Oswald', sans-serif",                               import: 'Oswald:wght@300;400;600;700',                      weights: [300,400,600,700] },
+  { name: 'Uncial',             css: "'Uncial Antiqua', cursive",                          import: 'Uncial+Antiqua',                                   weights: [400] },
+  { name: 'Teko',               css: "'Teko', sans-serif",                                 import: 'Teko:wght@300;400;600;700',                        weights: [300,400,600,700] },
 ];
 
 function openFontPicker() {
   let html = `<div class="ghm open" id="font-picker-modal" style="z-index:9600">
-    <div class="ghb" style="max-width:480px">
+    <div class="ghb" style="max-width:520px">
       <button class="mcl" onclick="document.getElementById('font-picker-modal').remove()" style="position:absolute;top:1.5rem;right:1.5rem">✕</button>
       <div class="ghh">🔠 Police de titre</div>
-      <p class="ghs">Choisir la police utilisée pour le nom OPHYX et les titres.</p>
-      <div style="display:flex;flex-direction:column;gap:.5rem;margin-bottom:1.2rem">`;
+      <p class="ghs">Choisir la police, le grammage et le style des titres.</p>
+      <div style="display:flex;flex-direction:column;gap:.5rem;margin-bottom:1rem">`;
   FONTS.forEach((f, i) => {
-    html += `<button onclick="applyFont(${i})" style="background:rgba(200,146,42,.06);border:1px solid rgba(200,146,42,.15);color:var(--white);padding:.7rem 1rem;border-radius:8px;cursor:pointer;text-align:left;font-size:1.05rem;transition:background .2s" onmouseover="this.style.background='rgba(200,146,42,.16)'" onmouseout="this.style.background='rgba(200,146,42,.06)'">${f.name}</button>`;
+    html += `<button onclick="selectFont(${i})" id="fpick-${i}"
+      style="background:rgba(200,146,42,.06);border:1px solid rgba(200,146,42,.15);color:var(--white);padding:.7rem 1rem;border-radius:8px;cursor:pointer;text-align:left;transition:background .2s;font-family:${f.css};font-size:1.1rem"
+      onmouseover="this.style.background='rgba(200,146,42,.16)'" onmouseout="this.style.background=document.getElementById('fpick-${i}').dataset.sel==='1'?'rgba(200,146,42,.22)':'rgba(200,146,42,.06)'"
+      >${f.name} — <span style="font-weight:700">Gras</span> <em style="font-style:italic;opacity:.7">${f.italic?'Italique':''}</em></button>`;
   });
   html += `</div>
+      <div id="font-options" style="display:none;background:rgba(255,255,255,.03);border:1px solid rgba(200,146,42,.15);border-radius:8px;padding:1rem;margin-bottom:1rem">
+        <div style="font-family:'Lato',sans-serif;font-size:.72rem;color:var(--gold-bright);letter-spacing:.1em;text-transform:uppercase;margin-bottom:.7rem">Options</div>
+        <div style="margin-bottom:.6rem">
+          <div style="font-size:.7rem;color:var(--muted);margin-bottom:.3rem">Grammage (épaisseur)</div>
+          <div id="font-weights" style="display:flex;flex-wrap:wrap;gap:.4rem"></div>
+        </div>
+        <div id="font-italic-row" style="display:none;margin-bottom:.6rem">
+          <label style="display:flex;align-items:center;gap:.5rem;cursor:pointer;font-size:.8rem;color:var(--white)">
+            <input type="checkbox" id="font-italic-cb" style="width:14px;height:14px;accent-color:var(--gold-bright)"> Italique
+          </label>
+        </div>
+        <div style="margin-bottom:.8rem">
+          <div style="font-size:.7rem;color:var(--muted);margin-bottom:.3rem">Aperçu</div>
+          <div id="font-preview" style="font-size:1.4rem;color:var(--white);padding:.4rem 0;border-bottom:1px solid rgba(255,255,255,.06)">OPHYX — Portfolio</div>
+        </div>
+        <button class="eb p" onclick="applyFontFromPicker()" style="width:100%">✓ Appliquer</button>
+      </div>
       <button class="eb s" onclick="document.getElementById('font-picker-modal').remove()">Fermer</button>
     </div></div>`;
   document.body.insertAdjacentHTML('beforeend', html);
 }
 
-function applyFont(i) {
+let _fpSelectedIdx = 0;
+let _fpSelectedWeight = 700;
+let _fpSelectedItalic = false;
+
+function selectFont(i) {
+  _fpSelectedIdx    = i;
+  _fpSelectedWeight = 700;
+  _fpSelectedItalic = false;
   const f = FONTS[i];
-  // Charger la font
+
+  // Marquer le bouton actif
+  FONTS.forEach((_, j) => {
+    const b = document.getElementById('fpick-'+j);
+    if (b) { b.dataset.sel = j===i?'1':'0'; b.style.background = j===i?'rgba(200,146,42,.22)':'rgba(200,146,42,.06)'; b.style.border = j===i?'1px solid rgba(200,146,42,.5)':'1px solid rgba(200,146,42,.15)'; }
+  });
+
+  // Poids
+  const wr = document.getElementById('font-weights');
+  wr.innerHTML = '';
+  f.weights.forEach(w => {
+    const btn = document.createElement('button');
+    btn.textContent = w === 400 ? 'Normal (400)' : w === 300 ? 'Léger (300)' : w === 600 ? 'Semi-gras (600)' : w === 700 ? 'Gras (700)' : w === 900 ? 'Noir (900)' : w;
+    btn.id = 'fw-'+w;
+    btn.style.cssText = `padding:.3rem .7rem;border-radius:6px;border:1px solid rgba(200,146,42,.2);background:${w===700?'rgba(200,146,42,.2)':'rgba(255,255,255,.04)'};color:var(--white);cursor:pointer;font-size:.72rem;font-weight:${w};transition:background .15s`;
+    btn.onclick = () => {
+      _fpSelectedWeight = w;
+      wr.querySelectorAll('button').forEach(b => b.style.background='rgba(255,255,255,.04)');
+      btn.style.background = 'rgba(200,146,42,.2)';
+      updateFontPreview();
+    };
+    wr.appendChild(btn);
+  });
+
+  // Italique
+  const ir = document.getElementById('font-italic-row');
+  const cb = document.getElementById('font-italic-cb');
+  ir.style.display = f.italic ? 'block' : 'none';
+  cb.checked = false;
+  cb.onchange = () => { _fpSelectedItalic = cb.checked; updateFontPreview(); };
+
+  document.getElementById('font-options').style.display = 'block';
+  updateFontPreview();
+}
+
+function updateFontPreview() {
+  const f = FONTS[_fpSelectedIdx];
+  const pv = document.getElementById('font-preview');
+  if (!pv) return;
+  pv.style.fontFamily  = f.css;
+  pv.style.fontWeight  = _fpSelectedWeight;
+  pv.style.fontStyle   = _fpSelectedItalic ? 'italic' : 'normal';
+}
+
+function applyFontFromPicker() {
+  const f = FONTS[_fpSelectedIdx];
   const link = document.createElement('link');
-  link.rel = 'stylesheet';
+  link.rel  = 'stylesheet';
   link.href = `https://fonts.googleapis.com/css2?family=${f.import}&display=swap`;
   document.head.appendChild(link);
-  // Appliquer
+
   let el = document.getElementById('font-override');
   if (!el) { el = document.createElement('style'); el.id = 'font-override'; document.head.appendChild(el); }
   el.textContent = `
     .hname, .nlogo, .stit, .prn, .slbl, .svc-num,
     .flogo, .ta, .mcat, .mtit, .ghh, .ci-title,
-    .pcat, .pnm { font-family: ${f.css} !important; }
+    .pcat, .pnm {
+      font-family: ${f.css} !important;
+      font-weight: ${_fpSelectedWeight} !important;
+      font-style: ${_fpSelectedItalic ? 'italic' : 'normal'} !important;
+    }
   `;
   document.getElementById('font-picker-modal').remove();
   toast('Police "' + f.name + '" appliquée !');
 }
+
+function applyFont(i) { selectFont(i); }
 
 // ── SEO EDITOR ──
 function openSeoEditor() {
