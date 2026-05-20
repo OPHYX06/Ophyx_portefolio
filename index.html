@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="fr" style="--sea-bright: #00ff4c; --sea: hsl(138,100%,35%); --sea-glow: hsl(138,100%,65%); --sea-mist: #00ff4c20;"><head>
+<html lang="fr" style="--sea-bright: #00ff4c; --sea: hsl(138,100%,35%); --sea-glow: hsl(138,100%,65%); --sea-mist: #00ff4c20;" class="js-ready"><head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>OPHYX — Portfolio</title>
@@ -4732,18 +4732,26 @@ body.pmode #anchor-nav {
   }, { once: true });
 })();
 </script>
-</head>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700;900&amp;display=swap"><style id="font-override">
+    .hname, .nlogo, .stit, .prn, .slbl, .svc-num,
+    .flogo, .ta, .mcat, .mtit, .ghh, .ci-title,
+    .pcat, .pnm {
+      font-family: 'Cinzel Decorative', serif !important;
+      font-weight: 700 !important;
+      font-style: normal !important;
+    }
+  </style></head>
 <body class="">
 
 <!-- ════════ CURSEUR PERSONNALISÉ ════════ -->
-<div id="cur" style="left: 945px; top: 511px;"></div>
-<div id="cur-r" style="left: 944.987px; top: 510.996px;"></div>
+<div id="cur" style="left: 967px; top: 545px;"></div>
+<div id="cur-r" style="left: 967.007px; top: 544.992px;"></div>
 
 <!-- ════════ TOAST ════════ -->
-<div id="toast" class="" style="background: var(--gold-bright); color: var(--void);">✏️ Mode édition — Ctrl+Z pour annuler — tapez OPHYX pour quitter</div>
+<div id="toast" class="" style="background: var(--gold-bright); color: var(--void);">Police "Cinzel Decorative" appliquée !</div>
 
 <!-- ════════ BARRE DE PROGRESSION ════════ -->
-<div id="scroll-prog" style="width: 0%;"></div>
+<div id="scroll-prog" style="width: 63.8603%;"></div>
 
 <!-- ════════ SAVING OVERLAY ════════ -->
 <div id="saving" class="">
@@ -4753,7 +4761,7 @@ body.pmode #anchor-nav {
 </div>
 
 <!-- ════════ INTRO BOUSSOLE PIRATE ════════ -->
-<div id="compass-intro">
+<div id="compass-intro" class="ci-phase4" style="display: none; opacity: 1;">
 
   <!-- Couche fissures et éclats — au-dessus du SVG -->
   <div class="ci-ring">
@@ -4897,7 +4905,7 @@ body.pmode #anchor-nav {
 </svg>
 
 <!-- ════════ WELCOME OVERLAY ════════ -->
-<div id="welcome-overlay">
+<div id="welcome-overlay" style="display: none; opacity: 0; transition: opacity 0.65s;">
   <div id="welcome-box">
     <span class="wlc-icon" id="wlc-icon">🔊</span>
     <div class="wlc-title" id="wlc-title">Meilleure expérience avec le son</div>
@@ -4910,7 +4918,7 @@ body.pmode #anchor-nav {
 </div>
 
 <!-- ════════ NAVIGATION ════════ -->
-<nav id="nb" class="">
+<nav id="nb" class="sc">
   <a href="#hero" class="nlogo">OPHYX</a>
   <ul class="nlinks">
     <li><a href="#about">À propos</a></li>
@@ -4944,7 +4952,7 @@ body.pmode #anchor-nav {
     <div class="hname" id="hname">
       <span class="L" style="animation-delay:.5s">O</span><span class="L" style="animation-delay:.58s">P</span><span class="L" style="animation-delay:.66s">H</span><span class="L" style="animation-delay:.74s">Y</span><span class="L" style="animation-delay:.82s">X</span>
     </div>
-    <p class="hsub"><span id="tt">Graphiste 3D</span><span id="tcur"></span></p>
+    <p class="hsub"><span id="tt">Créateur Visuel</span><span id="tcur"></span></p>
     <div class="hcta">
       <a href="#portfolio" class="btn1">Voir mes travaux</a>
       <a href="#contact" class="btn2">Me contacter</a>
@@ -4959,7 +4967,7 @@ body.pmode #anchor-nav {
 <!-- ════════ À PROPOS ════════ -->
 <section id="about">
   <!-- Boussole décorative fond -->
-  <svg class="bg-compass" aria-hidden="true" viewBox="0 0 300 300" xmlns="http://www.w3.org/2000/svg" style="right:2%;top:50%;transform:translateY(-50%) rotate(12deg)">
+  <svg class="bg-compass" aria-hidden="true" viewBox="0 0 300 300" xmlns="http://www.w3.org/2000/svg" style="right: 2%; top: 50%; transform: translateY(-50%) rotate(12deg); animation-play-state: paused;">
   <defs>
     <radialGradient id="cgrad-righ" cx="50%" cy="50%" r="50%">
       <stop offset="0%" stop-color="rgba(200,146,42,.18)"></stop>
@@ -5024,7 +5032,7 @@ body.pmode #anchor-nav {
   <line x1="85" y1="150" x2="215" y2="150" stroke="rgba(200,146,42,.12)" stroke-width="0.6"></line>
 
   <!-- Aiguille (groupe animé) -->
-  <g class="needle-group">
+  <g class="needle-group" style="animation-play-state: paused;">
     <!-- Aiguille Nord — dorée -->
     <polygon points="150,62 144,150 150,140 156,150" fill="rgba(200,146,42,.85)" stroke="rgba(200,146,42,.4)" stroke-width="0.8"></polygon>
     <!-- Aiguille Sud — sombre -->
@@ -5115,7 +5123,7 @@ body.pmode #anchor-nav {
 <!-- ════════ SERVICES ════════ -->
 <section id="services">
   <!-- Boussole décorative fond -->
-  <svg class="bg-compass" aria-hidden="true" viewBox="0 0 300 300" xmlns="http://www.w3.org/2000/svg" style="left:-90px;top:40%;transform:translateY(-50%) rotate(-22deg)">
+  <svg class="bg-compass" aria-hidden="true" viewBox="0 0 300 300" xmlns="http://www.w3.org/2000/svg" style="left: -90px; top: 40%; transform: translateY(-50%) rotate(-22deg); animation-play-state: paused;">
   <defs>
     <radialGradient id="cgrad-svc" cx="50%" cy="50%" r="50%">
       <stop offset="0%" stop-color="rgba(200,146,42,.18)"></stop>
@@ -5166,7 +5174,7 @@ body.pmode #anchor-nav {
   <text x="28" y="155" text-anchor="middle" font-family="Cinzel,serif" font-size="11" fill="rgba(200,146,42,.50)">O</text>
   <line x1="150" y1="85" x2="150" y2="215" stroke="rgba(200,146,42,.12)" stroke-width="0.6"></line>
   <line x1="85" y1="150" x2="215" y2="150" stroke="rgba(200,146,42,.12)" stroke-width="0.6"></line>
-  <g class="needle-group">
+  <g class="needle-group" style="animation-play-state: paused;">
     <polygon points="150,62 144,150 150,140 156,150" fill="rgba(200,146,42,.85)" stroke="rgba(200,146,42,.4)" stroke-width="0.8"></polygon>
     <polygon points="150,238 144,150 150,160 156,150" fill="rgba(120,88,25,.55)" stroke="rgba(200,146,42,.2)" stroke-width="0.5"></polygon>
     <circle cx="150" cy="150" r="5.5" fill="rgba(200,146,42,.70)" stroke="rgba(200,146,42,.4)" stroke-width="1"></circle>
@@ -5199,7 +5207,7 @@ body.pmode #anchor-nav {
 <!-- ════════ PORTFOLIO ════════ -->
 <section id="portfolio">
   <!-- Boussole décorative fond -->
-  <svg class="bg-compass" aria-hidden="true" viewBox="0 0 300 300" xmlns="http://www.w3.org/2000/svg" style="right:-70px;bottom:10%;transform:rotate(30deg)">
+  <svg class="bg-compass" aria-hidden="true" viewBox="0 0 300 300" xmlns="http://www.w3.org/2000/svg" style="right: -70px; bottom: 10%; transform: rotate(30deg); animation-play-state: running;">
   <defs>
     <radialGradient id="cgrad-port" cx="50%" cy="50%" r="50%">
       <stop offset="0%" stop-color="rgba(200,146,42,.18)"></stop>
@@ -5250,7 +5258,7 @@ body.pmode #anchor-nav {
   <text x="28" y="155" text-anchor="middle" font-family="Cinzel,serif" font-size="11" fill="rgba(200,146,42,.50)">O</text>
   <line x1="150" y1="85" x2="150" y2="215" stroke="rgba(200,146,42,.12)" stroke-width="0.6"></line>
   <line x1="85" y1="150" x2="215" y2="150" stroke="rgba(200,146,42,.12)" stroke-width="0.6"></line>
-  <g class="needle-group">
+  <g class="needle-group" style="animation-play-state: running;">
     <polygon points="150,62 144,150 150,140 156,150" fill="rgba(200,146,42,.85)" stroke="rgba(200,146,42,.4)" stroke-width="0.8"></polygon>
     <polygon points="150,238 144,150 150,160 156,150" fill="rgba(120,88,25,.55)" stroke="rgba(200,146,42,.2)" stroke-width="0.5"></polygon>
     <circle cx="150" cy="150" r="5.5" fill="rgba(200,146,42,.70)" stroke="rgba(200,146,42,.4)" stroke-width="1"></circle>
@@ -5323,7 +5331,7 @@ body.pmode #anchor-nav {
 <!-- ════════ PROCESS ════════ -->
 <section id="process">
   <!-- Boussole décorative fond -->
-  <svg class="bg-compass" aria-hidden="true" viewBox="0 0 300 300" xmlns="http://www.w3.org/2000/svg" style="left:1%;top:50%;transform:translateY(-50%) rotate(-8deg)">
+  <svg class="bg-compass" aria-hidden="true" viewBox="0 0 300 300" xmlns="http://www.w3.org/2000/svg" style="left: 1%; top: 50%; transform: translateY(-50%) rotate(-8deg); animation-play-state: running;">
   <defs>
     <radialGradient id="cgrad-left" cx="50%" cy="50%" r="50%">
       <stop offset="0%" stop-color="rgba(200,146,42,.18)"></stop>
@@ -5388,7 +5396,7 @@ body.pmode #anchor-nav {
   <line x1="85" y1="150" x2="215" y2="150" stroke="rgba(200,146,42,.12)" stroke-width="0.6"></line>
 
   <!-- Aiguille (groupe animé) -->
-  <g class="needle-group">
+  <g class="needle-group" style="animation-play-state: running;">
     <!-- Aiguille Nord — dorée -->
     <polygon points="150,62 144,150 150,140 156,150" fill="rgba(200,146,42,.85)" stroke="rgba(200,146,42,.4)" stroke-width="0.8"></polygon>
     <!-- Aiguille Sud — sombre -->
@@ -5453,7 +5461,7 @@ body.pmode #anchor-nav {
 <!-- ════════ TÉMOIGNAGES ════════ -->
 <section id="testi">
   <!-- Boussole décorative fond -->
-  <svg class="bg-compass" aria-hidden="true" viewBox="0 0 300 300" xmlns="http://www.w3.org/2000/svg" style="left:-60px;top:50%;transform:translateY(-50%) rotate(8deg)">
+  <svg class="bg-compass" aria-hidden="true" viewBox="0 0 300 300" xmlns="http://www.w3.org/2000/svg" style="left: -60px; top: 50%; transform: translateY(-50%) rotate(8deg); animation-play-state: paused;">
   <defs>
     <radialGradient id="cgrad-testi" cx="50%" cy="50%" r="50%">
       <stop offset="0%" stop-color="rgba(200,146,42,.18)"></stop>
@@ -5504,7 +5512,7 @@ body.pmode #anchor-nav {
   <text x="28" y="155" text-anchor="middle" font-family="Cinzel,serif" font-size="11" fill="rgba(200,146,42,.50)">O</text>
   <line x1="150" y1="85" x2="150" y2="215" stroke="rgba(200,146,42,.12)" stroke-width="0.6"></line>
   <line x1="85" y1="150" x2="215" y2="150" stroke="rgba(200,146,42,.12)" stroke-width="0.6"></line>
-  <g class="needle-group">
+  <g class="needle-group" style="animation-play-state: paused;">
     <polygon points="150,62 144,150 150,140 156,150" fill="rgba(200,146,42,.85)" stroke="rgba(200,146,42,.4)" stroke-width="0.8"></polygon>
     <polygon points="150,238 144,150 150,160 156,150" fill="rgba(120,88,25,.55)" stroke="rgba(200,146,42,.2)" stroke-width="0.5"></polygon>
     <circle cx="150" cy="150" r="5.5" fill="rgba(200,146,42,.70)" stroke="rgba(200,146,42,.4)" stroke-width="1"></circle>
@@ -5531,7 +5539,7 @@ body.pmode #anchor-nav {
     
     
     
-    <div class="tsl on"><p class="tq">T'es plutôt bon en montage et en terme de graphisme t'évolues hyper vite donc t'as un potentiel de fou.</p><div class="ta">echo</div><div class="tr">Graphiste</div></div><div class="tsl"><p class="tq">Montage qualitatif et motion design très bien réalisé</p><div class="ta">Adominos</div><div class="tr">Monteur vidéo — Motion Designer — Content Creator</div></div><div class="tsl"><p class="tq">Incroyable maîtrise du 3D et du motion design. Notre logo reveal a reçu des compliments de toute notre communauté.</p><div class="ta">Zanzar</div><div class="tr">Graphiste — Content Creator</div></div><div class="tdots"><div class="dot on" data-i="0"></div><div class="dot" data-i="1"></div><div class="dot" data-i="2"></div></div>
+    <div class="tsl"><p class="tq">T'es plutôt bon en montage et en terme de graphisme t'évolues hyper vite donc t'as un potentiel de fou.</p><div class="ta">echo</div><div class="tr">Graphiste</div></div><div class="tsl"><p class="tq">Montage qualitatif et motion design très bien réalisé</p><div class="ta">Adominos</div><div class="tr">Monteur vidéo — Motion Designer — Content Creator</div></div><div class="tsl on"><p class="tq">Incroyable maîtrise du 3D et du motion design. Notre logo reveal a reçu des compliments de toute notre communauté.</p><div class="ta">Zanzar</div><div class="tr">Graphiste — Content Creator</div></div><div class="tdots"><div class="dot" data-i="0"></div><div class="dot" data-i="1"></div><div class="dot on" data-i="2"></div></div>
   </div>
 </section>
 
@@ -5541,7 +5549,7 @@ body.pmode #anchor-nav {
 <!-- ════════ CONTACT ════════ -->
 <section id="contact">
   <!-- Boussole décorative fond -->
-  <svg class="bg-compass" aria-hidden="true" viewBox="0 0 300 300" xmlns="http://www.w3.org/2000/svg" style="right:3%;bottom:5%;transform:rotate(20deg)">
+  <svg class="bg-compass" aria-hidden="true" viewBox="0 0 300 300" xmlns="http://www.w3.org/2000/svg" style="right: 3%; bottom: 5%; transform: rotate(20deg); animation-play-state: paused;">
   <defs>
     <radialGradient id="cgrad-contact" cx="50%" cy="50%" r="50%">
       <stop offset="0%" stop-color="rgba(200,146,42,.18)"></stop>
@@ -5606,7 +5614,7 @@ body.pmode #anchor-nav {
   <line x1="85" y1="150" x2="215" y2="150" stroke="rgba(200,146,42,.12)" stroke-width="0.6"></line>
 
   <!-- Aiguille (groupe animé) -->
-  <g class="needle-group">
+  <g class="needle-group" style="animation-play-state: paused;">
     <!-- Aiguille Nord — dorée -->
     <polygon points="150,62 144,150 150,140 156,150" fill="rgba(200,146,42,.85)" stroke="rgba(200,146,42,.4)" stroke-width="0.8"></polygon>
     <!-- Aiguille Sud — sombre -->
@@ -5716,8 +5724,8 @@ body.pmode #anchor-nav {
 </div>
 
 <!-- ════════ ANCRE NAVIGATION SCROLL-TO-TOP ════════ -->
-<div id="anchor-nav" class="">
-  <div id="section-indicator" style="opacity: 1;">Haut de page</div>
+<div id="anchor-nav" class="visible">
+  <div id="section-indicator" style="opacity: 1;">Process</div>
   <button id="anchor-top-btn" onclick="window.scrollTo({top:0,behavior:'smooth'})" title="Retour en haut">⚓</button>
 </div>
 
@@ -5810,10 +5818,10 @@ body.pmode #anchor-nav {
           </div>
 
           <!-- Sous-cat : Photo & Identité -->
-          <div class="ep-subcat open" id="sub-photo">
+          <div class="ep-subcat" id="sub-photo">
             <button class="ep-subcat-head" onclick="toggleSubCat('sub-photo')">
               <span class="ep-subcat-ico">🖼</span>
-              <span class="ep-subcat-label">Photo & Identité</span>
+              <span class="ep-subcat-label">Photo &amp; Identité</span>
               <span class="ep-subcat-arrow">▶</span>
             </button>
             <div class="ep-subcat-body">
@@ -5835,7 +5843,7 @@ body.pmode #anchor-nav {
           <div class="ep-subcat" id="sub-textes">
             <button class="ep-subcat-head" onclick="toggleSubCat('sub-textes')">
               <span class="ep-subcat-ico">🔤</span>
-              <span class="ep-subcat-label">Textes & Blocs</span>
+              <span class="ep-subcat-label">Textes &amp; Blocs</span>
               <span class="ep-subcat-arrow">▶</span>
             </button>
             <div class="ep-subcat-body">
@@ -5861,13 +5869,13 @@ body.pmode #anchor-nav {
           <div class="ep-subcat" id="sub-stats">
             <button class="ep-subcat-head" onclick="toggleSubCat('sub-stats')">
               <span class="ep-subcat-ico">📊</span>
-              <span class="ep-subcat-label">Stats & Compétences</span>
+              <span class="ep-subcat-label">Stats &amp; Compétences</span>
               <span class="ep-subcat-arrow">▶</span>
             </button>
             <div class="ep-subcat-body">
               <div class="ep-subcat-inner">
                 <button class="epbtn a" onclick="openSkillsEditor()">
-                  <span class="ep-ico">📈</span>Modifier les stats & barres
+                  <span class="ep-ico">📈</span>Modifier les stats &amp; barres
                 </button>
               </div>
             </div>
@@ -5877,7 +5885,7 @@ body.pmode #anchor-nav {
           <div class="ep-subcat" id="sub-contact">
             <button class="ep-subcat-head" onclick="toggleSubCat('sub-contact')">
               <span class="ep-subcat-ico">📬</span>
-              <span class="ep-subcat-label">Contact & Liens</span>
+              <span class="ep-subcat-label">Contact &amp; Liens</span>
               <span class="ep-subcat-arrow">▶</span>
             </button>
             <div class="ep-subcat-body">
@@ -5904,7 +5912,7 @@ body.pmode #anchor-nav {
     <!-- ══════════════════════════════════
          CATÉGORIE 2 — APPARENCE
          ══════════════════════════════════ -->
-    <div class="ep-cat" id="cat-apparence">
+    <div class="ep-cat open" id="cat-apparence">
       <button class="ep-cat-head" onclick="toggleCat('cat-apparence')">
         <span class="ep-cat-ico">🎨</span>
         <span class="ep-cat-label">Apparence</span>
@@ -5956,7 +5964,7 @@ body.pmode #anchor-nav {
           </div>
 
           <!-- Sous-cat : Typographie -->
-          <div class="ep-subcat" id="sub-typo">
+          <div class="ep-subcat open" id="sub-typo">
             <button class="ep-subcat-head" onclick="toggleSubCat('sub-typo')">
               <span class="ep-subcat-ico">🔠</span>
               <span class="ep-subcat-label">Typographie</span>
@@ -6099,7 +6107,7 @@ body.pmode #anchor-nav {
                 <div class="ep-toggle-row">
                   <span class="ep-toggle-lbl">Autoplay à l'ouverture</span>
                   <label class="ep-toggle-switch">
-                    <input type="checkbox" id="vp-opt-autoplay" checked onchange="vpSetOption('autoplay',this.checked)">
+                    <input type="checkbox" id="vp-opt-autoplay" checked="" onchange="vpSetOption('autoplay',this.checked)">
                     <span class="ep-toggle-knob"></span>
                   </label>
                 </div>
@@ -6113,14 +6121,14 @@ body.pmode #anchor-nav {
                 <div class="ep-toggle-row">
                   <span class="ep-toggle-lbl">Démarrer muet</span>
                   <label class="ep-toggle-switch">
-                    <input type="checkbox" id="vp-opt-muted" checked onchange="vpSetOption('startMuted',this.checked)">
+                    <input type="checkbox" id="vp-opt-muted" checked="" onchange="vpSetOption('startMuted',this.checked)">
                     <span class="ep-toggle-knob"></span>
                   </label>
                 </div>
                 <div class="ep-toggle-row">
                   <span class="ep-toggle-lbl">Plein écran au double-clic</span>
                   <label class="ep-toggle-switch">
-                    <input type="checkbox" id="vp-opt-dblfs" checked onchange="vpSetOption('dblclickFS',this.checked)">
+                    <input type="checkbox" id="vp-opt-dblfs" checked="" onchange="vpSetOption('dblclickFS',this.checked)">
                     <span class="ep-toggle-knob"></span>
                   </label>
                 </div>
@@ -6147,20 +6155,18 @@ body.pmode #anchor-nav {
                 <div class="ep-toggle-row">
                   <span class="ep-toggle-lbl">Picture-in-Picture</span>
                   <label class="ep-toggle-switch">
-                    <input type="checkbox" id="vp-opt-pip" checked onchange="vpSetOption('pip',this.checked)">
+                    <input type="checkbox" id="vp-opt-pip" checked="" onchange="vpSetOption('pip',this.checked)">
                     <span class="ep-toggle-knob"></span>
                   </label>
                 </div>
                 <div class="ep-slider-row">
                   <span class="ep-slider-lbl">Volume par défaut</span>
-                  <input type="range" min="0" max="100" value="80" id="vp-opt-defvol"
-                    oninput="vpSetOption('defaultVolume',this.value/100);this.nextElementSibling.textContent=this.value+'%'">
+                  <input type="range" min="0" max="100" value="80" id="vp-opt-defvol" oninput="vpSetOption('defaultVolume',this.value/100);this.nextElementSibling.textContent=this.value+'%'">
                   <span class="ep-slider-val">80%</span>
                 </div>
                 <div class="ep-slider-row">
                   <span class="ep-slider-lbl">Masquer contrôles après</span>
-                  <input type="range" min="1" max="8" value="3" id="vp-opt-hidedelay"
-                    oninput="vpSetOption('hideDelay',this.value*1000);this.nextElementSibling.textContent=this.value+'s'">
+                  <input type="range" min="1" max="8" value="3" id="vp-opt-hidedelay" oninput="vpSetOption('hideDelay',this.value*1000);this.nextElementSibling.textContent=this.value+'s'">
                   <span class="ep-slider-val">3s</span>
                 </div>
               </div>
@@ -6179,14 +6185,14 @@ body.pmode #anchor-nav {
                 <div class="ep-toggle-row">
                   <span class="ep-toggle-lbl">Préchargement des métadonnées</span>
                   <label class="ep-toggle-switch">
-                    <input type="checkbox" id="vp-opt-preload" checked onchange="vpSetOption('preload',this.checked)">
+                    <input type="checkbox" id="vp-opt-preload" checked="" onchange="vpSetOption('preload',this.checked)">
                     <span class="ep-toggle-knob"></span>
                   </label>
                 </div>
                 <div class="ep-toggle-row">
                   <span class="ep-toggle-lbl">Mode économie batterie mobile</span>
                   <label class="ep-toggle-switch">
-                    <input type="checkbox" id="vp-opt-battery" checked onchange="vpSetOption('batteryMode',this.checked)">
+                    <input type="checkbox" id="vp-opt-battery" checked="" onchange="vpSetOption('batteryMode',this.checked)">
                     <span class="ep-toggle-knob"></span>
                   </label>
                 </div>
@@ -6201,7 +6207,7 @@ body.pmode #anchor-nav {
           <div class="ep-subcat" id="sub-player-test">
             <button class="ep-subcat-head" onclick="toggleSubCat('sub-player-test')">
               <span class="ep-subcat-ico">🧪</span>
-              <span class="ep-subcat-label">Test & Diagnostic</span>
+              <span class="ep-subcat-label">Test &amp; Diagnostic</span>
               <span class="ep-subcat-arrow">▶</span>
             </button>
             <div class="ep-subcat-body">
@@ -6278,13 +6284,13 @@ body.pmode #anchor-nav {
           <div class="ep-subcat" id="sub-seo">
             <button class="ep-subcat-head" onclick="toggleSubCat('sub-seo')">
               <span class="ep-subcat-ico">🔍</span>
-              <span class="ep-subcat-label">SEO & Métadonnées</span>
+              <span class="ep-subcat-label">SEO &amp; Métadonnées</span>
               <span class="ep-subcat-arrow">▶</span>
             </button>
             <div class="ep-subcat-body">
               <div class="ep-subcat-inner">
                 <button class="epbtn a" onclick="openSeoEditor()">
-                  <span class="ep-ico">📄</span>Titre & description
+                  <span class="ep-ico">📄</span>Titre &amp; description
                   <span class="ep-badge new">NEW</span>
                 </button>
               </div>
@@ -9641,19 +9647,19 @@ function _dbgRenderVideo() {
 <div id="debug-panel">
   <div id="debug-topbar">
     <span id="debug-title">⚙ DEVTOOLS</span>
-    <button class="dbg-tab on" data-tab="perf"     onclick="dbgOpenTab('perf')">📈 Perf</button>
-    <button class="dbg-tab"   data-tab="network"   onclick="dbgOpenTab('network')">🌐 Réseau</button>
-    <button class="dbg-tab"   data-tab="elements"  onclick="dbgOpenTab('elements')">🔍 DOM</button>
-    <button class="dbg-tab"   data-tab="video"     onclick="dbgOpenTab('video')">🎬 Vidéo</button>
+    <button class="dbg-tab on" data-tab="perf" onclick="dbgOpenTab('perf')">📈 Perf</button>
+    <button class="dbg-tab" data-tab="network" onclick="dbgOpenTab('network')">🌐 Réseau</button>
+    <button class="dbg-tab" data-tab="elements" onclick="dbgOpenTab('elements')">🔍 DOM</button>
+    <button class="dbg-tab" data-tab="video" onclick="dbgOpenTab('video')">🎬 Vidéo</button>
     <span id="dbg-pill-fps">— FPS</span>
     <span id="dbg-pill-mem">— MB</span>
     <button id="debug-close" onclick="dbgToggle()">✕</button>
   </div>
   <div id="debug-body">
     <div class="dbg-pane on" id="dbg-perf"></div>
-    <div class="dbg-pane"    id="dbg-network"></div>
-    <div class="dbg-pane"    id="dbg-elements"></div>
-    <div class="dbg-pane"    id="dbg-video"></div>
+    <div class="dbg-pane" id="dbg-network"></div>
+    <div class="dbg-pane" id="dbg-elements"></div>
+    <div class="dbg-pane" id="dbg-video"></div>
   </div>
 </div>
 <button id="debug-trigger" onclick="dbgToggle()" title="DevTools (`) ">🔧</button>
@@ -9661,4 +9667,5 @@ function _dbgRenderVideo() {
 
 
 
-</body></html>
+
+</body><div id="detach-button-host" style="top: 0px; left: 542.333px;"></div><div class="hidden" id="qr-host"></div></html>
