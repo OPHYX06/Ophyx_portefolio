@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="fr" style="--sea-bright: #3700ff; --sea: hsl(253,100%,35%); --sea-glow: hsl(253,100%,65%); --sea-mist: #3700ff20; --white: #8205ff;"><head>
+<html lang="fr" style="--sea-bright: #3700ff; --sea: hsl(253,100%,35%); --sea-glow: hsl(253,100%,65%); --sea-mist: #3700ff20; --white: #8205ff;" class="js-ready"><head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>OPHYX — Portfolio</title>
@@ -4744,14 +4744,14 @@ body.pmode #anchor-nav {
 <body class="">
 
 <!-- ════════ CURSEUR PERSONNALISÉ ════════ -->
-<div id="cur" style="left: 930px; top: 540px;"></div>
-<div id="cur-r" style="left: 930.022px; top: 539.97px;"></div>
+<div id="cur" style="left: 978px; top: 535px;"></div>
+<div id="cur-r" style="left: 978.879px; top: 532.961px;"></div>
 
 <!-- ════════ TOAST ════════ -->
-<div id="toast"></div>
+<div id="toast" class="" style="background: var(--gold-bright); color: var(--void);">✏️ Mode édition — Ctrl+Z pour annuler — tapez OPHYX pour quitter</div>
 
 <!-- ════════ BARRE DE PROGRESSION ════════ -->
-<div id="scroll-prog" style="width: 0%;"></div>
+<div id="scroll-prog" style="width: 18.6461%;"></div>
 
 <!-- ════════ SAVING OVERLAY ════════ -->
 <div id="saving" class="">
@@ -4761,7 +4761,7 @@ body.pmode #anchor-nav {
 </div>
 
 <!-- ════════ INTRO BOUSSOLE PIRATE ════════ -->
-<div id="compass-intro">
+<div id="compass-intro" class="ci-phase4" style="display: none; opacity: 1;">
 
   <!-- Couche fissures et éclats — au-dessus du SVG -->
   <div class="ci-ring">
@@ -4918,7 +4918,7 @@ body.pmode #anchor-nav {
 </div>
 
 <!-- ════════ NAVIGATION ════════ -->
-<nav id="nb" class="">
+<nav id="nb" class="sc">
   <a href="#hero" class="nlogo">OPHYX</a>
   <ul class="nlinks">
     <li><a href="#about">À propos</a></li>
@@ -4949,10 +4949,10 @@ body.pmode #anchor-nav {
       <span id="avail-txt">Disponible pour missions</span>
     </div>
     <div class="hey">Créateur d'univers visuels</div>
-    <div class="hname" id="hname">
+    <div class="hname" id="hname" style="color: rgb(224, 171, 66);">
       <span class="L" style="animation-delay:.5s">O</span><span class="L" style="animation-delay:.58s">P</span><span class="L" style="animation-delay:.66s">H</span><span class="L" style="animation-delay:.74s">Y</span><span class="L" style="animation-delay:.82s">X</span>
     </div>
-    <p class="hsub"><span id="tt">Gr</span><span id="tcur"></span></p>
+    <p class="hsub" style="color: rgb(188, 210, 75);"><span id="tt">A</span><span id="tcur"></span></p>
     <div class="hcta">
       <a href="#portfolio" class="btn1">Voir mes travaux</a>
       <a href="#contact" class="btn2">Me contacter</a>
@@ -4967,7 +4967,7 @@ body.pmode #anchor-nav {
 <!-- ════════ À PROPOS ════════ -->
 <section id="about">
   <!-- Boussole décorative fond -->
-  <svg class="bg-compass" aria-hidden="true" viewBox="0 0 300 300" xmlns="http://www.w3.org/2000/svg" style="right: 2%; top: 50%; transform: translateY(-50%) rotate(12deg); animation-play-state: paused;">
+  <svg class="bg-compass" aria-hidden="true" viewBox="0 0 300 300" xmlns="http://www.w3.org/2000/svg" style="right: 2%; top: 50%; transform: translateY(-50%) rotate(12deg); animation-play-state: running;">
   <defs>
     <radialGradient id="cgrad-righ" cx="50%" cy="50%" r="50%">
       <stop offset="0%" stop-color="rgba(200,146,42,.18)"></stop>
@@ -5032,7 +5032,7 @@ body.pmode #anchor-nav {
   <line x1="85" y1="150" x2="215" y2="150" stroke="rgba(200,146,42,.12)" stroke-width="0.6"></line>
 
   <!-- Aiguille (groupe animé) -->
-  <g class="needle-group" style="animation-play-state: paused;">
+  <g class="needle-group" style="animation-play-state: running;">
     <!-- Aiguille Nord — dorée -->
     <polygon points="150,62 144,150 150,140 156,150" fill="rgba(200,146,42,.85)" stroke="rgba(200,146,42,.4)" stroke-width="0.8"></polygon>
     <!-- Aiguille Sud — sombre -->
@@ -5061,10 +5061,10 @@ body.pmode #anchor-nav {
   <div class="ag">
     <!-- Texte -->
     <div class="at rv vis">
-      <div class="slbl">À propos</div>
-      <h2 class="stit">Vision. <span class="acc">Créativité.</span> Exécution.</h2>
-      <p>Je suis OPHYX, créateur visuel passionné spécialisé dans le montage vidéo, le motion design, l'animation 3D et le graphisme 3D. Je transforme des idées en expériences visuelles percutantes qui captivent et marquent les esprits.</p>
-      <p>Chaque projet est une nouvelle opportunité de repousser les limites du possible.</p>
+      <div class="slbl" style="color: rgb(255, 194, 71);">À propos</div>
+      <h2 class="stit" style="color: rgb(86, 230, 129);">Vision. <span class="acc">Créativité.</span> Exécution.</h2>
+      <p style="color: rgb(255, 222, 138);">Je suis OPHYX, créateur visuel passionné spécialisé dans le montage vidéo, le motion design, l'animation 3D et le graphisme 3D. Je transforme des idées en expériences visuelles percutantes qui captivent et marquent les esprits.</p>
+      <p style="color: rgb(255, 222, 138);">Chaque projet est une nouvelle opportunité de repousser les limites du possible.</p>
       <div class="stats">
         <div class="stat rv vis">
           <span class="sn ctr" data-t="5" data-done="1">+5</span>
@@ -5194,8 +5194,8 @@ body.pmode #anchor-nav {
   </g>
   </svg>
   <div style="max-width:1240px;margin:0 auto">
-    <div class="slbl rv vis">Ce que je fais</div>
-    <h2 class="stit rv vis">Mes <span class="acc">Services</span></h2>
+    <div class="slbl rv vis" style="color: rgb(255, 194, 71);">Ce que je fais</div>
+    <h2 class="stit rv vis" style="color: rgb(86, 230, 129);">Mes <span class="acc">Services</span></h2>
   </div>
 
   <div class="svg"><div class="svc rv vis"><span class="svc-num">01</span><span class="svi">✂️</span><div class="svt">Montage Vidéo</div><p class="svd">Transformez vos rushs en récits visuels captivants. Du clip court au documentaire long format, je donne du rythme et de l'émotion à vos images.</p><div class="svtags"><span class="tag">Vidéo Gaming</span><span class="tag">Clip</span><span class="tag">Pub</span><span class="tag">Documentaire</span><span class="tag">Trailer</span><span class="tag">Short</span></div></div><div class="svc rv vis"><span class="svc-num">02</span><span class="svi">⚡</span><div class="svt">Motion Design</div><p class="svd">Des animations fluides et percutantes pour donner vie à vos graphiques, logos et contenus digitaux. Motion graphics 2D et 3D haute qualité.</p><div class="svtags"><span class="tag">Logo Reveal</span><span class="tag">Générique</span><span class="tag">Infographie</span></div></div><div class="svc rv vis"><span class="svc-num">03</span><span class="svi">🧊</span><div class="svt">Animation 3D</div><p class="svd">Créations tridimensionnelles immersives : personnages, environnements, effets visuels. Du concept au rendu final, je modélise vos visions.</p><div class="svtags"><span class="tag">Character</span><span class="tag">VFX</span><span class="tag">Product</span><span class="tag">Cinématique</span></div></div></div>
@@ -5279,8 +5279,8 @@ body.pmode #anchor-nav {
   </svg>
   <div class="ph">
     <div>
-      <div class="slbl rv vis">Réalisations</div>
-      <h2 class="stit rv vis">Mon <span class="acc">Portfolio</span></h2>
+      <div class="slbl rv vis" style="color: rgb(255, 194, 71);">Réalisations</div>
+      <h2 class="stit rv vis" style="color: rgb(86, 230, 129);">Mon <span class="acc">Portfolio</span></h2>
     </div>
     <div class="fbs rv vis">
       <button class="fb on" data-f="all">Tous</button>
@@ -5423,8 +5423,8 @@ body.pmode #anchor-nav {
   </g>
 </svg>
   <div style="max-width:1240px;margin:0 auto">
-    <div class="slbl rv vis">Comment je travaille</div>
-    <h2 class="stit rv vis">Mon <span class="acc">Process</span></h2>
+    <div class="slbl rv vis" style="color: rgb(255, 194, 71);">Comment je travaille</div>
+    <h2 class="stit rv vis" style="color: rgb(86, 230, 129);">Mon <span class="acc">Process</span></h2>
   </div>
   <div class="prs rv vis">
     <div class="prstep">
@@ -5532,14 +5532,14 @@ body.pmode #anchor-nav {
   </g>
   </svg>
   <div style="max-width:1240px;margin:0 auto;text-align:center">
-    <div class="slbl rv vis" style="justify-content:center">Ils me font confiance</div>
-    <h2 class="stit rv vis">Leurs Avis parlent d'eux-mêmes.</h2>
+    <div class="slbl rv vis" style="justify-content: center; color: rgb(255, 194, 71);">Ils me font confiance</div>
+    <h2 class="stit rv vis" style="color: rgb(86, 230, 129);">Leurs Avis parlent d'eux-mêmes.</h2>
   </div>
   <div class="tsw rv vis">
     
     
     
-    <div class="tsl"><p class="tq">T'es plutôt bon en montage et en terme de graphisme t'évolues hyper vite donc t'as un potentiel de fou.</p><div class="ta">echo</div><div class="tr">Graphiste</div></div><div class="tsl"><p class="tq">Montage qualitatif et motion design très bien réalisé</p><div class="ta">Adominos</div><div class="tr">Monteur vidéo — Motion Designer — Content Creator</div></div><div class="tsl on"><p class="tq">Incroyable maîtrise du 3D et du motion design. Notre logo reveal a reçu des compliments de toute notre communauté.</p><div class="ta">Zanzar</div><div class="tr">Graphiste — Content Creator</div></div><div class="tdots"><div class="dot" data-i="0"></div><div class="dot" data-i="1"></div><div class="dot on" data-i="2"></div></div>
+    <div class="tsl on"><p class="tq">T'es plutôt bon en montage et en terme de graphisme t'évolues hyper vite donc t'as un potentiel de fou.</p><div class="ta">echo</div><div class="tr">Graphiste</div></div><div class="tsl"><p class="tq">Montage qualitatif et motion design très bien réalisé</p><div class="ta">Adominos</div><div class="tr">Monteur vidéo — Motion Designer — Content Creator</div></div><div class="tsl"><p class="tq">Incroyable maîtrise du 3D et du motion design. Notre logo reveal a reçu des compliments de toute notre communauté.</p><div class="ta">Zanzar</div><div class="tr">Graphiste — Content Creator</div></div><div class="tdots"><div class="dot on" data-i="0"></div><div class="dot" data-i="1"></div><div class="dot" data-i="2"></div></div>
   </div>
 </section>
 
@@ -5643,8 +5643,8 @@ body.pmode #anchor-nav {
   <div class="cg">
     <!-- Infos -->
     <div class="rv vis">
-      <div class="slbl">Démarrons</div>
-      <h2 class="stit">Travaillons <span class="acc">ensemble</span></h2>
+      <div class="slbl" style="color: rgb(255, 194, 71);">Démarrons</div>
+      <h2 class="stit" style="color: rgb(86, 230, 129);">Travaillons <span class="acc">ensemble</span></h2>
       <p style="color:var(--muted);line-height:1.85;margin:1.5rem 0 2.5rem;font-size:.96rem">
         Vous avez un projet en tête ? N'hésitez pas à me contacter, je répondrai dans les 24h.
       </p>
@@ -5724,8 +5724,8 @@ body.pmode #anchor-nav {
 </div>
 
 <!-- ════════ ANCRE NAVIGATION SCROLL-TO-TOP ════════ -->
-<div id="anchor-nav" class="">
-  <div id="section-indicator" style="opacity: 1;">Haut de page</div>
+<div id="anchor-nav" class="visible">
+  <div id="section-indicator" style="opacity: 1;">À propos</div>
   <button id="anchor-top-btn" onclick="window.scrollTo({top:0,behavior:'smooth'})" title="Retour en haut">⚓</button>
 </div>
 
@@ -5912,7 +5912,7 @@ body.pmode #anchor-nav {
     <!-- ══════════════════════════════════
          CATÉGORIE 2 — APPARENCE
          ══════════════════════════════════ -->
-    <div class="ep-cat" id="cat-apparence">
+    <div class="ep-cat open" id="cat-apparence">
       <button class="ep-cat-head" onclick="toggleCat('cat-apparence')">
         <span class="ep-cat-ico">🎨</span>
         <span class="ep-cat-label">Apparence</span>
@@ -9892,4 +9892,5 @@ function _dbgRenderVideo() {
 
 
 
-</body><div id="detach-button-host" style="top: 0px; left: 542.333px;"></div><div class="hidden" id="qr-host"></div></html>s
+<div id="detach-button-host" style="top: 0px; left: 542.333px;"></div><div class="hidden" id="qr-host"></div>s
+</body><div id="detach-button-host" style="top: -1052px; left: 542.333px;"></div><div class="hidden" id="qr-host"></div></html>
