@@ -4744,11 +4744,11 @@ body.pmode #anchor-nav {
 <body class="">
 
 <!-- ════════ CURSEUR PERSONNALISÉ ════════ -->
-<div id="cur" style="left: 1001px; top: 525px;"></div>
-<div id="cur-r" style="left: 1001.01px; top: 524.971px;"></div>
+<div id="cur" style="left: 930px; top: 540px;"></div>
+<div id="cur-r" style="left: 930.022px; top: 539.97px;"></div>
 
 <!-- ════════ TOAST ════════ -->
-<div id="toast" class="" style="background: var(--gold-bright); color: var(--void);">Ultra-dark mode désactivé</div>
+<div id="toast" class="show" style="background: var(--gold-bright); color: var(--void);">✏️ Mode édition — Ctrl+Z pour annuler — tapez OPHYX pour quitter</div>
 
 <!-- ════════ BARRE DE PROGRESSION ════════ -->
 <div id="scroll-prog" style="width: 0%;"></div>
@@ -4952,7 +4952,7 @@ body.pmode #anchor-nav {
     <div class="hname" id="hname">
       <span class="L" style="animation-delay:.5s">O</span><span class="L" style="animation-delay:.58s">P</span><span class="L" style="animation-delay:.66s">H</span><span class="L" style="animation-delay:.74s">Y</span><span class="L" style="animation-delay:.82s">X</span>
     </div>
-    <p class="hsub"><span id="tt">Créate</span><span id="tcur"></span></p>
+    <p class="hsub"><span id="tt">Gr</span><span id="tcur"></span></p>
     <div class="hcta">
       <a href="#portfolio" class="btn1">Voir mes travaux</a>
       <a href="#contact" class="btn2">Me contacter</a>
@@ -5539,7 +5539,7 @@ body.pmode #anchor-nav {
     
     
     
-    <div class="tsl on"><p class="tq">T'es plutôt bon en montage et en terme de graphisme t'évolues hyper vite donc t'as un potentiel de fou.</p><div class="ta">echo</div><div class="tr">Graphiste</div></div><div class="tsl"><p class="tq">Montage qualitatif et motion design très bien réalisé</p><div class="ta">Adominos</div><div class="tr">Monteur vidéo — Motion Designer — Content Creator</div></div><div class="tsl"><p class="tq">Incroyable maîtrise du 3D et du motion design. Notre logo reveal a reçu des compliments de toute notre communauté.</p><div class="ta">Zanzar</div><div class="tr">Graphiste — Content Creator</div></div><div class="tdots"><div class="dot on" data-i="0"></div><div class="dot" data-i="1"></div><div class="dot" data-i="2"></div></div>
+    <div class="tsl"><p class="tq">T'es plutôt bon en montage et en terme de graphisme t'évolues hyper vite donc t'as un potentiel de fou.</p><div class="ta">echo</div><div class="tr">Graphiste</div></div><div class="tsl"><p class="tq">Montage qualitatif et motion design très bien réalisé</p><div class="ta">Adominos</div><div class="tr">Monteur vidéo — Motion Designer — Content Creator</div></div><div class="tsl on"><p class="tq">Incroyable maîtrise du 3D et du motion design. Notre logo reveal a reçu des compliments de toute notre communauté.</p><div class="ta">Zanzar</div><div class="tr">Graphiste — Content Creator</div></div><div class="tdots"><div class="dot" data-i="0"></div><div class="dot" data-i="1"></div><div class="dot on" data-i="2"></div></div>
   </div>
 </section>
 
@@ -5785,7 +5785,7 @@ body.pmode #anchor-nav {
     <!-- ══════════════════════════════════
          CATÉGORIE 1 — CONTENU
          ══════════════════════════════════ -->
-    <div class="ep-cat open" id="cat-content">
+    <div class="ep-cat" id="cat-content">
       <button class="ep-cat-head" onclick="toggleCat('cat-content')">
         <span class="ep-cat-ico">📝</span>
         <span class="ep-cat-label">Contenu</span>
@@ -5795,7 +5795,7 @@ body.pmode #anchor-nav {
         <div class="ep-cat-inner">
 
           <!-- Sous-cat : Projets -->
-          <div class="ep-subcat open" id="sub-projets">
+          <div class="ep-subcat" id="sub-projets">
             <button class="ep-subcat-head" onclick="toggleSubCat('sub-projets')">
               <span class="ep-subcat-ico">🎬</span>
               <span class="ep-subcat-label">Projets</span>
@@ -5912,7 +5912,7 @@ body.pmode #anchor-nav {
     <!-- ══════════════════════════════════
          CATÉGORIE 2 — APPARENCE
          ══════════════════════════════════ -->
-    <div class="ep-cat open" id="cat-apparence">
+    <div class="ep-cat" id="cat-apparence">
       <button class="ep-cat-head" onclick="toggleCat('cat-apparence')">
         <span class="ep-cat-ico">🎨</span>
         <span class="ep-cat-label">Apparence</span>
@@ -6014,7 +6014,7 @@ body.pmode #anchor-nav {
     <!-- ══════════════════════════════════
          CATÉGORIE 3 — MÉDIAS
          ══════════════════════════════════ -->
-    <div class="ep-cat open" id="cat-medias">
+    <div class="ep-cat" id="cat-medias">
       <button class="ep-cat-head" onclick="toggleCat('cat-medias')">
         <span class="ep-cat-ico">🎬</span>
         <span class="ep-cat-label">Médias</span>
@@ -9644,25 +9644,25 @@ function _dbgRenderVideo() {
 </script>
 
 <!-- ════════ DEBUG PANEL ════════ -->
-<div id="debug-panel">
+<div id="debug-panel" class="" style="width: 484px; height: 310px;">
   <div id="debug-topbar">
     <span id="debug-title">⚙ DEVTOOLS</span>
     <button class="dbg-tab on" data-tab="perf" onclick="dbgOpenTab('perf')">📈 Perf</button>
     <button class="dbg-tab" data-tab="network" onclick="dbgOpenTab('network')">🌐 Réseau</button>
     <button class="dbg-tab" data-tab="elements" onclick="dbgOpenTab('elements')">🔍 DOM</button>
     <button class="dbg-tab" data-tab="video" onclick="dbgOpenTab('video')">🎬 Vidéo</button>
-    <span id="dbg-pill-fps">— FPS</span>
-    <span id="dbg-pill-mem">— MB</span>
+    <span id="dbg-pill-fps" style="color: rgb(125, 245, 192); border-color: rgba(125, 245, 192, 0.333);">60 FPS</span>
+    <span id="dbg-pill-mem" style="color: rgb(125, 245, 192); border-color: rgba(125, 245, 192, 0.333);">5 MB</span>
     <button id="debug-close" onclick="dbgToggle()">✕</button>
   </div>
   <div id="debug-body">
-    <div class="dbg-pane on" id="dbg-perf"></div>
+    <div class="dbg-pane on" id="dbg-perf"><div class="dbg-perf-grid" style="display:grid;grid-template-columns:repeat(3,1fr);gap:.3rem;padding:.4rem .7rem .3rem"><div class="dbg-metric"><div class="dbg-metric-lbl">FPS</div><div class="dbg-metric-val">60</div></div><div class="dbg-metric"><div class="dbg-metric-lbl">DOM</div><div class="dbg-metric-val warn">1542</div></div><div class="dbg-metric"><div class="dbg-metric-lbl">Chargement</div><div class="dbg-metric-val">1407ms</div></div><div class="dbg-metric"><div class="dbg-metric-lbl">FCP</div><div class="dbg-metric-val">1712ms</div></div><div class="dbg-metric"><div class="dbg-metric-lbl">JS Heap</div><div class="dbg-metric-val">5MB</div></div><div class="dbg-metric"><div class="dbg-metric-lbl">Ressources</div><div class="dbg-metric-val">14</div></div></div><div style="padding:.1rem .7rem .15rem;font-family:Lato,sans-serif;font-size:.56rem;color:rgba(200,146,42,.4);letter-spacing:.1em;text-transform:uppercase">FPS — 60s</div><div style="padding:0 .7rem .25rem"><canvas id="dbg-spark-fps" style="width:100%;height:36px;display:block;border-radius:3px;background:rgba(0,0,0,.3);border:1px solid rgba(200,146,42,.1)" width="666" height="54"></canvas></div><div style="padding:.05rem .7rem .15rem;font-family:Lato,sans-serif;font-size:.56rem;color:rgba(200,146,42,.4);letter-spacing:.1em;text-transform:uppercase">Mémoire JS (MB)</div><div style="padding:0 .7rem .4rem"><canvas id="dbg-spark-mem" style="width:100%;height:36px;display:block;border-radius:3px;background:rgba(0,0,0,.3);border:1px solid rgba(200,146,42,.1)" width="666" height="54"></canvas></div></div>
     <div class="dbg-pane" id="dbg-network"></div>
     <div class="dbg-pane" id="dbg-elements"></div>
     <div class="dbg-pane" id="dbg-video"></div>
   </div>
 </div>
-<button id="debug-trigger" onclick="dbgToggle()" title="DevTools (`) ">🔧</button>
+<button id="debug-trigger" onclick="dbgToggle()" title="DevTools (`) " class="">🔧</button>
 
 
 
