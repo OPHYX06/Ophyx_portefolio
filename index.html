@@ -2735,10 +2735,10 @@ body.emode #epanel-tab { right: 252px; }
   overflow-y: auto;
   overflow-x: hidden;
   flex: 1;
-  padding: .7rem .8rem;
+  padding: .5rem .6rem .6rem;
   display: flex;
   flex-direction: column;
-  gap: .28rem;
+  gap: .22rem;
   scrollbar-width: thin;
   scrollbar-color: rgba(200,146,42,.2) transparent;
 }
@@ -2746,37 +2746,148 @@ body.emode #epanel-tab { right: 252px; }
 .ep-scroll::-webkit-scrollbar-track { background: transparent; }
 .ep-scroll::-webkit-scrollbar-thumb { background: rgba(200,146,42,.25); border-radius: 3px; }
 
-/* Titres de section */
-.ep-sec-title {
+/* ══ ACCORDÉON — Catégories ══ */
+.ep-cat {
+  border: 1px solid rgba(200,146,42,.12);
+  border-radius: 9px;
+  overflow: hidden;
+  background: rgba(200,146,42,.03);
+  transition: border-color .25s;
+}
+.ep-cat.open { border-color: rgba(200,146,42,.28); }
+
+.ep-cat-head {
+  display: flex;
+  align-items: center;
+  gap: .55rem;
+  padding: .62rem .85rem;
+  cursor: pointer;
+  user-select: none;
+  background: transparent;
+  border: none;
+  width: 100%;
+  text-align: left;
+  transition: background .18s;
+}
+.ep-cat-head:hover { background: rgba(200,146,42,.06); }
+.ep-cat.open .ep-cat-head { background: rgba(200,146,42,.07); border-bottom: 1px solid rgba(200,146,42,.1); }
+
+.ep-cat-ico {
+  font-size: 1rem;
+  flex-shrink: 0;
+  width: 22px;
+  text-align: center;
+}
+.ep-cat-label {
+  font-family: 'Lato', sans-serif;
+  font-size: .73rem;
+  font-weight: 700;
+  letter-spacing: .06em;
+  color: rgba(240,232,212,.85);
+  flex: 1;
+}
+.ep-cat-badge {
   font-family: 'Lato', sans-serif;
   font-size: .58rem;
   font-weight: 700;
-  letter-spacing: .25em;
-  text-transform: uppercase;
-  color: rgba(200,146,42,.38);
-  padding: .55rem .3rem .18rem;
-  margin-top: .15rem;
+  letter-spacing: .08em;
+  background: rgba(200,146,42,.15);
+  color: var(--gold-bright);
+  padding: .12rem .45rem;
+  border-radius: 20px;
+  flex-shrink: 0;
+}
+.ep-cat-arrow {
+  font-size: .65rem;
+  color: rgba(200,146,42,.4);
+  flex-shrink: 0;
+  transition: transform .25s var(--ease-out), color .2s;
+}
+.ep-cat.open .ep-cat-arrow {
+  transform: rotate(90deg);
+  color: var(--gold-bright);
+}
+
+/* Corps de catégorie */
+.ep-cat-body {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height .35s var(--ease-out);
+}
+.ep-cat.open .ep-cat-body {
+  max-height: 800px;
+}
+
+.ep-cat-inner {
+  padding: .5rem .55rem .6rem;
+  display: flex;
+  flex-direction: column;
+  gap: .25rem;
+}
+
+/* Sous-catégorie */
+.ep-subcat {
+  border-radius: 6px;
+  background: rgba(255,255,255,.02);
+  border: 1px solid rgba(255,255,255,.05);
+  overflow: hidden;
+  margin-top: .1rem;
+}
+.ep-subcat-head {
   display: flex;
   align-items: center;
   gap: .4rem;
+  padding: .38rem .65rem;
+  cursor: pointer;
+  user-select: none;
+  border: none;
+  width: 100%;
+  text-align: left;
+  background: transparent;
+  transition: background .18s;
 }
-.ep-sec-title::after {
-  content: '';
+.ep-subcat-head:hover { background: rgba(200,146,42,.05); }
+.ep-subcat.open .ep-subcat-head { background: rgba(200,146,42,.05); border-bottom: 1px solid rgba(255,255,255,.05); }
+.ep-subcat-ico { font-size: .82rem; flex-shrink: 0; width: 16px; text-align: center; opacity: .7; }
+.ep-subcat-label {
+  font-family: 'Lato', sans-serif;
+  font-size: .65rem;
+  font-weight: 700;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  color: rgba(200,146,42,.6);
   flex: 1;
-  height: 1px;
-  background: rgba(200,146,42,.1);
+}
+.ep-subcat-arrow {
+  font-size: .55rem;
+  color: rgba(200,146,42,.3);
+  transition: transform .22s;
+}
+.ep-subcat.open .ep-subcat-arrow { transform: rotate(90deg); color: rgba(200,146,42,.6); }
+
+.ep-subcat-body {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height .28s var(--ease-out);
+}
+.ep-subcat.open .ep-subcat-body { max-height: 600px; }
+.ep-subcat-inner {
+  padding: .4rem .4rem .45rem;
+  display: flex;
+  flex-direction: column;
+  gap: .22rem;
 }
 
-.ep-sep { height: 1px; background: rgba(255,255,255,.05); margin: .2rem 0; }
+.ep-sep { height: 1px; background: rgba(255,255,255,.05); margin: .15rem 0; }
 
 /* Boutons */
 .epbtn {
   width: 100%;
-  padding: .58rem .85rem;
+  padding: .52rem .8rem;
   font-family: 'Lato', sans-serif;
-  font-size: .72rem;
+  font-size: .71rem;
   font-weight: 600;
-  letter-spacing: .04em;
+  letter-spacing: .03em;
   border: 1px solid transparent;
   cursor: pointer;
   transition: background .18s, border-color .18s, color .18s, transform .1s;
@@ -2784,7 +2895,7 @@ body.emode #epanel-tab { right: 252px; }
   text-align: left;
   display: flex;
   align-items: center;
-  gap: .6rem;
+  gap: .55rem;
   position: relative;
   overflow: hidden;
 }
@@ -2792,16 +2903,32 @@ body.emode #epanel-tab { right: 252px; }
 
 .epbtn .ep-ico {
   flex-shrink: 0;
-  font-size: .9rem;
+  font-size: .88rem;
   width: 18px;
   text-align: center;
+}
+
+.epbtn .ep-badge {
+  margin-left: auto;
+  font-size: .56rem;
+  font-weight: 700;
+  letter-spacing: .06em;
+  background: rgba(229,9,20,.2);
+  color: #ff8099;
+  padding: .1rem .35rem;
+  border-radius: 3px;
+  flex-shrink: 0;
+}
+.epbtn .ep-badge.new {
+  background: rgba(42,140,108,.22);
+  color: #7df5c0;
 }
 
 /* Variantes */
 .epbtn.a {
   background: rgba(200,146,42,.06);
   color: rgba(240,232,212,.75);
-  border-color: rgba(200,146,42,.14);
+  border-color: rgba(200,146,42,.12);
 }
 .epbtn.a:hover {
   background: rgba(200,146,42,.16);
@@ -2809,7 +2936,16 @@ body.emode #epanel-tab { right: 252px; }
   border-color: rgba(200,146,42,.38);
   box-shadow: 0 2px 12px rgba(200,146,42,.1);
 }
-
+.epbtn.danger {
+  background: rgba(180,0,40,.12);
+  color: #ff8099;
+  border-color: rgba(180,0,40,.2);
+}
+.epbtn.danger:hover {
+  background: rgba(200,0,50,.35);
+  color: #fff;
+  border-color: rgba(229,9,20,.5);
+}
 .epbtn.g {
   background: rgba(26,92,74,.25);
   color: #7df5c0;
@@ -2821,7 +2957,6 @@ body.emode #epanel-tab { right: 252px; }
   border-color: rgba(42,140,108,.6);
   box-shadow: 0 2px 12px rgba(42,140,108,.15);
 }
-
 .epbtn.red {
   background: rgba(180,0,40,.18);
   color: #ff8099;
@@ -2832,8 +2967,6 @@ body.emode #epanel-tab { right: 252px; }
   color: #fff;
   border-color: rgba(229,9,20,.5);
 }
-
-/* Son — bouton avec état actif */
 .epbtn.snd-on {
   background: rgba(42,140,108,.18);
   color: var(--sea-glow);
@@ -2841,71 +2974,137 @@ body.emode #epanel-tab { right: 252px; }
 }
 .epbtn.snd-on:hover { background: rgba(42,140,108,.35); color: #fff; }
 
-/* Zone couleurs */
-.ep-colors {
+/* Widget inline couleur */
+.ep-color-widget {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: .3rem;
+  padding: .45rem .5rem;
+}
+.ep-color-row {
   display: flex;
   align-items: center;
-  gap: .5rem;
-  padding: .5rem .85rem;
-  background: rgba(200,146,42,.04);
-  border: 1px solid rgba(200,146,42,.12);
-  border-radius: 7px;
-}
-.ep-color-lbl {
-  font-family: 'Lato', sans-serif;
-  font-size: .65rem;
-  color: var(--muted);
-  text-transform: uppercase;
-  letter-spacing: .1em;
-  flex: 1;
-}
-.ep-colors input[type=color] {
-  width: 26px; height: 26px;
-  border: 1px solid rgba(200,146,42,.25);
+  gap: .4rem;
+  padding: .35rem .55rem;
+  background: rgba(255,255,255,.03);
+  border: 1px solid rgba(200,146,42,.1);
+  border-radius: 6px;
   cursor: pointer;
-  background: none;
-  padding: 2px;
-  border-radius: 5px;
+  transition: background .2s;
+}
+.ep-color-row:hover { background: rgba(200,146,42,.08); }
+.ep-color-dot {
+  width: 18px;
+  height: 18px;
+  border-radius: 4px;
+  border: 1px solid rgba(255,255,255,.15);
   overflow: hidden;
   flex-shrink: 0;
-  transition: border-color .2s;
 }
-.ep-colors input[type=color]:hover { border-color: rgba(200,146,42,.6); }
+.ep-color-dot input[type=color] {
+  width: 200%;
+  height: 200%;
+  transform: translate(-25%, -25%);
+  border: none;
+  cursor: pointer;
+  background: none;
+  padding: 0;
+}
+.ep-color-name {
+  font-family: 'Lato', sans-serif;
+  font-size: .62rem;
+  font-weight: 700;
+  color: rgba(240,232,212,.55);
+  text-transform: uppercase;
+  letter-spacing: .08em;
+}
 
-/* Son widget inline */
-.ep-sound-row {
+/* Widget son inline */
+.ep-sound-widget {
   display: flex;
   align-items: center;
-  gap: .5rem;
-  padding: .45rem .85rem;
+  gap: .4rem;
+  padding: .42rem .8rem;
   background: rgba(200,146,42,.04);
   border: 1px solid rgba(200,146,42,.12);
   border-radius: 7px;
 }
-.ep-sound-row .ep-sound-ico { font-size: 1rem; flex-shrink: 0; cursor: pointer; }
-.ep-sound-row .ep-sound-lbl { font-family: 'Lato', sans-serif; font-size: .65rem; color: var(--muted); flex: 1; }
-.ep-sound-row .ep-sound-toggle {
+.ep-sound-ico { font-size: .95rem; flex-shrink: 0; }
+.ep-sound-lbl { font-family: 'Lato', sans-serif; font-size: .64rem; color: var(--muted); flex: 1; }
+.ep-sound-toggle {
   background: rgba(200,146,42,.12);
-  border: 1px solid rgba(200,146,42,.25);
+  border: 1px solid rgba(200,146,42,.22);
   color: var(--gold-pale);
-  font-size: .6rem;
+  font-size: .58rem;
   font-family: 'Lato', sans-serif;
-  font-weight: 600;
+  font-weight: 700;
   padding: .22rem .55rem;
   border-radius: 4px;
   cursor: pointer;
-  letter-spacing: .06em;
+  letter-spacing: .07em;
+  text-transform: uppercase;
   transition: background .2s;
 }
-.ep-sound-row .ep-sound-toggle:hover { background: rgba(200,146,42,.28); color: #fff; }
+.ep-sound-toggle:hover { background: rgba(200,146,42,.3); color: #fff; }
+
+/* Slider opacité vidéo */
+.ep-slider-row {
+  display: flex;
+  align-items: center;
+  gap: .5rem;
+  padding: .42rem .8rem;
+  background: rgba(255,255,255,.03);
+  border: 1px solid rgba(255,255,255,.06);
+  border-radius: 7px;
+}
+.ep-slider-lbl {
+  font-family: 'Lato', sans-serif;
+  font-size: .62rem;
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: .07em;
+  min-width: 50px;
+}
+.ep-slider-row input[type=range] {
+  flex: 1;
+  accent-color: var(--gold-bright);
+  cursor: pointer;
+}
+.ep-slider-val {
+  font-family: 'Cinzel', sans-serif;
+  font-size: .62rem;
+  color: var(--gold-bright);
+  min-width: 28px;
+  text-align: right;
+}
+
+/* Titres de section (fallback si utilisé hors cat) */
+.ep-sec-title {
+  font-family: 'Lato', sans-serif;
+  font-size: .56rem;
+  font-weight: 700;
+  letter-spacing: .25em;
+  text-transform: uppercase;
+  color: rgba(200,146,42,.35);
+  padding: .45rem .3rem .12rem;
+  display: flex;
+  align-items: center;
+  gap: .4rem;
+}
+.ep-sec-title::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: rgba(200,146,42,.1);
+}
 
 /* Footer */
 .ep-footer {
-  padding: .7rem .8rem;
+  padding: .65rem .7rem;
   border-top: 1px solid rgba(200,146,42,.1);
   display: flex;
   flex-direction: column;
-  gap: .3rem;
+  gap: .28rem;
   flex-shrink: 0;
   background: rgba(200,146,42,.02);
 }
@@ -5160,67 +5359,421 @@ body.pmode #anchor-nav {
     <button class="ep-close-btn" onclick="exitEdit()" title="Quitter l'édition (ou retaper OPHYX)">✕</button>
   </div>
 
-  <!-- Hint raccourcis -->
   <div class="ep-hint">
-    <kbd>Ctrl+Z</kbd> Annuler &nbsp;·&nbsp; <kbd>Ctrl+Y</kbd> Rétablir &nbsp;·&nbsp; Cliquer le texte pour éditer
+    <kbd>Ctrl+Z</kbd> Annuler &nbsp;·&nbsp; <kbd>Ctrl+Y</kbd> Rétablir &nbsp;·&nbsp; Clique le texte pour éditer
   </div>
 
   <div class="ep-scroll">
 
-    <!-- ── CONTENU ── -->
-    <div class="ep-sec-title">Contenu</div>
-    <button class="epbtn a" onclick="openAPM()">
-      <span class="ep-ico">＋</span>Ajouter un projet
-    </button>
-    <button class="epbtn a" onclick="document.getElementById('photoInput').click()">
-      <span class="ep-ico">🖼</span>Changer ma photo
-    </button>
-    <button class="epbtn a" onclick="openSkillsEditor()">
-      <span class="ep-ico">📊</span>Stats &amp; Compétences
-    </button>
-    <button class="epbtn a" onclick="openTextAnimEditor()">
-      <span class="ep-ico">🔤</span>Textes &amp; Services
-    </button>
+    <!-- ══════════════════════════════════
+         CATÉGORIE 1 — CONTENU
+         ══════════════════════════════════ -->
+    <div class="ep-cat open" id="cat-content">
+      <button class="ep-cat-head" onclick="toggleCat('cat-content')">
+        <span class="ep-cat-ico">📝</span>
+        <span class="ep-cat-label">Contenu</span>
+        <span class="ep-cat-arrow">▶</span>
+      </button>
+      <div class="ep-cat-body">
+        <div class="ep-cat-inner">
 
-    <!-- ── APPARENCE ── -->
-    <div class="ep-sec-title">Apparence</div>
-    <div class="ep-colors">
-      <span class="ep-color-lbl">🎨 Or</span>
-      <input type="color" id="cp-primary" value="#c8922a" oninput="applyColor('--gold',this.value)" title="Couleur principale">
-      <span class="ep-color-lbl">🌊 Mer</span>
-      <input type="color" id="cp-accent" value="#2a8c6c" oninput="applyColor('--sea-bright',this.value)" title="Couleur accent">
+          <!-- Sous-cat : Projets -->
+          <div class="ep-subcat open" id="sub-projets">
+            <button class="ep-subcat-head" onclick="toggleSubCat('sub-projets')">
+              <span class="ep-subcat-ico">🎬</span>
+              <span class="ep-subcat-label">Projets</span>
+              <span class="ep-subcat-arrow">▶</span>
+            </button>
+            <div class="ep-subcat-body">
+              <div class="ep-subcat-inner">
+                <button class="epbtn a" onclick="openAPM()">
+                  <span class="ep-ico">＋</span>Ajouter un projet
+                  <span class="ep-badge new">NEW</span>
+                </button>
+                <button class="epbtn a" onclick="document.getElementById('export-modal').classList.add('open')">
+                  <span class="ep-ico">📦</span>Export / Import JSON
+                </button>
+                <button class="epbtn danger" onclick="confirmClearProjects()">
+                  <span class="ep-ico">🗑</span>Vider tous les projets
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Sous-cat : Photo & Identité -->
+          <div class="ep-subcat open" id="sub-photo">
+            <button class="ep-subcat-head" onclick="toggleSubCat('sub-photo')">
+              <span class="ep-subcat-ico">🖼</span>
+              <span class="ep-subcat-label">Photo & Identité</span>
+              <span class="ep-subcat-arrow">▶</span>
+            </button>
+            <div class="ep-subcat-body">
+              <div class="ep-subcat-inner">
+                <button class="epbtn a" onclick="document.getElementById('photoInput').click()">
+                  <span class="ep-ico">📷</span>Changer la photo
+                </button>
+                <button class="epbtn a" onclick="previewPhotoUrl()">
+                  <span class="ep-ico">🔗</span>Photo par URL
+                </button>
+                <button class="epbtn danger" onclick="clearProfilePhoto()">
+                  <span class="ep-ico">✕</span>Vider la photo
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Sous-cat : Textes & Blocs -->
+          <div class="ep-subcat" id="sub-textes">
+            <button class="ep-subcat-head" onclick="toggleSubCat('sub-textes')">
+              <span class="ep-subcat-ico">🔤</span>
+              <span class="ep-subcat-label">Textes & Blocs</span>
+              <span class="ep-subcat-arrow">▶</span>
+            </button>
+            <div class="ep-subcat-body">
+              <div class="ep-subcat-inner">
+                <button class="epbtn a" onclick="openTextAnimEditor()">
+                  <span class="ep-ico">✍️</span>Phrases animées (hero)
+                </button>
+                <button class="epbtn a" onclick="openTextAnimEditor()">
+                  <span class="ep-ico">💬</span>Témoignages
+                </button>
+                <button class="epbtn a" onclick="openTextAnimEditor()">
+                  <span class="ep-ico">⚙️</span>Blocs services
+                </button>
+                <button class="epbtn a" onclick="openProcessEditor()">
+                  <span class="ep-ico">🗺</span>Étapes du Process
+                  <span class="ep-badge new">NEW</span>
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Sous-cat : Stats & Compétences -->
+          <div class="ep-subcat" id="sub-stats">
+            <button class="ep-subcat-head" onclick="toggleSubCat('sub-stats')">
+              <span class="ep-subcat-ico">📊</span>
+              <span class="ep-subcat-label">Stats & Compétences</span>
+              <span class="ep-subcat-arrow">▶</span>
+            </button>
+            <div class="ep-subcat-body">
+              <div class="ep-subcat-inner">
+                <button class="epbtn a" onclick="openSkillsEditor()">
+                  <span class="ep-ico">📈</span>Modifier les stats & barres
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Sous-cat : Contact -->
+          <div class="ep-subcat" id="sub-contact">
+            <button class="ep-subcat-head" onclick="toggleSubCat('sub-contact')">
+              <span class="ep-subcat-ico">📬</span>
+              <span class="ep-subcat-label">Contact & Liens</span>
+              <span class="ep-subcat-arrow">▶</span>
+            </button>
+            <div class="ep-subcat-body">
+              <div class="ep-subcat-inner">
+                <button class="epbtn a" onclick="document.getElementById('fsp-modal').classList.add('open')">
+                  <span class="ep-ico">📧</span>Formulaire (Formspree)
+                </button>
+                <button class="epbtn a" onclick="openSocialEditor()">
+                  <span class="ep-ico">🔗</span>Réseaux sociaux
+                  <span class="ep-badge new">NEW</span>
+                </button>
+                <button class="epbtn a" onclick="openContactInfoEditor()">
+                  <span class="ep-ico">📍</span>Infos de contact
+                  <span class="ep-badge new">NEW</span>
+                </button>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
     </div>
 
-    <!-- ── VIDÉO & SON ── -->
-    <div class="ep-sec-title">Vidéo &amp; Son</div>
-    <button class="epbtn a" onclick="document.getElementById('vid-modal').classList.add('open')">
-      <span class="ep-ico">🎬</span>Changer la vidéo Hero
-    </button>
-    <div class="ep-sound-row">
-      <span class="ep-sound-ico" id="ep-snd-ico">🔇</span>
-      <span class="ep-sound-lbl" id="ep-snd-lbl">Son désactivé</span>
-      <button class="ep-sound-toggle" onclick="epToggleSound()">Activer</button>
+    <!-- ══════════════════════════════════
+         CATÉGORIE 2 — APPARENCE
+         ══════════════════════════════════ -->
+    <div class="ep-cat" id="cat-apparence">
+      <button class="ep-cat-head" onclick="toggleCat('cat-apparence')">
+        <span class="ep-cat-ico">🎨</span>
+        <span class="ep-cat-label">Apparence</span>
+        <span class="ep-cat-arrow">▶</span>
+      </button>
+      <div class="ep-cat-body">
+        <div class="ep-cat-inner">
+
+          <!-- Sous-cat : Couleurs -->
+          <div class="ep-subcat open" id="sub-couleurs">
+            <button class="ep-subcat-head" onclick="toggleSubCat('sub-couleurs')">
+              <span class="ep-subcat-ico">🎨</span>
+              <span class="ep-subcat-label">Palette de couleurs</span>
+              <span class="ep-subcat-arrow">▶</span>
+            </button>
+            <div class="ep-subcat-body">
+              <div class="ep-subcat-inner">
+                <div class="ep-color-widget">
+                  <div class="ep-color-row">
+                    <div class="ep-color-dot">
+                      <input type="color" id="cp-primary" value="#c8922a" oninput="applyColor('--gold',this.value)" title="Couleur Or principale">
+                    </div>
+                    <span class="ep-color-name">🪙 Or</span>
+                  </div>
+                  <div class="ep-color-row">
+                    <div class="ep-color-dot">
+                      <input type="color" id="cp-accent" value="#2a8c6c" oninput="applyColor('--sea-bright',this.value)" title="Couleur Mer accent">
+                    </div>
+                    <span class="ep-color-name">🌊 Mer</span>
+                  </div>
+                  <div class="ep-color-row">
+                    <div class="ep-color-dot">
+                      <input type="color" id="cp-bg" value="#04080f" oninput="applyColor('--void',this.value)" title="Couleur de fond">
+                    </div>
+                    <span class="ep-color-name">🌑 Fond</span>
+                  </div>
+                  <div class="ep-color-row">
+                    <div class="ep-color-dot">
+                      <input type="color" id="cp-text" value="#f0e8d4" oninput="applyColor('--white',this.value)" title="Couleur du texte">
+                    </div>
+                    <span class="ep-color-name">✍️ Texte</span>
+                  </div>
+                </div>
+                <button class="epbtn danger" onclick="resetColors()" style="margin-top:.2rem">
+                  <span class="ep-ico">↺</span>Réinitialiser les couleurs
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Sous-cat : Typographie -->
+          <div class="ep-subcat" id="sub-typo">
+            <button class="ep-subcat-head" onclick="toggleSubCat('sub-typo')">
+              <span class="ep-subcat-ico">🔠</span>
+              <span class="ep-subcat-label">Typographie</span>
+              <span class="ep-subcat-arrow">▶</span>
+            </button>
+            <div class="ep-subcat-body">
+              <div class="ep-subcat-inner">
+                <button class="epbtn a" onclick="openFontPicker()">
+                  <span class="ep-ico">🔠</span>Choisir une police titre
+                  <span class="ep-badge new">NEW</span>
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Sous-cat : Effets visuels -->
+          <div class="ep-subcat" id="sub-effets">
+            <button class="ep-subcat-head" onclick="toggleSubCat('sub-effets')">
+              <span class="ep-subcat-ico">✨</span>
+              <span class="ep-subcat-label">Effets visuels</span>
+              <span class="ep-subcat-arrow">▶</span>
+            </button>
+            <div class="ep-subcat-body">
+              <div class="ep-subcat-inner">
+                <div class="ep-slider-row">
+                  <span class="ep-slider-lbl">Particules</span>
+                  <input type="range" min="0" max="120" value="80" oninput="setParticleCount(this.value);this.nextElementSibling.textContent=this.value">
+                  <span class="ep-slider-val">80</span>
+                </div>
+                <button class="epbtn a" onclick="toggleGrainOverlay()">
+                  <span class="ep-ico">🌾</span>Grain overlay (on/off)
+                </button>
+                <button class="epbtn a" onclick="toggleWaves()">
+                  <span class="ep-ico">〰️</span>Vagues animées (on/off)
+                </button>
+                <button class="epbtn a" onclick="toggleCompassBg()">
+                  <span class="ep-ico">🧭</span>Boussoles de fond (on/off)
+                </button>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
     </div>
-    <button class="epbtn a" onclick="restartHeroVideo()">
-      <span class="ep-ico">🔄</span>Relancer la vidéo
-    </button>
 
-    <!-- ── RÉGLAGES ── -->
-    <div class="ep-sec-title">Réglages</div>
-    <button class="epbtn a" onclick="openWelcomeEditor()">
-      <span class="ep-ico">💬</span>Message d'accueil
-    </button>
-    <button class="epbtn a" onclick="document.getElementById('fsp-modal').classList.add('open')">
-      <span class="ep-ico">📧</span>Email de contact
-    </button>
-    <button class="epbtn a" onclick="document.getElementById('export-modal').classList.add('open')">
-      <span class="ep-ico">📦</span>Export / Import
-    </button>
-    <button class="epbtn a" onclick="enterPresentation()">
-      <span class="ep-ico">▶</span>Mode présentation
-    </button>
+    <!-- ══════════════════════════════════
+         CATÉGORIE 3 — MÉDIAS
+         ══════════════════════════════════ -->
+    <div class="ep-cat" id="cat-medias">
+      <button class="ep-cat-head" onclick="toggleCat('cat-medias')">
+        <span class="ep-cat-ico">🎬</span>
+        <span class="ep-cat-label">Médias</span>
+        <span class="ep-cat-arrow">▶</span>
+      </button>
+      <div class="ep-cat-body">
+        <div class="ep-cat-inner">
 
-  </div>
+          <!-- Sous-cat : Vidéo Hero -->
+          <div class="ep-subcat open" id="sub-videohero">
+            <button class="ep-subcat-head" onclick="toggleSubCat('sub-videohero')">
+              <span class="ep-subcat-ico">🎥</span>
+              <span class="ep-subcat-label">Vidéo background hero</span>
+              <span class="ep-subcat-arrow">▶</span>
+            </button>
+            <div class="ep-subcat-body">
+              <div class="ep-subcat-inner">
+                <button class="epbtn a" onclick="document.getElementById('vid-modal').classList.add('open')">
+                  <span class="ep-ico">🔗</span>Changer la vidéo (URL)
+                </button>
+                <button class="epbtn a" onclick="document.getElementById('hero-video-file').click()">
+                  <span class="ep-ico">📁</span>Charger depuis fichier
+                  <span class="ep-badge new">NEW</span>
+                </button>
+                <button class="epbtn a" onclick="restartHeroVideo()">
+                  <span class="ep-ico">🔄</span>Relancer la vidéo
+                </button>
+                <button class="epbtn danger" onclick="removeHeroVideo()">
+                  <span class="ep-ico">✕</span>Supprimer la vidéo
+                  <span class="ep-badge new">NEW</span>
+                </button>
+                <div class="ep-slider-row">
+                  <span class="ep-slider-lbl">Opacité</span>
+                  <input type="range" min="0" max="100" value="40" oninput="setVideoOpacity(this.value);this.nextElementSibling.textContent=this.value+'%'">
+                  <span class="ep-slider-val">40%</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Sous-cat : Son -->
+          <div class="ep-subcat" id="sub-son">
+            <button class="ep-subcat-head" onclick="toggleSubCat('sub-son')">
+              <span class="ep-subcat-ico">🔊</span>
+              <span class="ep-subcat-label">Son</span>
+              <span class="ep-subcat-arrow">▶</span>
+            </button>
+            <div class="ep-subcat-body">
+              <div class="ep-subcat-inner">
+                <div class="ep-sound-widget">
+                  <span class="ep-sound-ico" id="ep-snd-ico">🔇</span>
+                  <span class="ep-sound-lbl" id="ep-snd-lbl">Son désactivé</span>
+                  <button class="ep-sound-toggle" onclick="epToggleSound()">Activer</button>
+                </div>
+                <div class="ep-slider-row">
+                  <span class="ep-slider-lbl">Volume</span>
+                  <input type="range" min="0" max="100" value="70" oninput="setHeroVolume(this.value);this.nextElementSibling.textContent=this.value+'%'">
+                  <span class="ep-slider-val">70%</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <!-- ══════════════════════════════════
+         CATÉGORIE 4 — RÉGLAGES
+         ══════════════════════════════════ -->
+    <div class="ep-cat" id="cat-reglages">
+      <button class="ep-cat-head" onclick="toggleCat('cat-reglages')">
+        <span class="ep-cat-ico">⚙️</span>
+        <span class="ep-cat-label">Réglages</span>
+        <span class="ep-cat-arrow">▶</span>
+      </button>
+      <div class="ep-cat-body">
+        <div class="ep-cat-inner">
+
+          <!-- Sous-cat : Overlay d'accueil -->
+          <div class="ep-subcat" id="sub-accueil">
+            <button class="ep-subcat-head" onclick="toggleSubCat('sub-accueil')">
+              <span class="ep-subcat-ico">🖐</span>
+              <span class="ep-subcat-label">Overlay d'accueil</span>
+              <span class="ep-subcat-arrow">▶</span>
+            </button>
+            <div class="ep-subcat-body">
+              <div class="ep-subcat-inner">
+                <button class="epbtn a" onclick="openWelcomeEditor()">
+                  <span class="ep-ico">✏️</span>Modifier le texte
+                </button>
+                <button class="epbtn a" onclick="previewWelcome()">
+                  <span class="ep-ico">👁</span>Aperçu de l'overlay
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Sous-cat : GitHub / Publication -->
+          <div class="ep-subcat" id="sub-github">
+            <button class="ep-subcat-head" onclick="toggleSubCat('sub-github')">
+              <span class="ep-subcat-ico">🔗</span>
+              <span class="ep-subcat-label">Publication GitHub</span>
+              <span class="ep-subcat-arrow">▶</span>
+            </button>
+            <div class="ep-subcat-body">
+              <div class="ep-subcat-inner">
+                <button class="epbtn a" onclick="document.getElementById('ghmod').classList.add('open')">
+                  <span class="ep-ico">🔑</span>Configurer le token
+                </button>
+                <button class="epbtn a" onclick="openDeploySettings()">
+                  <span class="ep-ico">🌐</span>Paramètres Vercel
+                  <span class="ep-badge new">NEW</span>
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Sous-cat : SEO & Meta -->
+          <div class="ep-subcat" id="sub-seo">
+            <button class="ep-subcat-head" onclick="toggleSubCat('sub-seo')">
+              <span class="ep-subcat-ico">🔍</span>
+              <span class="ep-subcat-label">SEO & Métadonnées</span>
+              <span class="ep-subcat-arrow">▶</span>
+            </button>
+            <div class="ep-subcat-body">
+              <div class="ep-subcat-inner">
+                <button class="epbtn a" onclick="openSeoEditor()">
+                  <span class="ep-ico">📄</span>Titre & description
+                  <span class="ep-badge new">NEW</span>
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Sous-cat : Modes -->
+          <div class="ep-subcat" id="sub-modes">
+            <button class="ep-subcat-head" onclick="toggleSubCat('sub-modes')">
+              <span class="ep-subcat-ico">▶</span>
+              <span class="ep-subcat-label">Modes d'affichage</span>
+              <span class="ep-subcat-arrow">▶</span>
+            </button>
+            <div class="ep-subcat-body">
+              <div class="ep-subcat-inner">
+                <button class="epbtn a" onclick="enterPresentation()">
+                  <span class="ep-ico">🎬</span>Mode présentation
+                </button>
+                <button class="epbtn a" onclick="toggleDarkUltra()">
+                  <span class="ep-ico">🌑</span>Ultra-dark mode
+                  <span class="ep-badge new">NEW</span>
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Sous-cat : Réinitialisation -->
+          <div class="ep-subcat" id="sub-reset">
+            <button class="ep-subcat-head" onclick="toggleSubCat('sub-reset')">
+              <span class="ep-subcat-ico">⚠️</span>
+              <span class="ep-subcat-label">Réinitialisation</span>
+              <span class="ep-subcat-arrow">▶</span>
+            </button>
+            <div class="ep-subcat-body">
+              <div class="ep-subcat-inner">
+                <button class="epbtn danger" onclick="confirmResetAll()">
+                  <span class="ep-ico">↺</span>Tout réinitialiser
+                </button>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+  </div><!-- /.ep-scroll -->
 
   <div class="ep-footer">
     <button class="epbtn g" id="pub-btn" onclick="publish()">
@@ -5232,6 +5785,7 @@ body.pmode #anchor-nav {
   </div>
 </div>
 <input type="file" id="photoInput" accept="image/*" style="display:none">
+<input type="file" id="hero-video-file" accept="video/*" style="display:none">
 
 <!-- ════════ MODAL PROJET (détail) + LECTEUR CUSTOM ════════ -->
 <div class="mov" id="pmod">
@@ -7385,6 +7939,475 @@ function applyWelcomeEdit() {
     requestAnimationFrame(() => requestAnimationFrame(() => { ov.style.opacity = '1'; }));
   }
   toast('Message mis à jour — cliquez "Continuer" pour fermer l\'aperçu');
+}
+
+// ══════════════════════════════════════════════════════
+// NOUVELLES FONCTIONS — ÉDITEUR REFAIT
+// ══════════════════════════════════════════════════════
+
+// ── Accordéon catégories & sous-catégories ──
+function toggleCat(id) {
+  const el = document.getElementById(id);
+  if (!el) return;
+  el.classList.toggle('open');
+}
+
+function toggleSubCat(id) {
+  const el = document.getElementById(id);
+  if (!el) return;
+  el.classList.toggle('open');
+}
+
+// ── VIDER LA PHOTO DE PROFIL ──
+function clearProfilePhoto() {
+  const img  = document.getElementById('photoImg');
+  const phT  = document.getElementById('phT');
+  const phS  = document.getElementById('phS');
+  if (img)  { img.src = ''; img.classList.remove('show'); }
+  if (phT)  { phT.style.display = ''; }
+  if (phS)  { phS.style.display = ''; }
+  toast('Photo de profil supprimée');
+}
+
+// ── PHOTO PAR URL ──
+function previewPhotoUrl() {
+  const url = prompt('Colle l\'URL de ta photo :');
+  if (!url || !url.trim()) return;
+  const img = document.getElementById('photoImg');
+  const phT = document.getElementById('phT');
+  const phS = document.getElementById('phS');
+  img.src = url.trim();
+  img.onload = () => {
+    img.classList.add('show');
+    if (phT) phT.style.display = 'none';
+    if (phS) phS.style.display = 'none';
+    toast('Photo chargée !');
+  };
+  img.onerror = () => { img.src = ''; toast('Impossible de charger cette URL'); };
+}
+
+// ── VIDER TOUS LES PROJETS ──
+function confirmClearProjects() {
+  if (!confirm('Supprimer TOUS les projets ? Cette action est irréversible.')) return;
+  document.querySelectorAll('.pcard').forEach(c => c.remove());
+  toast('Tous les projets supprimés');
+}
+
+// ── SUPPRIMER LA VIDÉO HERO ──
+function removeHeroVideo() {
+  if (!confirm('Supprimer la vidéo background ?')) return;
+  const v = document.getElementById('hero-video');
+  if (v) { v.pause(); v.style.display = 'none'; }
+  const cv = document.getElementById('hcvs');
+  if (cv) cv.style.display = 'block';
+  document.getElementById('sound-btn').style.display = 'none';
+  toast('Vidéo supprimée — particules affichées');
+}
+
+// ── OPACITÉ VIDÉO HERO ──
+function setVideoOpacity(val) {
+  const v = document.getElementById('hero-video');
+  if (v) v.style.opacity = val / 100;
+}
+
+// ── VOLUME HERO ──
+function setHeroVolume(val) {
+  const v = document.getElementById('hero-video');
+  if (v) { v.volume = val / 100; v.muted = (val == 0); }
+}
+
+// ── VIDÉO HERO DEPUIS FICHIER LOCAL ──
+document.getElementById('hero-video-file').addEventListener('change', function() {
+  const f = this.files[0];
+  if (!f) return;
+  const url = URL.createObjectURL(f);
+  const v = document.getElementById('hero-video');
+  const src = document.getElementById('hero-vsrc');
+  if (src) src.src = url;
+  v.load(); v.play().catch(()=>{});
+  v.style.display = 'block';
+  document.getElementById('hcvs').style.display = 'none';
+  document.getElementById('sound-btn').style.display = 'flex';
+  toast('Vidéo chargée depuis fichier !');
+});
+
+// ── PARTICULES — changer le nombre ──
+function setParticleCount(n) {
+  const target = parseInt(n);
+  // Ajuster le tableau de particules
+  if (window.ps) {
+    while (window.ps.length < target) {
+      window.ps.push({
+        x: Math.random() * innerWidth, y: Math.random() * innerHeight,
+        vx: (Math.random()-.5)*.35, vy: (Math.random()-.5)*.35,
+        r: Math.random()*1.8+.4, a: Math.random()*.7+.15,
+        c: window.goldColors?.[Math.floor(Math.random()*6)] || 'rgba(200,146,42,'
+      });
+    }
+    window.ps.splice(target);
+  }
+}
+
+// ── GRAIN OVERLAY TOGGLE ──
+let _grainOn = true;
+function toggleGrainOverlay() {
+  _grainOn = !_grainOn;
+  // Injection CSS si pas encore fait
+  let el = document.getElementById('grain-override');
+  if (!el) { el = document.createElement('style'); el.id = 'grain-override'; document.head.appendChild(el); }
+  el.textContent = _grainOn ? '' : 'body::before { display:none !important; }';
+  toast('Grain overlay ' + (_grainOn ? 'activé' : 'désactivé'));
+}
+
+// ── VAGUES TOGGLE ──
+let _wavesOn = true;
+function toggleWaves() {
+  _wavesOn = !_wavesOn;
+  let el = document.getElementById('waves-override');
+  if (!el) { el = document.createElement('style'); el.id = 'waves-override'; document.head.appendChild(el); }
+  el.textContent = _wavesOn ? '' : '.wave-anim-a,.wave-anim-b{animation:none!important;}';
+  toast('Vagues ' + (_wavesOn ? 'animées' : 'arrêtées'));
+}
+
+// ── BOUSSOLES DE FOND TOGGLE ──
+let _compassBgOn = true;
+function toggleCompassBg() {
+  _compassBgOn = !_compassBgOn;
+  document.querySelectorAll('.bg-compass').forEach(c => {
+    c.style.display = _compassBgOn ? '' : 'none';
+  });
+  toast('Boussoles de fond ' + (_compassBgOn ? 'visibles' : 'cachées'));
+}
+
+// ── ULTRA-DARK MODE ──
+let _ultraDark = false;
+function toggleDarkUltra() {
+  _ultraDark = !_ultraDark;
+  let el = document.getElementById('ultra-dark-override');
+  if (!el) { el = document.createElement('style'); el.id = 'ultra-dark-override'; document.head.appendChild(el); }
+  el.textContent = _ultraDark
+    ? ':root{--void:#000!important;--void2:#020408!important;--void3:#030509!important;}'
+    : '';
+  toast('Ultra-dark mode ' + (_ultraDark ? 'activé' : 'désactivé'));
+}
+
+// ── RÉINITIALISER LES COULEURS ──
+function resetColors() {
+  if (!confirm('Réinitialiser toutes les couleurs aux valeurs d\'origine ?')) return;
+  const root = document.documentElement;
+  const defaults = {
+    '--gold':'#c8922a', '--gold-bright':'#e0ab42', '--gold-glow':'#f0c860',
+    '--gold-pale':'#f5dfa0', '--gold-dark':'#7a5010',
+    '--sea':'#1a5c4a', '--sea-bright':'#2a8c6c', '--sea-glow':'#3ab888',
+    '--void':'#04080f', '--white':'#f0e8d4'
+  };
+  Object.entries(defaults).forEach(([k,v]) => root.style.setProperty(k,v));
+  document.getElementById('cp-primary').value = '#c8922a';
+  document.getElementById('cp-accent').value  = '#2a8c6c';
+  document.getElementById('cp-bg').value       = '#04080f';
+  document.getElementById('cp-text').value     = '#f0e8d4';
+  toast('Couleurs réinitialisées');
+}
+
+// ── TOUT RÉINITIALISER ──
+function confirmResetAll() {
+  if (!prompt('Cette action supprime TOUT le contenu personnalisé. Tape "RESET" pour confirmer.') === 'RESET') { toast('Annulé'); return; }
+  window.location.reload();
+}
+
+// ── APERÇU WELCOME ──
+function previewWelcome() {
+  const ov = document.getElementById('welcome-overlay');
+  if (!ov) return;
+  ov.style.display = 'flex';
+  ov.style.opacity = '0';
+  ov.classList.remove('hide');
+  requestAnimationFrame(() => requestAnimationFrame(() => { ov.style.opacity = '1'; }));
+  toast('Aperçu de l\'overlay — clique pour fermer');
+}
+
+// ── ÉDITEUR PROCESS ──
+function openProcessEditor() {
+  const steps = document.querySelectorAll('.prstep');
+  let html = `<div class="ghm open" id="process-editor-modal" style="z-index:9600">
+    <div class="ghb" style="max-width:580px">
+      <button class="mcl" onclick="document.getElementById('process-editor-modal').remove()" style="position:absolute;top:1.5rem;right:1.5rem">✕</button>
+      <div class="ghh">🗺 Étapes du Process</div>
+      <p class="ghs">Modifie les numéros, titres et descriptions de chaque étape.</p>
+      <div id="proc-list" style="display:flex;flex-direction:column;gap:.8rem;margin-bottom:1.4rem">`;
+  steps.forEach((step, i) => {
+    const num  = step.querySelector('.prn')?.textContent  || (i+1+'').padStart(2,'0');
+    const tit  = step.querySelector('.prt')?.textContent  || '';
+    const desc = step.querySelector('.prd')?.textContent  || '';
+    html += `<div class="se-group" data-proc-i="${i}">
+      <div class="se-group-title" style="display:flex;justify-content:space-between">Étape ${i+1}
+        <button class="se-del" onclick="this.closest('.se-group').remove()">✕</button>
+      </div>
+      <div class="se-row"><label>Num</label><input type="text" value="${num}" data-proc-num style="width:60px"></div>
+      <div class="se-row"><label>Titre</label><input type="text" value="${tit}" data-proc-tit style="flex:1"></div>
+      <div class="se-row" style="flex-direction:column;gap:.3rem"><label>Description</label>
+        <textarea data-proc-desc style="width:100%;min-height:55px">${desc}</textarea>
+      </div></div>`;
+  });
+  html += `</div>
+      <button class="se-add-btn" onclick="addProcStep()">＋ Ajouter une étape</button>
+      <div class="br" style="margin-top:1.2rem">
+        <button class="eb p" onclick="applyProcessEdits()">✓ Appliquer</button>
+        <button class="eb s" onclick="document.getElementById('process-editor-modal').remove()">Annuler</button>
+      </div>
+    </div></div>`;
+  document.body.insertAdjacentHTML('beforeend', html);
+}
+
+function addProcStep() {
+  const list = document.getElementById('proc-list');
+  const i = list.children.length;
+  const div = document.createElement('div');
+  div.className = 'se-group'; div.dataset.procI = i;
+  div.innerHTML = `<div class="se-group-title" style="display:flex;justify-content:space-between">Étape ${i+1}
+    <button class="se-del" onclick="this.closest('.se-group').remove()">✕</button></div>
+    <div class="se-row"><label>Num</label><input type="text" value="0${i+1}" data-proc-num style="width:60px"></div>
+    <div class="se-row"><label>Titre</label><input type="text" value="Nouvelle étape" data-proc-tit style="flex:1"></div>
+    <div class="se-row" style="flex-direction:column;gap:.3rem"><label>Description</label>
+      <textarea data-proc-desc style="width:100%;min-height:55px">Description…</textarea></div>`;
+  list.appendChild(div);
+}
+
+function applyProcessEdits() {
+  const prs = document.querySelector('.prs');
+  if (!prs) return;
+  prs.innerHTML = '';
+  document.querySelectorAll('#proc-list .se-group').forEach(g => {
+    const num  = g.querySelector('[data-proc-num]').value;
+    const tit  = g.querySelector('[data-proc-tit]').value;
+    const desc = g.querySelector('[data-proc-desc]').value;
+    const div  = document.createElement('div');
+    div.className = 'prstep';
+    div.innerHTML = `<div class="prn">${num}</div><div class="prt">${tit}</div><p class="prd">${desc}</p>`;
+    prs.appendChild(div);
+  });
+  document.getElementById('process-editor-modal').remove();
+  toast('✓ Process mis à jour !');
+}
+
+// ── ÉDITEUR RÉSEAUX SOCIAUX ──
+function openSocialEditor() {
+  const links = document.querySelectorAll('.socl .sc2');
+  let html = `<div class="ghm open" id="social-editor-modal" style="z-index:9600">
+    <div class="ghb" style="max-width:520px">
+      <button class="mcl" onclick="document.getElementById('social-editor-modal').remove()" style="position:absolute;top:1.5rem;right:1.5rem">✕</button>
+      <div class="ghh">🔗 Réseaux sociaux</div>
+      <p class="ghs">Modifie tes liens. Utilise une icône emoji ou du texte court.</p>
+      <div id="social-list" style="display:flex;flex-direction:column;gap:.6rem;margin-bottom:1.2rem">`;
+  links.forEach((a, i) => {
+    html += `<div class="se-row" style="gap:.5rem">
+      <label>Lien ${i+1}</label>
+      <input type="text" value="${a.textContent.trim()}" data-soc-ico placeholder="🎬" style="width:55px">
+      <input type="text" value="${a.href === location.href+'#' ? '' : a.href}" data-soc-url placeholder="https://…" style="flex:1">
+      <button class="se-del" onclick="this.closest('.se-row').remove()">✕</button>
+    </div>`;
+  });
+  html += `</div>
+      <button class="se-add-btn" onclick="addSocialRow()">＋ Ajouter un lien</button>
+      <div class="br" style="margin-top:1rem">
+        <button class="eb p" onclick="applySocialEdits()">✓ Appliquer</button>
+        <button class="eb s" onclick="document.getElementById('social-editor-modal').remove()">Annuler</button>
+      </div></div></div>`;
+  document.body.insertAdjacentHTML('beforeend', html);
+}
+
+function addSocialRow() {
+  const n = document.getElementById('social-list').children.length;
+  const div = document.createElement('div');
+  div.className = 'se-row'; div.style.gap = '.5rem';
+  div.innerHTML = `<label>Lien ${n+1}</label>
+    <input type="text" value="🔗" data-soc-ico placeholder="🎬" style="width:55px">
+    <input type="text" value="" data-soc-url placeholder="https://…" style="flex:1">
+    <button class="se-del" onclick="this.closest('.se-row').remove()">✕</button>`;
+  document.getElementById('social-list').appendChild(div);
+}
+
+function applySocialEdits() {
+  const socl = document.querySelector('.socl');
+  if (!socl) { document.getElementById('social-editor-modal').remove(); return; }
+  socl.innerHTML = '';
+  document.querySelectorAll('#social-list .se-row').forEach(row => {
+    const ico = row.querySelector('[data-soc-ico]').value.trim();
+    const url = row.querySelector('[data-soc-url]').value.trim() || '#';
+    const a = document.createElement('a');
+    a.href = url; a.className = 'sc2'; a.textContent = ico;
+    if (url !== '#') a.target = '_blank';
+    socl.appendChild(a);
+  });
+  document.getElementById('social-editor-modal').remove();
+  toast('✓ Réseaux sociaux mis à jour !');
+}
+
+// ── ÉDITEUR INFOS CONTACT ──
+function openContactInfoEditor() {
+  const items = document.querySelectorAll('.cii');
+  let html = `<div class="ghm open" id="contact-info-modal" style="z-index:9600">
+    <div class="ghb" style="max-width:520px">
+      <button class="mcl" onclick="document.getElementById('contact-info-modal').remove()" style="position:absolute;top:1.5rem;right:1.5rem">✕</button>
+      <div class="ghh">📍 Infos de contact</div>
+      <p class="ghs">Modifie les blocs d'information affichés dans la section Contact.</p>
+      <div id="cinfo-list" style="display:flex;flex-direction:column;gap:.7rem;margin-bottom:1.2rem">`;
+  items.forEach((item, i) => {
+    const ico   = item.querySelector('.cci')?.textContent.trim()  || '📌';
+    const title = item.querySelector('strong')?.textContent.trim()|| '';
+    const cd    = item.querySelector('.cd2');
+    let val = '';
+    if (cd) {
+      const clone = cd.cloneNode(true);
+      clone.querySelector('strong')?.remove();
+      val = clone.textContent.trim();
+    }
+    html += `<div class="se-group">
+      <div class="se-group-title" style="display:flex;justify-content:space-between">Bloc ${i+1}
+        <button class="se-del" onclick="this.closest('.se-group').remove()">✕</button></div>
+      <div class="se-row"><label>Icône</label><input type="text" value="${ico}" data-ci-ico style="width:55px" maxlength="4"></div>
+      <div class="se-row"><label>Titre</label><input type="text" value="${title}" data-ci-title style="flex:1"></div>
+      <div class="se-row"><label>Valeur</label><input type="text" value="${val}" data-ci-val style="flex:1"></div>
+    </div>`;
+  });
+  html += `</div>
+      <button class="se-add-btn" onclick="addCInfoRow()">＋ Ajouter un bloc</button>
+      <div class="br" style="margin-top:1rem">
+        <button class="eb p" onclick="applyContactInfo()">✓ Appliquer</button>
+        <button class="eb s" onclick="document.getElementById('contact-info-modal').remove()">Annuler</button>
+      </div></div></div>`;
+  document.body.insertAdjacentHTML('beforeend', html);
+}
+
+function addCInfoRow() {
+  const n = document.getElementById('cinfo-list').children.length;
+  const div = document.createElement('div');
+  div.className = 'se-group';
+  div.innerHTML = `<div class="se-group-title" style="display:flex;justify-content:space-between">Bloc ${n+1}
+    <button class="se-del" onclick="this.closest('.se-group').remove()">✕</button></div>
+    <div class="se-row"><label>Icône</label><input type="text" value="📌" data-ci-ico style="width:55px" maxlength="4"></div>
+    <div class="se-row"><label>Titre</label><input type="text" value="Nouveau" data-ci-title style="flex:1"></div>
+    <div class="se-row"><label>Valeur</label><input type="text" value="" data-ci-val style="flex:1"></div>`;
+  document.getElementById('cinfo-list').appendChild(div);
+}
+
+function applyContactInfo() {
+  const target = document.querySelector('#contact .rv');
+  if (!target) { document.getElementById('contact-info-modal').remove(); return; }
+  const existing = target.querySelectorAll('.cii');
+  existing.forEach(el => el.remove());
+  const refSocl = target.querySelector('.socl');
+  document.querySelectorAll('#cinfo-list .se-group').forEach(g => {
+    const ico   = g.querySelector('[data-ci-ico]').value.trim();
+    const title = g.querySelector('[data-ci-title]').value.trim();
+    const val   = g.querySelector('[data-ci-val]').value.trim();
+    const div   = document.createElement('div');
+    div.className = 'cii';
+    div.innerHTML = `<div class="cci">${ico}</div><div class="cd2"><strong>${title}</strong>${val}</div>`;
+    if (refSocl) target.insertBefore(div, refSocl);
+    else target.appendChild(div);
+  });
+  document.getElementById('contact-info-modal').remove();
+  toast('✓ Infos de contact mises à jour !');
+}
+
+// ── SÉLECTEUR DE POLICE ──
+const FONTS = [
+  { name: 'Cinzel',    css: "'Cinzel', serif",           import: 'Cinzel:wght@400;600;700;900' },
+  { name: 'Playfair',  css: "'Playfair Display', serif",  import: 'Playfair+Display:wght@400;600;700;900' },
+  { name: 'Josefin',   css: "'Josefin Sans', sans-serif", import: 'Josefin+Sans:wght@300;400;600;700' },
+  { name: 'Oswald',    css: "'Oswald', sans-serif",        import: 'Oswald:wght@300;400;600;700' },
+  { name: 'Uncial',    css: "'Uncial Antiqua', cursive",  import: 'Uncial+Antiqua' },
+  { name: 'Teko',      css: "'Teko', sans-serif",          import: 'Teko:wght@300;400;600;700' },
+];
+
+function openFontPicker() {
+  let html = `<div class="ghm open" id="font-picker-modal" style="z-index:9600">
+    <div class="ghb" style="max-width:480px">
+      <button class="mcl" onclick="document.getElementById('font-picker-modal').remove()" style="position:absolute;top:1.5rem;right:1.5rem">✕</button>
+      <div class="ghh">🔠 Police de titre</div>
+      <p class="ghs">Choisir la police utilisée pour le nom OPHYX et les titres.</p>
+      <div style="display:flex;flex-direction:column;gap:.5rem;margin-bottom:1.2rem">`;
+  FONTS.forEach((f, i) => {
+    html += `<button onclick="applyFont(${i})" style="background:rgba(200,146,42,.06);border:1px solid rgba(200,146,42,.15);color:var(--white);padding:.7rem 1rem;border-radius:8px;cursor:pointer;text-align:left;font-size:1.05rem;transition:background .2s" onmouseover="this.style.background='rgba(200,146,42,.16)'" onmouseout="this.style.background='rgba(200,146,42,.06)'">${f.name}</button>`;
+  });
+  html += `</div>
+      <button class="eb s" onclick="document.getElementById('font-picker-modal').remove()">Fermer</button>
+    </div></div>`;
+  document.body.insertAdjacentHTML('beforeend', html);
+}
+
+function applyFont(i) {
+  const f = FONTS[i];
+  // Charger la font
+  const link = document.createElement('link');
+  link.rel = 'stylesheet';
+  link.href = `https://fonts.googleapis.com/css2?family=${f.import}&display=swap`;
+  document.head.appendChild(link);
+  // Appliquer
+  let el = document.getElementById('font-override');
+  if (!el) { el = document.createElement('style'); el.id = 'font-override'; document.head.appendChild(el); }
+  el.textContent = `
+    .hname, .nlogo, .stit, .prn, .slbl, .svc-num,
+    .flogo, .ta, .mcat, .mtit, .ghh, .ci-title,
+    .pcat, .pnm { font-family: ${f.css} !important; }
+  `;
+  document.getElementById('font-picker-modal').remove();
+  toast('Police "' + f.name + '" appliquée !');
+}
+
+// ── SEO EDITOR ──
+function openSeoEditor() {
+  const curTitle = document.title;
+  const curDesc  = document.querySelector('meta[name="description"]')?.content || '';
+  let html = `<div class="ghm open" id="seo-editor-modal" style="z-index:9600">
+    <div class="ghb" style="max-width:500px">
+      <button class="mcl" onclick="document.getElementById('seo-editor-modal').remove()" style="position:absolute;top:1.5rem;right:1.5rem">✕</button>
+      <div class="ghh">🔍 SEO & Métadonnées</div>
+      <p class="ghs">Ces infos apparaissent dans les résultats Google et les aperçus de lien.</p>
+      <div class="fg" style="margin-bottom:1rem"><label>Titre de la page</label>
+        <input type="text" id="seo-title" value="${curTitle}" placeholder="OPHYX — Portfolio">
+        <div style="font-size:.68rem;color:var(--muted);margin-top:.25rem">Idéalement entre 50–60 caractères</div>
+      </div>
+      <div class="fg" style="margin-bottom:1.2rem"><label>Description (meta)</label>
+        <textarea id="seo-desc" style="width:100%;min-height:75px;background:rgba(255,255,255,.03);border:1px solid rgba(200,146,42,.2);color:var(--white);padding:.8rem;font-family:'Lato',sans-serif;font-size:.9rem;outline:none;border-radius:4px" placeholder="Créateur visuel spécialisé en montage vidéo, motion design et animation 3D…">${curDesc}</textarea>
+        <div style="font-size:.68rem;color:var(--muted);margin-top:.25rem">Idéalement entre 120–160 caractères</div>
+      </div>
+      <div class="br">
+        <button class="eb p" onclick="applySeo()">✓ Appliquer</button>
+        <button class="eb s" onclick="document.getElementById('seo-editor-modal').remove()">Annuler</button>
+      </div></div></div>`;
+  document.body.insertAdjacentHTML('beforeend', html);
+}
+
+function applySeo() {
+  const title = document.getElementById('seo-title').value.trim();
+  const desc  = document.getElementById('seo-desc').value.trim();
+  if (title) document.title = title;
+  let metaDesc = document.querySelector('meta[name="description"]');
+  if (!metaDesc) { metaDesc = document.createElement('meta'); metaDesc.name = 'description'; document.head.appendChild(metaDesc); }
+  metaDesc.content = desc;
+  document.getElementById('seo-editor-modal').remove();
+  toast('✓ SEO mis à jour !');
+}
+
+// ── PARAMÈTRES VERCEL (info) ──
+function openDeploySettings() {
+  const html = `<div class="ghm open" id="vercel-modal" style="z-index:9600">
+    <div class="ghb" style="max-width:500px">
+      <button class="mcl" onclick="document.getElementById('vercel-modal').remove()" style="position:absolute;top:1.5rem;right:1.5rem">✕</button>
+      <div class="ghh">🌐 Déploiement Vercel</div>
+      <p class="ghs"><span class="step-badge">1</span>Va sur <a href="https://vercel.com" target="_blank">vercel.com</a> → "Add New Project"</p>
+      <p class="ghs"><span class="step-badge">2</span>Connecte ton repo GitHub qui contient ce fichier</p>
+      <p class="ghs"><span class="step-badge">3</span>Vercel détecte automatiquement le fichier HTML et déploie</p>
+      <p class="ghs"><span class="step-badge">4</span>À chaque fois que tu cliques "Publier sur GitHub", Vercel redéploie automatiquement !</p>
+      <div style="background:rgba(42,140,108,.08);border:1px solid rgba(42,140,108,.2);border-radius:8px;padding:1rem;margin-top:1rem">
+        <div style="font-family:'Cinzel',serif;font-size:.78rem;color:var(--sea-glow);margin-bottom:.4rem;letter-spacing:.08em">💡 ASTUCE</div>
+        <div style="font-size:.84rem;color:rgba(240,232,212,.7);line-height:1.7">Ton site sera en ligne à l'adresse <strong style="color:var(--gold-bright)">ton-repo.vercel.app</strong> et mis à jour automatiquement à chaque publication.</div>
+      </div>
+      <button class="eb s" onclick="document.getElementById('vercel-modal').remove()" style="margin-top:1.2rem">Fermer</button>
+    </div></div>`;
+  document.body.insertAdjacentHTML('beforeend', html);
 }
 
 </script>
