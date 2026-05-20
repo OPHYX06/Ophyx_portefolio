@@ -2744,6 +2744,8 @@ body.emode #epanel-tab { right: 252px; transition: right .38s var(--ease-in-out)
   overflow-y: auto;
   overflow-x: hidden;
   flex: 1;
+  min-height: 0;
+  overscroll-behavior: contain;
   padding: .5rem .6rem .6rem;
   display: flex;
   flex-direction: column;
@@ -2819,12 +2821,10 @@ body.emode #epanel-tab { right: 252px; transition: right .38s var(--ease-in-out)
 
 /* Corps de catégorie */
 .ep-cat-body {
-  max-height: 0;
-  overflow: hidden;
-  transition: max-height .35s var(--ease-out);
+  display: none;
 }
 .ep-cat.open .ep-cat-body {
-  max-height: 2000px;
+  display: block;
 }
 
 .ep-cat-inner {
@@ -2875,11 +2875,11 @@ body.emode #epanel-tab { right: 252px; transition: right .38s var(--ease-in-out)
 .ep-subcat.open .ep-subcat-arrow { transform: rotate(90deg); color: rgba(200,146,42,.6); }
 
 .ep-subcat-body {
-  max-height: 0;
-  overflow: hidden;
-  transition: max-height .28s var(--ease-out);
+  display: none;
 }
-.ep-subcat.open .ep-subcat-body { max-height: 600px; }
+.ep-subcat.open .ep-subcat-body {
+  display: block;
+}
 .ep-subcat-inner {
   padding: .4rem .4rem .45rem;
   display: flex;
@@ -3195,7 +3195,8 @@ input[type=color] { border-radius: 5px; overflow: hidden; }
   font-family: 'Courier New', monospace;
   font-size: .72rem;
   color: #c8d8b0;
-  max-height: 38vh;
+  max-height: 28vh;
+  min-height: 200px;
   display: none;
   flex-direction: column;
   overflow: hidden;
@@ -9071,7 +9072,7 @@ const _origInitNative = typeof _vpInitNative === 'function' ? _vpInitNative : nu
 const _dbgLogs = [];
 const _dbgNetReqs = [];
 let _dbgPerfInterval = null;
-let _dbgActiveTab = 'console';
+let _dbgActiveTab = 'perf';
 
 // Injection dans console natif pour capturer les logs
 const _origConsole = { log: console.log, warn: console.warn, error: console.error };
@@ -9214,26 +9215,25 @@ function _dbgRenderElements() {
 
 function dbgOpenTab(tab) {
   _dbgActiveTab = tab;
-  document.querySelectorAll('.dbg-tab').forEach(t => t.classList.toggle('on', t.dataset.tab === tab));
+  document.querySelectorAll('.dbg-tab[data-tab]').forEach(t => t.classList.toggle('on', t.dataset.tab === tab));
   document.querySelectorAll('.dbg-pane').forEach(p => p.classList.toggle('on', p.id === 'dbg-' + tab));
-  if (tab === 'console') _dbgRenderConsole();
-  if (tab === 'perf')    _dbgRenderPerf();
-  if (tab === 'network') _dbgRenderNetwork();
+  if (tab === 'perf')     _dbgRenderPerf();
+  if (tab === 'network')  _dbgRenderNetwork();
   if (tab === 'elements') _dbgRenderElements();
+  if (tab === 'video')    _dbgRenderVideo();
 }
 
 function dbgToggle() {
-  const panel = document.getElementById('debug-panel');
+  const panel   = document.getElementById('debug-panel');
   const trigger = document.getElementById('debug-trigger');
-  const isOpen = panel.classList.toggle('open');
+  const isOpen  = panel.classList.toggle('open');
   trigger.classList.toggle('active', isOpen);
   if (isOpen) {
     dbgOpenTab(_dbgActiveTab);
-    // Lancer rafraîchissement perf toutes les 1.5s si l'onglet perf est actif
-    if (_dbgActiveTab === 'perf') {
-      _dbgPerfInterval = setInterval(_dbgRenderPerf, 1500);
-    }
+    _dbgLiveInterval = setInterval(_dbgRefreshLive, 1200);
+    _dbgRefreshLive();
   } else {
+    clearInterval(_dbgLiveInterval);
     clearInterval(_dbgPerfInterval);
   }
 }
@@ -9252,24 +9252,214 @@ dbgLog('info', `UA : ${navigator.userAgent.slice(0, 80)}`);
 dbgLog('info', `Viewport : ${innerWidth}×${innerHeight} — DPR : ${devicePixelRatio}`);
 dbgLog('info', `Mobile : ${isMobile ? 'OUI' : 'NON'} — Touch : ${'ontouchstart' in window ? 'OUI' : 'NON'}`);
 
+
+// Isole le scroll de l'éditeur et du debug panel
+(function(){
+  function isolateScroll(id) {
+    var el = document.getElementById(id);
+    if (!el) return;
+    el.addEventListener('wheel', function(e) {
+      var sc = el.querySelector('.ep-scroll') || el.querySelector('#debug-body') || el;
+      var atTop = sc.scrollTop <= 0;
+      var atBot = sc.scrollTop + sc.clientHeight >= sc.scrollHeight - 1;
+      if ((atTop && e.deltaY < 0) || (atBot && e.deltaY > 0)) e.preventDefault();
+      e.stopPropagation();
+    }, { passive: false });
+  }
+  document.addEventListener('DOMContentLoaded', function() {
+    isolateScroll('epanel');
+    isolateScroll('debug-panel');
+  });
+})();
+
+// ── DevTools : FPS history + sparklines + live pills + vidéo ──────────────
+const _dbgFpsHistory = [], _dbgMemHistory = [], _MAX_HIST = 60;
+let _dbgLiveInterval = null;
+
+// Accumuler historiques depuis le FPS loop existant
+const _origFpsLoop = typeof _dbgFpsLoop === 'function' ? _dbgFpsLoop : null;
+// Le FPS loop existant met à jour _dbgFpsCurrent toutes les secondes
+// On s'accroche dessus via _dbgRefreshLive appelé toutes les 1.2s
+
+function _dbgRefreshLive() {
+  // Pills topbar
+  const fp = document.getElementById('dbg-pill-fps');
+  const mp = document.getElementById('dbg-pill-mem');
+  const fps = _dbgFpsCurrent || 0;
+  if (fp) {
+    fp.textContent = fps + ' FPS';
+    const c = fps >= 55 ? '#7df5c0' : fps >= 35 ? '#ffd066' : '#ff8099';
+    fp.style.color = c;
+    fp.style.borderColor = c + '55';
+  }
+  const mem = performance.memory;
+  if (mp && mem) {
+    const mb = Math.round(mem.usedJSHeapSize / 1048576);
+    mp.textContent = mb + ' MB';
+    const c = mb < 60 ? '#7df5c0' : mb < 150 ? '#ffd066' : '#ff8099';
+    mp.style.color = c;
+    mp.style.borderColor = c + '55';
+    _dbgMemHistory.push(mb);
+    if (_dbgMemHistory.length > _MAX_HIST) _dbgMemHistory.shift();
+  }
+  _dbgFpsHistory.push(fps);
+  if (_dbgFpsHistory.length > _MAX_HIST) _dbgFpsHistory.shift();
+
+  if (_dbgActiveTab === 'perf')  _dbgRenderPerfFull();
+  if (_dbgActiveTab === 'video') _dbgRenderVideo();
+}
+
+function _dbgDrawSparkline(canvas, data, lineColor, maxOverride, warnAt) {
+  if (!canvas || data.length < 2) return;
+  const dpr = Math.min(devicePixelRatio || 1, 2);
+  const w   = canvas.offsetWidth  || 280;
+  const h   = canvas.offsetHeight || 38;
+  canvas.width  = w * dpr;
+  canvas.height = h * dpr;
+  const ctx = canvas.getContext('2d');
+  ctx.scale(dpr, dpr);
+  const max  = maxOverride || Math.max(...data, 1);
+  const pts  = data.slice(-Math.floor(w / 3));
+  const step = w / Math.max(pts.length - 1, 1);
+  const yOf  = v => h - (v / max) * (h - 6) - 2;
+  // Remplissage
+  const g = ctx.createLinearGradient(0, 0, 0, h);
+  g.addColorStop(0, lineColor + '40');
+  g.addColorStop(1, lineColor + '05');
+  ctx.fillStyle = g;
+  ctx.beginPath();
+  ctx.moveTo(0, h);
+  pts.forEach((v, i) => ctx.lineTo(i * step, yOf(v)));
+  ctx.lineTo((pts.length - 1) * step, h);
+  ctx.closePath();
+  ctx.fill();
+  // Ligne
+  ctx.strokeStyle = lineColor;
+  ctx.lineWidth   = 1.5;
+  ctx.lineJoin    = 'round';
+  ctx.beginPath();
+  pts.forEach((v, i) => i ? ctx.lineTo(i * step, yOf(v)) : ctx.moveTo(0, yOf(v)));
+  ctx.stroke();
+  // Seuil
+  if (warnAt) {
+    ctx.strokeStyle = '#ffd06660';
+    ctx.lineWidth   = 1;
+    ctx.setLineDash([3, 3]);
+    ctx.beginPath();
+    ctx.moveTo(0, yOf(warnAt));
+    ctx.lineTo(w, yOf(warnAt));
+    ctx.stroke();
+    ctx.setLineDash([]);
+  }
+  // Valeur courante
+  const last   = pts[pts.length - 1];
+  const lastX  = (pts.length - 1) * step;
+  const lastY  = yOf(last);
+  const valCol = warnAt && last < warnAt ? '#ff8099' : lineColor;
+  ctx.fillStyle  = valCol;
+  ctx.font       = 'bold 10px Lato, sans-serif';
+  ctx.textAlign  = 'right';
+  ctx.fillText(String(last), w - 4, 11);
+  ctx.beginPath();
+  ctx.arc(lastX, lastY, 2.5, 0, Math.PI * 2);
+  ctx.fill();
+}
+
+// Override _dbgRenderPerf pour ajouter sparklines
+function _dbgRenderPerfFull() {
+  const pane = document.getElementById('dbg-perf');
+  if (!pane) return;
+  const nav  = performance.getEntriesByType('navigation')[0] || {};
+  const mem  = performance.memory;
+  const fcp  = performance.getEntriesByType('paint').find(e => e.name === 'first-contentful-paint');
+  const fps  = _dbgFpsCurrent || 0;
+  const dom  = document.querySelectorAll('*').length;
+
+  const metrics = [
+    { lbl: 'FPS',        val: fps,  warn: fps < 50, bad: fps < 30 },
+    { lbl: 'DOM',        val: dom,  warn: dom > 1500, bad: dom > 3000 },
+    { lbl: 'Chargement', val: nav.loadEventEnd ? Math.round(nav.loadEventEnd - nav.fetchStart) + 'ms' : '—', warn: nav.loadEventEnd > 3000 },
+    { lbl: 'FCP',        val: fcp ? Math.round(fcp.startTime) + 'ms' : '—' },
+    { lbl: 'JS Heap',    val: mem ? Math.round(mem.usedJSHeapSize / 1048576) + 'MB' : '—', warn: mem && mem.usedJSHeapSize > 50e6, bad: mem && mem.usedJSHeapSize > 150e6 },
+    { lbl: 'Ressources', val: performance.getEntriesByType('resource').length },
+  ];
+
+  pane.innerHTML =
+    '<div class="dbg-perf-grid" style="display:grid;grid-template-columns:repeat(3,1fr);gap:.3rem;padding:.4rem .7rem .3rem">'
+    + metrics.map(m =>
+        '<div class="dbg-metric">'
+        + '<div class="dbg-metric-lbl">' + m.lbl + '</div>'
+        + '<div class="dbg-metric-val' + (m.bad ? ' bad' : m.warn ? ' warn' : '') + '">' + m.val + '</div>'
+        + '</div>'
+      ).join('')
+    + '</div>'
+    + '<div style="padding:.1rem .7rem .15rem;font-family:'Lato',sans-serif;font-size:.56rem;color:rgba(200,146,42,.4);letter-spacing:.1em;text-transform:uppercase">FPS — 60s</div>'
+    + '<div style="padding:0 .7rem .25rem"><canvas id="dbg-spark-fps" style="width:100%;height:36px;display:block;border-radius:3px;background:rgba(0,0,0,.3);border:1px solid rgba(200,146,42,.1)"></canvas></div>'
+    + '<div style="padding:.05rem .7rem .15rem;font-family:'Lato',sans-serif;font-size:.56rem;color:rgba(200,146,42,.4);letter-spacing:.1em;text-transform:uppercase">Mémoire JS (MB)</div>'
+    + '<div style="padding:0 .7rem .4rem"><canvas id="dbg-spark-mem" style="width:100%;height:36px;display:block;border-radius:3px;background:rgba(0,0,0,.3);border:1px solid rgba(200,146,42,.1)"></canvas></div>';
+
+  requestAnimationFrame(() => {
+    _dbgDrawSparkline(document.getElementById('dbg-spark-fps'), _dbgFpsHistory, '#7df5c0', 70, 50);
+    _dbgDrawSparkline(document.getElementById('dbg-spark-mem'), _dbgMemHistory, '#b0b8ff', null, 150);
+  });
+}
+
+// Override _dbgRenderPerf
+_dbgRenderPerf = _dbgRenderPerfFull;
+
+function _dbgRenderVideo() {
+  const pane   = document.getElementById('dbg-video');
+  if (!pane) return;
+  const videos = Array.from(document.querySelectorAll('video'));
+  if (!videos.length) {
+    pane.innerHTML = '<div style="color:var(--muted);padding:.8rem;font-size:.7rem">Aucune vidéo détectée</div>';
+    return;
+  }
+  pane.innerHTML = videos.map((v, i) => {
+    const isHero = v.id === 'hero-video';
+    const state  = v.paused ? '⏸ Pause' : '▶ Lecture';
+    const sc     = v.muted   ? '🔇 Muet'  : '🔊 Son';
+    const prog   = v.duration ? Math.round(v.currentTime / v.duration * 100) : 0;
+    const src    = (v.currentSrc || '').split('/').pop() || '—';
+    const rdy    = ['EMPTY','LOADING','LOADED','CAN_PLAY','CAN_PLAY_THROUGH'][v.readyState] || v.readyState;
+    return '<div class="dbg-metric" style="margin:.3rem .6rem">'
+      + '<div class="dbg-metric-lbl">' + (isHero ? '⭐ HERO' : 'Vidéo') + ' #' + (i+1) + (v.id ? ' — #'+v.id : '') + '</div>'
+      + '<div style="display:flex;gap:.35rem;flex-wrap:wrap;margin:.2rem 0 .15rem">'
+      + '<span style="font-size:.6rem;padding:.12rem .4rem;border-radius:6px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.08);color:' + (v.paused ? '#ffd066' : '#7df5c0') + '">' + state + '</span>'
+      + '<span style="font-size:.6rem;padding:.12rem .4rem;border-radius:6px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.08);color:var(--muted)">' + sc + '</span>'
+      + '<span style="font-size:.6rem;padding:.12rem .4rem;border-radius:6px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.08);color:var(--muted)">' + (v.videoWidth||'—') + '×' + (v.videoHeight||'—') + '</span>'
+      + '<span style="font-size:.6rem;padding:.12rem .4rem;border-radius:6px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.08);color:var(--muted)">' + rdy + '</span>'
+      + '</div>'
+      + '<div style="font-size:.6rem;color:var(--muted);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;margin-bottom:.25rem" title="' + v.currentSrc + '">' + src + '</div>'
+      + (v.duration ? '<div style="height:3px;background:rgba(255,255,255,.06);border-radius:2px;overflow:hidden;margin-bottom:.05rem"><div style="width:'+prog+'%;height:100%;background:rgba(200,146,42,.5)"></div></div>' : '')
+      + '<div style="display:flex;gap:.3rem;margin-top:.3rem">'
+      + '<button class="dbg-tab" style="padding:.15rem .4rem;font-size:.58rem" onclick="document.querySelectorAll('video')['+i+'].play().catch(()=>{})">▶</button>'
+      + '<button class="dbg-tab" style="padding:.15rem .4rem;font-size:.58rem" onclick="document.querySelectorAll('video')['+i+'].pause()">⏸</button>'
+      + '<button class="dbg-tab" style="padding:.15rem .4rem;font-size:.58rem" onclick="document.querySelectorAll('video')['+i+'].muted=!document.querySelectorAll('video')['+i+'].muted;_dbgRenderVideo()">' + (v.muted?'🔊':'🔇') + '</button>'
+      + '<button class="dbg-tab" style="padding:.15rem .4rem;font-size:.58rem" onclick="document.querySelectorAll('video')['+i+'].currentTime=0">↩</button>'
+      + '</div>'
+      + '</div>';
+  }).join('');
+}
 </script>
 
 <!-- ════════ DEBUG PANEL ════════ -->
 <div id="debug-panel">
   <div id="debug-topbar">
-    <span id="debug-title">🔧 DEVTOOLS</span>
-    <button class="dbg-tab on" data-tab="console" onclick="dbgOpenTab('console')">Console</button>
-    <button class="dbg-tab" data-tab="perf" onclick="dbgOpenTab('perf');if(this.classList.contains('on')){clearInterval(_dbgPerfInterval);_dbgPerfInterval=setInterval(_dbgRenderPerf,1500)}">Perf</button>
-    <button class="dbg-tab" data-tab="network" onclick="dbgOpenTab('network')">Réseau</button>
-    <button class="dbg-tab" data-tab="elements" onclick="dbgOpenTab('elements')">DOM</button>
-    <button id="debug-clear" onclick="_dbgLogs.length=0;_dbgRenderConsole();dbgLog('info','Console effacée')">Effacer</button>
+    <span id="debug-title">⚙ DEVTOOLS</span>
+    <button class="dbg-tab on" data-tab="perf"     onclick="dbgOpenTab('perf')">📈 Perf</button>
+    <button class="dbg-tab"   data-tab="network"   onclick="dbgOpenTab('network')">🌐 Réseau</button>
+    <button class="dbg-tab"   data-tab="elements"  onclick="dbgOpenTab('elements')">🔍 DOM</button>
+    <button class="dbg-tab"   data-tab="video"     onclick="dbgOpenTab('video')">🎬 Vidéo</button>
+    <span id="dbg-pill-fps" style="margin-left:auto;font-family:'Lato',sans-serif;font-size:.6rem;font-weight:700;padding:.15rem .45rem;border-radius:8px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.08);color:var(--muted);white-space:nowrap">— FPS</span>
+    <span id="dbg-pill-mem" style="font-family:'Lato',sans-serif;font-size:.6rem;font-weight:700;padding:.15rem .45rem;border-radius:8px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.08);color:var(--muted);white-space:nowrap">— MB</span>
     <button id="debug-close" onclick="dbgToggle()">✕</button>
   </div>
   <div id="debug-body">
-    <div class="dbg-pane on" id="dbg-console"></div>
-    <div class="dbg-pane" id="dbg-perf"></div>
-    <div class="dbg-pane" id="dbg-network"></div>
-    <div class="dbg-pane" id="dbg-elements"></div>
+    <div class="dbg-pane on" id="dbg-perf"></div>
+    <div class="dbg-pane"    id="dbg-network"></div>
+    <div class="dbg-pane"    id="dbg-elements"></div>
+    <div class="dbg-pane"    id="dbg-video"></div>
   </div>
 </div>
 <button id="debug-trigger" onclick="dbgToggle()" title="DevTools (`) ">🔧</button>
