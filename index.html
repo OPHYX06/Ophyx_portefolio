@@ -14,6 +14,13 @@
 
 <style>
 
+/* ══ ANTI-FLASH : corps invisible jusqu'à ce que JS soit prêt ══
+   Le script inline dans le <head> ajoute .js-ready sur <html>
+   uniquement après avoir configuré l'état initial.
+   Sans .js-ready, tout reste invisible → zéro flash. */
+body { visibility: hidden; }
+html.js-ready body { visibility: visible; }
+
 /* ════════════════════════════════════════
    CSS CUSTOM PROPERTIES — PIRATES × NETFLIX
    ════════════════════════════════════════ */
@@ -638,13 +645,14 @@ nav.sc {
   position: fixed;
   inset: 0;
   z-index: 100000;
-  display: flex;
+  display: none;        /* caché par défaut — le script du <head> met display:flex */
   align-items: center;
   justify-content: center;
   background: radial-gradient(ellipse 80% 80% at 50% 50%, #040810 0%, #020509 100%);
   flex-direction: column;
   gap: 2.2rem;
   cursor: pointer;
+  opacity: 1;
 }
 
 /* Anneau conteneur */
@@ -2368,12 +2376,12 @@ footer::before {
   position: fixed;
   inset: 0;
   z-index: 99000;
-  display: flex;
+  display: none;        /* caché par défaut — JS met display:flex quand besoin */
   align-items: center;
   justify-content: center;
   background: rgba(4,8,15,.94);
   backdrop-filter: blur(24px);
-  transition: opacity .65s, transform .65s;
+  opacity: 0;
 }
 
 #welcome-overlay.hide {
@@ -2624,15 +2632,17 @@ body.emode .avbadge {
   text-transform: uppercase;
   margin: 2px 0;
 }
-body.emode #epanel-tab { right: 252px; }
+body.emode #epanel-tab { right: 252px; transition: right .38s var(--ease-in-out); }
 
 #epanel {
   position: fixed;
-  top: 50%;
+  top: 0;
   right: 0;
-  transform: translateY(-50%) translateX(100%);
+  transform: translateX(100%);
   z-index: 9000;
   width: 252px;
+  height: 100vh;
+  height: 100dvh;
   background: linear-gradient(160deg, rgba(6,12,22,.98) 0%, rgba(4,8,15,.99) 100%);
   backdrop-filter: blur(28px);
   border: 1px solid rgba(200,146,42,.22);
@@ -2647,11 +2657,10 @@ body.emode #epanel-tab { right: 252px; }
   flex-direction: column;
   gap: 0;
   overflow: hidden;
-  max-height: 94vh;
 }
 
 #epanel.open {
-  transform: translateY(-50%) translateX(0);
+  transform: translateX(0);
 }
 
 /* Ligne déco dorée en haut */
@@ -2815,7 +2824,7 @@ body.emode #epanel-tab { right: 252px; }
   transition: max-height .35s var(--ease-out);
 }
 .ep-cat.open .ep-cat-body {
-  max-height: 800px;
+  max-height: 2000px;
 }
 
 .ep-cat-inner {
@@ -3110,6 +3119,298 @@ body.emode #epanel-tab { right: 252px; }
 }
 
 input[type=color] { border-radius: 5px; overflow: hidden; }
+
+/* ════════════════════════════════════════
+   TOGGLE SWITCH — Lecteur Vidéo
+   ════════════════════════════════════════ */
+.ep-toggle-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: .38rem .5rem;
+  border-radius: 5px;
+  transition: background .15s;
+}
+.ep-toggle-row:hover { background: rgba(200,146,42,.05); }
+
+.ep-toggle-lbl {
+  font-family: 'Lato', sans-serif;
+  font-size: .67rem;
+  color: rgba(240,232,212,.7);
+  flex: 1;
+  padding-right: .5rem;
+  line-height: 1.3;
+}
+
+.ep-toggle-switch {
+  position: relative;
+  display: inline-block;
+  width: 34px;
+  height: 18px;
+  flex-shrink: 0;
+  cursor: pointer;
+}
+.ep-toggle-switch input { opacity: 0; width: 0; height: 0; position: absolute; }
+.ep-toggle-knob {
+  position: absolute;
+  inset: 0;
+  background: rgba(255,255,255,.08);
+  border: 1px solid rgba(255,255,255,.12);
+  border-radius: 18px;
+  transition: background .22s, border-color .22s;
+}
+.ep-toggle-knob::after {
+  content: '';
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: rgba(200,146,42,.5);
+  transition: transform .22s, background .22s;
+}
+.ep-toggle-switch input:checked + .ep-toggle-knob {
+  background: rgba(200,146,42,.2);
+  border-color: rgba(200,146,42,.4);
+}
+.ep-toggle-switch input:checked + .ep-toggle-knob::after {
+  transform: translateX(16px);
+  background: var(--gold-bright);
+  box-shadow: 0 0 6px rgba(224,171,66,.5);
+}
+
+/* ════════════════════════════════════════
+   PANNEAU DEBUG INTERNE — OPHYX DEVTOOLS
+   ════════════════════════════════════════ */
+#debug-panel {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 99000;
+  background: rgba(2,4,8,.97);
+  backdrop-filter: blur(20px);
+  border-top: 2px solid rgba(200,146,42,.4);
+  font-family: 'Courier New', monospace;
+  font-size: .72rem;
+  color: #c8d8b0;
+  max-height: 38vh;
+  display: none;
+  flex-direction: column;
+  overflow: hidden;
+  box-shadow: 0 -8px 40px rgba(0,0,0,.6);
+}
+#debug-panel.open { display: flex; }
+
+#debug-topbar {
+  display: flex;
+  align-items: center;
+  gap: .5rem;
+  padding: .4rem .8rem;
+  border-bottom: 1px solid rgba(200,146,42,.15);
+  background: rgba(200,146,42,.04);
+  flex-shrink: 0;
+  flex-wrap: wrap;
+  gap: .35rem;
+}
+#debug-title {
+  font-family: 'Cinzel', serif;
+  font-size: .65rem;
+  color: var(--gold-bright);
+  letter-spacing: .18em;
+  font-weight: 700;
+  margin-right: .3rem;
+}
+.dbg-tab {
+  padding: .22rem .7rem;
+  font-family: 'Lato', sans-serif;
+  font-size: .65rem;
+  font-weight: 700;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+  background: rgba(255,255,255,.04);
+  color: var(--muted);
+  border: 1px solid rgba(255,255,255,.08);
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background .18s, color .18s;
+}
+.dbg-tab.on { background: rgba(200,146,42,.18); color: var(--gold-bright); border-color: rgba(200,146,42,.35); }
+.dbg-tab:hover:not(.on) { background: rgba(255,255,255,.08); color: rgba(240,232,212,.7); }
+
+#debug-clear {
+  margin-left: auto;
+  padding: .2rem .6rem;
+  font-family: 'Lato', sans-serif;
+  font-size: .62rem;
+  font-weight: 700;
+  background: rgba(229,9,20,.12);
+  color: #ff8099;
+  border: 1px solid rgba(229,9,20,.2);
+  border-radius: 4px;
+  cursor: pointer;
+}
+#debug-close {
+  padding: .2rem .5rem;
+  font-size: .85rem;
+  background: rgba(255,255,255,.05);
+  color: var(--muted);
+  border: 1px solid rgba(255,255,255,.08);
+  border-radius: 4px;
+  cursor: pointer;
+  line-height: 1;
+}
+#debug-close:hover { color: #fff; background: rgba(229,9,20,.2); }
+
+#debug-body {
+  display: flex;
+  flex: 1;
+  overflow: hidden;
+}
+
+.dbg-pane {
+  display: none;
+  flex: 1;
+  overflow-y: auto;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(200,146,42,.2) transparent;
+}
+.dbg-pane.on { display: flex; flex-direction: column; }
+.dbg-pane::-webkit-scrollbar { width: 4px; }
+.dbg-pane::-webkit-scrollbar-thumb { background: rgba(200,146,42,.2); border-radius: 4px; }
+
+/* Pane: Console */
+#dbg-console {
+  padding: .4rem .8rem;
+  gap: 0;
+}
+.dbg-log {
+  padding: .18rem 0;
+  border-bottom: 1px solid rgba(255,255,255,.03);
+  display: flex;
+  align-items: flex-start;
+  gap: .55rem;
+  line-height: 1.45;
+}
+.dbg-log-time { color: rgba(200,146,42,.4); flex-shrink: 0; font-size: .65rem; min-width: 55px; }
+.dbg-log-type {
+  flex-shrink: 0;
+  font-size: .6rem;
+  font-weight: 700;
+  padding: .05rem .3rem;
+  border-radius: 3px;
+  min-width: 40px;
+  text-align: center;
+}
+.dbg-log-type.info  { background: rgba(42,140,108,.2); color: #7df5c0; }
+.dbg-log-type.warn  { background: rgba(220,170,0,.2);  color: #ffd066; }
+.dbg-log-type.error { background: rgba(229,9,20,.2);   color: #ff8099; }
+.dbg-log-type.perf  { background: rgba(100,100,255,.2);color: #b0b8ff; }
+.dbg-log-msg { color: #c8d8b0; word-break: break-all; }
+
+/* Pane: Performance */
+#dbg-perf {
+  padding: .6rem .8rem;
+  gap: .5rem;
+}
+.dbg-perf-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: .4rem;
+}
+.dbg-metric {
+  background: rgba(255,255,255,.03);
+  border: 1px solid rgba(200,146,42,.1);
+  border-radius: 6px;
+  padding: .5rem .6rem;
+}
+.dbg-metric-lbl {
+  font-family: 'Lato', sans-serif;
+  font-size: .6rem;
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: .08em;
+  margin-bottom: .2rem;
+}
+.dbg-metric-val {
+  font-family: 'Cinzel', serif;
+  font-size: .95rem;
+  color: var(--gold-bright);
+  font-weight: 600;
+}
+.dbg-metric-val.warn { color: #ffd066; }
+.dbg-metric-val.bad  { color: #ff8099; }
+
+/* Pane: Réseau */
+#dbg-network {
+  padding: .5rem .8rem;
+  gap: .3rem;
+}
+.dbg-net-row {
+  display: flex;
+  gap: .5rem;
+  align-items: center;
+  padding: .25rem 0;
+  border-bottom: 1px solid rgba(255,255,255,.04);
+}
+.dbg-net-status {
+  width: 8px; height: 8px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+.dbg-net-status.ok   { background: #7df5c0; }
+.dbg-net-status.warn { background: #ffd066; }
+.dbg-net-status.err  { background: #ff8099; }
+.dbg-net-url  { flex: 1; color: rgba(200,208,180,.8); font-size: .66rem; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.dbg-net-type { color: var(--muted); font-size: .62rem; flex-shrink: 0; min-width: 48px; }
+.dbg-net-time { color: rgba(200,146,42,.6); font-size: .62rem; flex-shrink: 0; min-width: 50px; text-align: right; }
+
+/* Pane: Éléments */
+#dbg-elements {
+  padding: .5rem .8rem;
+  gap: .3rem;
+}
+.dbg-el-row {
+  display: flex;
+  gap: .5rem;
+  align-items: center;
+  padding: .2rem 0;
+  border-bottom: 1px solid rgba(255,255,255,.04);
+  font-size: .66rem;
+}
+.dbg-el-tag { color: #8be; min-width: 100px; }
+.dbg-el-count { color: var(--gold-bright); min-width: 30px; text-align: right; }
+.dbg-el-note { color: var(--muted); }
+
+/* Bouton d'ouverture du debug — touche ` ou bouton discret */
+#debug-trigger {
+  position: fixed;
+  bottom: .6rem;
+  left: .6rem;
+  z-index: 98000;
+  width: 28px;
+  height: 28px;
+  background: rgba(4,8,15,.8);
+  border: 1px solid rgba(200,146,42,.2);
+  border-radius: 6px;
+  color: rgba(200,146,42,.4);
+  font-size: .75rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background .2s, color .2s, border-color .2s;
+  backdrop-filter: blur(8px);
+  opacity: 0;
+  pointer-events: none;
+}
+body.emode #debug-trigger {
+  opacity: 1;
+  pointer-events: auto;
+}
+#debug-trigger:hover { background: rgba(200,146,42,.15); color: var(--gold-bright); border-color: rgba(200,146,42,.4); }
+#debug-trigger.active { background: rgba(200,146,42,.2); color: var(--gold-bright); border-color: rgba(200,146,42,.5); }
 
 /* ════════════════════════════════════════
    MODALS ÉDITEUR STYLE
@@ -4243,29 +4544,31 @@ body.pmode #anchor-nav {
   .skls { padding: 1.2rem; }
   #stats-editor { grid-template-columns: 1fr 1fr !important; }
 
-  /* Éditeur panel — sidebar version mobile */
+  /* Éditeur panel — version mobile : bottom sheet avec scroll vertical */
   #epanel-tab { display: none !important; }
   #epanel {
     top: auto !important;
     bottom: 0 !important;
     right: 0 !important;
     left: 0 !important;
+    height: auto !important;
     transform: translateY(100%) !important;
     width: 100% !important;
-    max-height: 60vh !important;
+    max-height: 72vh !important;
     border-radius: 16px 16px 0 0 !important;
     border-right: 1px solid var(--border) !important;
     border-bottom: none !important;
+    border-top: 2px solid rgba(200,146,42,.4) !important;
   }
   #epanel.open { transform: translateY(0) !important; }
   #epanel::after { display: none; }
-  .ep-scroll { flex-direction: row; flex-wrap: wrap; gap: .3rem; padding: .6rem; }
-  .epbtn { width: auto; flex: 0 0 auto; font-size: .62rem; padding: .4rem .7rem; }
-  .epbtn .ep-ico { font-size: .8rem; }
-  .ep-sound-row { flex: 0 0 auto; }
-  .ep-colors { flex: 0 0 auto; }
-  .ep-sec-title { display: none; }
-  .ep-sep { display: none; }
+  .ep-scroll {
+    flex-direction: column !important;
+    flex-wrap: nowrap !important;
+    gap: .22rem !important;
+    padding: .5rem .6rem !important;
+    overflow-y: auto !important;
+  }
   .ep-hint { display: none; }
   .ep-footer { flex-direction: row; padding: .5rem .6rem; }
   .ep-footer .epbtn { flex: 1; justify-content: center; }
@@ -4323,6 +4626,42 @@ body.pmode #anchor-nav {
 }
 
 </style>
+
+<!-- ══ SCRIPT CRITIQUE : s'exécute SYNCHRONEMENT avant tout rendu ══
+     Configure l'état initial de l'intro dans le DOM AVANT que le
+     navigateur peigne quoi que ce soit → zéro flash. -->
+<script>
+(function() {
+  // On attendera DOMContentLoaded pour manipuler les éléments,
+  // mais on prépare le flag tout de suite.
+  // Le body reste invisible (visibility:hidden via CSS) jusqu'à ce
+  // qu'on appelle js-ready — ce qui n'arrive qu'une fois l'intro en place.
+  document.addEventListener('DOMContentLoaded', function() {
+    var intro   = document.getElementById('compass-intro');
+    var welcome = document.getElementById('welcome-overlay');
+    var portal  = document.getElementById('ci-portal-svg');
+
+    // 1. Retirer ci-phase4 pour éviter l'animation de sortie immédiate
+    if (intro) {
+      intro.removeAttribute('style');           // efface le style inline sauvegardé
+      intro.className = '';                      // retire ci-phase4
+      intro.style.cssText = 'display:flex; opacity:1;';  // état propre : visible
+    }
+
+    // 2. Welcome masqué proprement
+    if (welcome) {
+      welcome.style.cssText = 'display:none; opacity:0;';
+    }
+
+    // 3. Portal masqué
+    if (portal) portal.style.display = 'none';
+
+    // 4. Révéler le body → l'utilisateur voit la boussole directement,
+    //    sans aucun flash du site derrière
+    document.documentElement.classList.add('js-ready');
+  }, { once: true });
+})();
+</script>
 </head>
 <body class="">
 
@@ -4344,7 +4683,7 @@ body.pmode #anchor-nav {
 </div>
 
 <!-- ════════ INTRO BOUSSOLE PIRATE ════════ -->
-<div id="compass-intro" style="opacity: 1; display: none;" class="ci-phase4">
+<div id="compass-intro">
 
   <!-- Couche fissures et éclats — au-dessus du SVG -->
   <div class="ci-ring">
@@ -4488,7 +4827,7 @@ body.pmode #anchor-nav {
 </svg>
 
 <!-- ════════ WELCOME OVERLAY ════════ -->
-<div id="welcome-overlay" style="display: none; opacity: 0; transition: opacity 0.65s;">
+<div id="welcome-overlay">
   <div id="welcome-box">
     <span class="wlc-icon" id="wlc-icon">🔊</span>
     <div class="wlc-title" id="wlc-title">Meilleure expérience avec le son</div>
@@ -5666,6 +6005,155 @@ body.pmode #anchor-nav {
     </div>
 
     <!-- ══════════════════════════════════
+         CATÉGORIE 3.5 — LECTEUR VIDÉO
+         ══════════════════════════════════ -->
+    <div class="ep-cat" id="cat-player">
+      <button class="ep-cat-head" onclick="toggleCat('cat-player')">
+        <span class="ep-cat-ico">▶️</span>
+        <span class="ep-cat-label">Lecteur Vidéo</span>
+        <span class="ep-cat-badge">PRO</span>
+        <span class="ep-cat-arrow">▶</span>
+      </button>
+      <div class="ep-cat-body">
+        <div class="ep-cat-inner">
+
+          <!-- Sous-cat : Comportement -->
+          <div class="ep-subcat open" id="sub-player-behavior">
+            <button class="ep-subcat-head" onclick="toggleSubCat('sub-player-behavior')">
+              <span class="ep-subcat-ico">⚙️</span>
+              <span class="ep-subcat-label">Comportement</span>
+              <span class="ep-subcat-arrow">▶</span>
+            </button>
+            <div class="ep-subcat-body">
+              <div class="ep-subcat-inner">
+                <div class="ep-toggle-row">
+                  <span class="ep-toggle-lbl">Autoplay à l'ouverture</span>
+                  <label class="ep-toggle-switch">
+                    <input type="checkbox" id="vp-opt-autoplay" checked onchange="vpSetOption('autoplay',this.checked)">
+                    <span class="ep-toggle-knob"></span>
+                  </label>
+                </div>
+                <div class="ep-toggle-row">
+                  <span class="ep-toggle-lbl">Boucle automatique</span>
+                  <label class="ep-toggle-switch">
+                    <input type="checkbox" id="vp-opt-loop" onchange="vpSetOption('loop',this.checked)">
+                    <span class="ep-toggle-knob"></span>
+                  </label>
+                </div>
+                <div class="ep-toggle-row">
+                  <span class="ep-toggle-lbl">Démarrer muet</span>
+                  <label class="ep-toggle-switch">
+                    <input type="checkbox" id="vp-opt-muted" checked onchange="vpSetOption('startMuted',this.checked)">
+                    <span class="ep-toggle-knob"></span>
+                  </label>
+                </div>
+                <div class="ep-toggle-row">
+                  <span class="ep-toggle-lbl">Plein écran au double-clic</span>
+                  <label class="ep-toggle-switch">
+                    <input type="checkbox" id="vp-opt-dblfs" checked onchange="vpSetOption('dblclickFS',this.checked)">
+                    <span class="ep-toggle-knob"></span>
+                  </label>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Sous-cat : Affichage -->
+          <div class="ep-subcat" id="sub-player-display">
+            <button class="ep-subcat-head" onclick="toggleSubCat('sub-player-display')">
+              <span class="ep-subcat-ico">🖥</span>
+              <span class="ep-subcat-label">Affichage</span>
+              <span class="ep-subcat-arrow">▶</span>
+            </button>
+            <div class="ep-subcat-body">
+              <div class="ep-subcat-inner">
+                <div class="ep-toggle-row">
+                  <span class="ep-toggle-lbl">Afficher le temps restant</span>
+                  <label class="ep-toggle-switch">
+                    <input type="checkbox" id="vp-opt-remaining" onchange="vpSetOption('showRemaining',this.checked)">
+                    <span class="ep-toggle-knob"></span>
+                  </label>
+                </div>
+                <div class="ep-toggle-row">
+                  <span class="ep-toggle-lbl">Picture-in-Picture</span>
+                  <label class="ep-toggle-switch">
+                    <input type="checkbox" id="vp-opt-pip" checked onchange="vpSetOption('pip',this.checked)">
+                    <span class="ep-toggle-knob"></span>
+                  </label>
+                </div>
+                <div class="ep-slider-row">
+                  <span class="ep-slider-lbl">Volume par défaut</span>
+                  <input type="range" min="0" max="100" value="80" id="vp-opt-defvol"
+                    oninput="vpSetOption('defaultVolume',this.value/100);this.nextElementSibling.textContent=this.value+'%'">
+                  <span class="ep-slider-val">80%</span>
+                </div>
+                <div class="ep-slider-row">
+                  <span class="ep-slider-lbl">Masquer contrôles après</span>
+                  <input type="range" min="1" max="8" value="3" id="vp-opt-hidedelay"
+                    oninput="vpSetOption('hideDelay',this.value*1000);this.nextElementSibling.textContent=this.value+'s'">
+                  <span class="ep-slider-val">3s</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Sous-cat : Performance -->
+          <div class="ep-subcat" id="sub-player-perf">
+            <button class="ep-subcat-head" onclick="toggleSubCat('sub-player-perf')">
+              <span class="ep-subcat-ico">⚡</span>
+              <span class="ep-subcat-label">Performance</span>
+              <span class="ep-subcat-arrow">▶</span>
+            </button>
+            <div class="ep-subcat-body">
+              <div class="ep-subcat-inner">
+                <div class="ep-toggle-row">
+                  <span class="ep-toggle-lbl">Préchargement des métadonnées</span>
+                  <label class="ep-toggle-switch">
+                    <input type="checkbox" id="vp-opt-preload" checked onchange="vpSetOption('preload',this.checked)">
+                    <span class="ep-toggle-knob"></span>
+                  </label>
+                </div>
+                <div class="ep-toggle-row">
+                  <span class="ep-toggle-lbl">Mode économie batterie mobile</span>
+                  <label class="ep-toggle-switch">
+                    <input type="checkbox" id="vp-opt-battery" checked onchange="vpSetOption('batteryMode',this.checked)">
+                    <span class="ep-toggle-knob"></span>
+                  </label>
+                </div>
+                <button class="epbtn a" onclick="vpShowStats()">
+                  <span class="ep-ico">📊</span>Stats de lecture en cours
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Sous-cat : Test / Diagnostic -->
+          <div class="ep-subcat" id="sub-player-test">
+            <button class="ep-subcat-head" onclick="toggleSubCat('sub-player-test')">
+              <span class="ep-subcat-ico">🧪</span>
+              <span class="ep-subcat-label">Test & Diagnostic</span>
+              <span class="ep-subcat-arrow">▶</span>
+            </button>
+            <div class="ep-subcat-body">
+              <div class="ep-subcat-inner">
+                <button class="epbtn a" onclick="vpTestUrl()">
+                  <span class="ep-ico">🔗</span>Tester une URL vidéo
+                </button>
+                <button class="epbtn a" onclick="vpCheckFormats()">
+                  <span class="ep-ico">🎞</span>Vérifier formats supportés
+                </button>
+                <button class="epbtn danger" onclick="vpResetOptions()">
+                  <span class="ep-ico">↺</span>Réinitialiser les options
+                </button>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <!-- ══════════════════════════════════
          CATÉGORIE 4 — RÉGLAGES
          ══════════════════════════════════ -->
     <div class="ep-cat" id="cat-reglages">
@@ -6465,7 +6953,7 @@ function _vpShowControls() {
   clearTimeout(_vpHideCtrlTimer);
   _vpHideCtrlTimer = setTimeout(() => {
     if (_vpVideo && !_vpVideo.paused) p.classList.remove('force-show');
-  }, 2800);
+  }, _vpOptions.hideDelay || 2800);
 }
 
 function _vpUpdateProgress() {
@@ -6479,7 +6967,14 @@ function _vpUpdateProgress() {
   if (fill)  fill.style.width  = pct + '%';
   if (thumb) thumb.style.left  = pct + '%';
   if (bufEl) bufEl.style.width = Math.min(buf, 100) + '%';
-  if (time)  time.textContent  = _vpFmt(_vpVideo.currentTime) + ' / ' + _vpFmt(_vpVideo.duration);
+  if (time) {
+    const cur = _vpFmt(_vpVideo.currentTime);
+    const tot = _vpFmt(_vpVideo.duration);
+    const rem = _vpOptions.showRemaining && _vpVideo.duration
+      ? '-' + _vpFmt(_vpVideo.duration - _vpVideo.currentTime)
+      : tot;
+    time.textContent = cur + ' / ' + rem;
+  }
 }
 
 function _vpSeekFromEvent(e) {
@@ -6749,13 +7244,23 @@ function buildVideoContent(url) {
   _vpInitNative(video);
 
   // Autoplay muet d'abord (politique navigateur), son après clic
-  video.play().then(() => {
-    // Rester muet, l'utilisateur peut activer le son via le bouton mute
-    _vpSetVolIcon(true, video.volume);
-  }).catch(() => {
-    // Autoplay bloqué — montrer les contrôles
+  if (_vpOptions.autoplay) {
+    video.play().then(() => {
+      if (!_vpOptions.startMuted) {
+        video.muted = false;
+        _vpSetVolIcon(false, video.volume);
+      }
+    }).catch(() => {
+      _vpEl.player()?.classList.add('force-show');
+      dbgLog('warn', 'Autoplay bloqué par le navigateur — cliquer pour lancer');
+    });
+  } else {
     _vpEl.player()?.classList.add('force-show');
-  });
+  }
+
+  // Appliquer les options avancées
+  _vpApplyOptions(video);
+  dbgLog('info', `Lecteur natif initialisé : ${url.slice(0,60)}`);
 }
 
 function openProject(c) {
@@ -6780,6 +7285,7 @@ function openProject(c) {
   if (hv) { hv._mutedBefore = hv.muted; hv.muted = true; }
 
   pmod.classList.add('open');
+  dbgLog('info', `Projet ouvert : "${c.dataset.title}" — URL : ${(c.dataset.yt||'').slice(0,60)||'aucune'}`);
 
   // Légère attente pour que la modal soit visible avant d'injecter la vidéo
   requestAnimationFrame(() => buildVideoContent(url));
@@ -7812,22 +8318,9 @@ window._soundChosen      = false;
   const welcomeEl = document.getElementById('welcome-overlay');
   const portalSvg = document.getElementById('ci-portal-svg');
 
-  // ── État initial ──
-  // Boussole visible immédiatement
-  if (introEl) {
-    introEl.style.display = 'flex';
-    introEl.style.opacity = '1';
-    introEl.classList.remove('ci-phase4');
-  }
-
-  // Welcome caché au départ
-  if (welcomeEl) {
-    welcomeEl.style.display = 'none';
-    welcomeEl.style.opacity = '0';
-    welcomeEl.classList.remove('hide');
-  }
-
-  if (portalSvg) portalSvg.style.display = 'none';
+  // L'état initial a déjà été configuré par le script du <head> (DOMContentLoaded).
+  // On ne touche plus à display/opacity ici pour éviter tout re-flash.
+  // On enregistre juste les handlers.
 
   // ── ÉTAPE 2 : Afficher le welcome après la boussole ──
   function showWelcome() {
@@ -7835,6 +8328,7 @@ window._soundChosen      = false;
     welcomeEl.style.display    = 'flex';
     welcomeEl.style.opacity    = '0';
     welcomeEl.style.transition = 'opacity .55s ease';
+    // Double rAF obligatoire pour que la transition opacity fonctionne
     requestAnimationFrame(() => requestAnimationFrame(() => {
       welcomeEl.style.opacity = '1';
     }));
@@ -7847,20 +8341,24 @@ window._soundChosen      = false;
     if (window._compassTimer) clearTimeout(window._compassTimer);
 
     if (!introEl) { showWelcome(); return; }
+
+    // Fondu de sortie via ci-phase4
     introEl.classList.add('ci-phase4');
     setTimeout(() => {
       introEl.style.display = 'none';
       showWelcome();
-    }, 1100);
+    }, 1050);
   }
 
   window.dismissCompass = skipCompass;
+
+  // Clic sur la boussole = skip
   if (introEl) introEl.addEventListener('click', skipCompass, { once: true });
 
-  // Auto-dismiss boussole après 3.3s
+  // Auto-dismiss après 3.5s
   window._compassTimer = setTimeout(() => {
     if (!window._compassDismissed) skipCompass();
-  }, 3300);
+  }, 3500);
 
 })();
 
@@ -8410,9 +8908,371 @@ function openDeploySettings() {
   document.body.insertAdjacentHTML('beforeend', html);
 }
 
+// ══════════════════════════════════════════════════════════════
+// OPTIONS DU LECTEUR VIDÉO
+// ══════════════════════════════════════════════════════════════
+const _vpOptions = {
+  autoplay:      true,
+  loop:          false,
+  startMuted:    true,
+  dblclickFS:    true,
+  showRemaining: false,
+  pip:           true,
+  defaultVolume: 0.8,
+  hideDelay:     3000,
+  preload:       true,
+  batteryMode:   true,
+};
+
+function vpSetOption(key, val) {
+  _vpOptions[key] = val;
+  dbgLog('info', `Player option "${key}" → ${val}`);
+
+  // Appliquer immédiatement si un lecteur est actif
+  if (_vpVideo) {
+    if (key === 'loop')   _vpVideo.loop   = val;
+    if (key === 'volume') _vpVideo.volume = val;
+    if (key === 'pip') {
+      const pipBtn = _vpEl.pip();
+      if (pipBtn) pipBtn.style.display = val ? '' : 'none';
+    }
+  }
+
+  // Appliquer le volume par défaut
+  if (key === 'defaultVolume' && _vpVideo) {
+    _vpVideo.volume = +val;
+    const volSlider = _vpEl.vol();
+    if (volSlider) volSlider.value = val;
+  }
+
+  // Mise à jour délai masquage contrôles
+  if (key === 'hideDelay') _vpHideCtrlTimer && clearTimeout(_vpHideCtrlTimer);
+}
+
+// Injecter les options au démarrage d'une vidéo native
+function _vpApplyOptions(videoEl) {
+  videoEl.loop    = _vpOptions.loop;
+  videoEl.volume  = _vpOptions.defaultVolume;
+  videoEl.preload = _vpOptions.preload ? 'metadata' : 'none';
+  const volSlider = _vpEl.vol();
+  if (volSlider) volSlider.value = _vpOptions.defaultVolume;
+  const pipBtn = _vpEl.pip();
+  if (pipBtn) pipBtn.style.display = _vpOptions.pip && document.pictureInPictureEnabled ? '' : 'none';
+
+  // Double-clic = plein écran
+  if (_vpOptions.dblclickFS) {
+    videoEl.addEventListener('dblclick', () => {
+      const mvid = _vpEl.mvid();
+      if (!document.fullscreenElement) {
+        (mvid.requestFullscreen || mvid.webkitRequestFullscreen || mvid.mozRequestFullScreen).call(mvid);
+      } else {
+        (document.exitFullscreen || document.webkitExitFullscreen).call(document);
+      }
+    });
+  }
+}
+
+// Afficher les stats de lecture en cours
+function vpShowStats() {
+  if (!_vpVideo) { toast('Aucune vidéo en lecture', '#e50914'); return; }
+  const v = _vpVideo;
+  const buf = v.buffered.length ? Math.round(v.buffered.end(v.buffered.length-1) / v.duration * 100) : 0;
+  const info = [
+    `Durée totale : ${_vpFmt(v.duration)}`,
+    `Position : ${_vpFmt(v.currentTime)}`,
+    `Bufferisé : ${buf}%`,
+    `Volume : ${Math.round(v.volume * 100)}%`,
+    `Muet : ${v.muted}`,
+    `En pause : ${v.paused}`,
+    `Vitesse : ${v.playbackRate}x`,
+    `Résolution : ${v.videoWidth}×${v.videoHeight}`,
+    `Prêt : ${['HAVE_NOTHING','HAVE_METADATA','HAVE_CURRENT_DATA','HAVE_FUTURE_DATA','HAVE_ENOUGH_DATA'][v.readyState]}`,
+  ].join('\n');
+  dbgLog('perf', 'Stats vidéo :\n' + info);
+  dbgOpenTab('console');
+  document.getElementById('debug-panel').classList.add('open');
+  document.getElementById('debug-trigger').classList.add('active');
+  toast('Stats affichées dans le Debug');
+}
+
+// Tester une URL vidéo
+function vpTestUrl() {
+  const url = prompt('Colle l\'URL vidéo à tester :');
+  if (!url) return;
+  const v = document.createElement('video');
+  v.preload = 'metadata';
+  v.src = url;
+  dbgLog('info', `Test URL : ${url}`);
+  v.addEventListener('loadedmetadata', () => {
+    dbgLog('info', `✓ URL valide — ${_vpFmt(v.duration)} — ${v.videoWidth}×${v.videoHeight}`);
+    toast('✓ URL valide ! Voir debug pour détails');
+  });
+  v.addEventListener('error', () => {
+    dbgLog('error', `✕ URL invalide ou inaccessible : ${url}`);
+    toast('URL invalide ou non accessible', '#e50914');
+  });
+  dbgOpenTab('console');
+  document.getElementById('debug-panel').classList.add('open');
+  document.getElementById('debug-trigger').classList.add('active');
+}
+
+// Vérifier les formats supportés
+function vpCheckFormats() {
+  const formats = [
+    ['MP4 / H.264', 'video/mp4; codecs="avc1.42E01E, mp4a.40.2"'],
+    ['WebM / VP9',  'video/webm; codecs="vp9"'],
+    ['WebM / VP8',  'video/webm; codecs="vp8, vorbis"'],
+    ['Ogg Theora',  'video/ogg; codecs="theora"'],
+    ['HLS (m3u8)',  'application/vnd.apple.mpegurl'],
+    ['H.265 / HEVC','video/mp4; codecs="hvc1"'],
+    ['AV1',         'video/mp4; codecs="av01.0.05M.08"'],
+  ];
+  const v = document.createElement('video');
+  const support = { 'probably': '✅ OUI', 'maybe': '⚠️ Peut-être', '': '❌ NON' };
+  formats.forEach(([name, mime]) => {
+    const result = v.canPlayType(mime);
+    dbgLog(result === 'probably' ? 'info' : result === 'maybe' ? 'warn' : 'error',
+      `${support[result]} ${name}`);
+  });
+  dbgOpenTab('console');
+  document.getElementById('debug-panel').classList.add('open');
+  document.getElementById('debug-trigger').classList.add('active');
+}
+
+// Réinitialiser les options du lecteur
+function vpResetOptions() {
+  Object.assign(_vpOptions, { autoplay:true, loop:false, startMuted:true, dblclickFS:true,
+    showRemaining:false, pip:true, defaultVolume:0.8, hideDelay:3000, preload:true, batteryMode:true });
+  // Reset UI
+  ['vp-opt-autoplay','vp-opt-loop','vp-opt-muted','vp-opt-dblfs',
+   'vp-opt-remaining','vp-opt-pip','vp-opt-preload','vp-opt-battery'].forEach(id => {
+    const el = document.getElementById(id);
+    if (el) el.checked = _vpOptions[{
+      'vp-opt-autoplay':'autoplay','vp-opt-loop':'loop','vp-opt-muted':'startMuted',
+      'vp-opt-dblfs':'dblclickFS','vp-opt-remaining':'showRemaining','vp-opt-pip':'pip',
+      'vp-opt-preload':'preload','vp-opt-battery':'batteryMode'
+    }[id]];
+  });
+  const defvol = document.getElementById('vp-opt-defvol');
+  if (defvol) { defvol.value = 80; defvol.nextElementSibling.textContent = '80%'; }
+  const delay = document.getElementById('vp-opt-hidedelay');
+  if (delay) { delay.value = 3; delay.nextElementSibling.textContent = '3s'; }
+  toast('✓ Options du lecteur réinitialisées');
+}
+
+// Modifier _vpInitNative pour appliquer les options
+const _origInitNative = typeof _vpInitNative === 'function' ? _vpInitNative : null;
+
+// ══════════════════════════════════════════════════════════════
+// OPHYX DEVTOOLS — OUTIL DE DEBUG INTERNE
+// Activer : touche ` (backtick) ou bouton en bas à gauche (emode)
+// ══════════════════════════════════════════════════════════════
+
+const _dbgLogs = [];
+const _dbgNetReqs = [];
+let _dbgPerfInterval = null;
+let _dbgActiveTab = 'console';
+
+// Injection dans console natif pour capturer les logs
+const _origConsole = { log: console.log, warn: console.warn, error: console.error };
+function dbgLog(type, msg) {
+  const now = new Date();
+  const time = now.toTimeString().slice(0,8);
+  _dbgLogs.push({ type, msg: String(msg), time });
+  if (_dbgLogs.length > 200) _dbgLogs.shift();
+  if (_dbgActiveTab === 'console' && document.getElementById('debug-panel')?.classList.contains('open')) {
+    _dbgRenderConsole();
+  }
+}
+
+// Intercepter console.warn et console.error (pas console.log pour éviter les boucles)
+const _origWarn  = console.warn.bind(console);
+const _origError = console.error.bind(console);
+console.warn  = (...a) => { _origWarn(...a);  dbgLog('warn',  a.map(String).join(' ')); };
+console.error = (...a) => { _origError(...a); dbgLog('error', a.map(String).join(' ')); };
+
+// Intercepter les erreurs JS globales
+window.addEventListener('error', e => dbgLog('error', `${e.message} (${e.filename?.split('/').pop()}:${e.lineno})`));
+window.addEventListener('unhandledrejection', e => dbgLog('error', `Promise rejetée : ${e.reason}`));
+
+function _dbgRenderConsole() {
+  const pane = document.getElementById('dbg-console');
+  if (!pane) return;
+  pane.innerHTML = '';
+  const logs = [..._dbgLogs].reverse();
+  logs.forEach(l => {
+    const row = document.createElement('div');
+    row.className = 'dbg-log';
+    row.innerHTML = `<span class="dbg-log-time">${l.time}</span>`
+      + `<span class="dbg-log-type ${l.type}">${l.type.toUpperCase()}</span>`
+      + `<span class="dbg-log-msg">${l.msg.replace(/</g,'&lt;').replace(/\n/g,'<br>')}</span>`;
+    pane.appendChild(row);
+  });
+}
+
+function _dbgRenderPerf() {
+  const pane = document.getElementById('dbg-perf');
+  if (!pane) return;
+
+  const nav = performance.getEntriesByType('navigation')[0] || {};
+  const mem = performance.memory;
+  const paintEntries = performance.getEntriesByType('paint');
+  const fcp = paintEntries.find(e => e.name === 'first-contentful-paint');
+
+  const fps = _dbgGetFPS();
+  const domCount = document.querySelectorAll('*').length;
+  const videoEl = document.querySelector('video');
+  const imgCount = document.querySelectorAll('img').length;
+
+  const metrics = [
+    { lbl: 'FPS', val: fps, warn: fps < 50, bad: fps < 30 },
+    { lbl: 'Nœuds DOM', val: domCount, warn: domCount > 1500, bad: domCount > 3000 },
+    { lbl: 'Éléments img', val: imgCount },
+    { lbl: 'Chargement page', val: nav.loadEventEnd ? Math.round(nav.loadEventEnd - nav.fetchStart) + 'ms' : '—', warn: nav.loadEventEnd > 3000 },
+    { lbl: 'FCP', val: fcp ? Math.round(fcp.startTime) + 'ms' : '—' },
+    { lbl: 'Heap JS', val: mem ? Math.round(mem.usedJSHeapSize / 1048576) + 'MB' : '—',
+      warn: mem && mem.usedJSHeapSize > 50 * 1048576, bad: mem && mem.usedJSHeapSize > 150 * 1048576 },
+    { lbl: 'Heap limit', val: mem ? Math.round(mem.jsHeapSizeLimit / 1048576) + 'MB' : '—' },
+    { lbl: 'Vidéo active', val: videoEl ? (videoEl.paused ? 'Pausée' : 'En lecture') : 'Aucune' },
+    { lbl: 'Résolution vidéo', val: videoEl && videoEl.videoWidth ? `${videoEl.videoWidth}×${videoEl.videoHeight}` : '—' },
+  ];
+
+  pane.innerHTML = '<div class="dbg-perf-grid">' + metrics.map(m =>
+    `<div class="dbg-metric">
+      <div class="dbg-metric-lbl">${m.lbl}</div>
+      <div class="dbg-metric-val${m.bad ? ' bad' : m.warn ? ' warn' : ''}">${m.val}</div>
+    </div>`
+  ).join('') + '</div>';
+}
+
+let _dbgFpsFrames = 0, _dbgFpsLast = performance.now(), _dbgFpsCurrent = 60;
+function _dbgFpsLoop() {
+  _dbgFpsFrames++;
+  const now = performance.now();
+  if (now - _dbgFpsLast >= 1000) {
+    _dbgFpsCurrent = Math.round(_dbgFpsFrames * 1000 / (now - _dbgFpsLast));
+    _dbgFpsFrames = 0;
+    _dbgFpsLast = now;
+  }
+  requestAnimationFrame(_dbgFpsLoop);
+}
+_dbgFpsLoop();
+function _dbgGetFPS() { return _dbgFpsCurrent; }
+
+function _dbgRenderNetwork() {
+  const pane = document.getElementById('dbg-network');
+  if (!pane) return;
+  const entries = performance.getEntriesByType('resource');
+  pane.innerHTML = '';
+  entries.slice(-40).reverse().forEach(e => {
+    const dur = Math.round(e.duration);
+    const type = e.initiatorType || 'other';
+    const row = document.createElement('div');
+    row.className = 'dbg-net-row';
+    const isWarn = dur > 2000;
+    const isErr  = dur > 5000;
+    row.innerHTML = `<div class="dbg-net-status ${isErr ? 'err' : isWarn ? 'warn' : 'ok'}"></div>`
+      + `<span class="dbg-net-url" title="${e.name}">${e.name.split('/').pop() || e.name}</span>`
+      + `<span class="dbg-net-type">${type}</span>`
+      + `<span class="dbg-net-time">${dur}ms</span>`;
+    pane.appendChild(row);
+  });
+  if (!entries.length) pane.innerHTML = '<div style="color:var(--muted);padding:.8rem;font-size:.72rem">Aucune ressource interceptée</div>';
+}
+
+function _dbgRenderElements() {
+  const pane = document.getElementById('dbg-elements');
+  if (!pane) return;
+  const checks = [
+    ['video', 'Vidéos'],
+    ['iframe', 'Iframes'],
+    ['img', 'Images'],
+    ['canvas', 'Canvas'],
+    ['script', 'Scripts'],
+    ['link[rel=stylesheet]', 'CSS'],
+    ['.pcard', 'Cartes projet'],
+    ['[contenteditable]', 'Éléments éditables'],
+    ['[data-yt]', 'Vidéos avec URL'],
+    ['.rv:not(.vis)', 'Éléments non révélés'],
+    ['[style*="display: none"]', 'Éléments cachés'],
+    ['[id]', 'Éléments avec ID'],
+  ];
+  pane.innerHTML = '';
+  checks.forEach(([sel, lbl]) => {
+    try {
+      const count = document.querySelectorAll(sel).length;
+      const row = document.createElement('div');
+      row.className = 'dbg-el-row';
+      const warn = (sel === '.rv:not(.vis)' && count > 0) || (sel === '[style*="display: none"]' && count > 5);
+      row.innerHTML = `<span class="dbg-el-tag">${sel}</span>`
+        + `<span class="dbg-el-count" style="${warn ? 'color:#ffd066' : ''}">${count}</span>`
+        + `<span class="dbg-el-note">${lbl}</span>`;
+      pane.appendChild(row);
+    } catch {}
+  });
+}
+
+function dbgOpenTab(tab) {
+  _dbgActiveTab = tab;
+  document.querySelectorAll('.dbg-tab').forEach(t => t.classList.toggle('on', t.dataset.tab === tab));
+  document.querySelectorAll('.dbg-pane').forEach(p => p.classList.toggle('on', p.id === 'dbg-' + tab));
+  if (tab === 'console') _dbgRenderConsole();
+  if (tab === 'perf')    _dbgRenderPerf();
+  if (tab === 'network') _dbgRenderNetwork();
+  if (tab === 'elements') _dbgRenderElements();
+}
+
+function dbgToggle() {
+  const panel = document.getElementById('debug-panel');
+  const trigger = document.getElementById('debug-trigger');
+  const isOpen = panel.classList.toggle('open');
+  trigger.classList.toggle('active', isOpen);
+  if (isOpen) {
+    dbgOpenTab(_dbgActiveTab);
+    // Lancer rafraîchissement perf toutes les 1.5s si l'onglet perf est actif
+    if (_dbgActiveTab === 'perf') {
+      _dbgPerfInterval = setInterval(_dbgRenderPerf, 1500);
+    }
+  } else {
+    clearInterval(_dbgPerfInterval);
+  }
+}
+
+// Raccourci clavier : backtick ` uniquement en emode
+document.addEventListener('keydown', e => {
+  if (e.key === '`' && emode && !['INPUT','TEXTAREA'].includes(e.target.tagName)) {
+    e.preventDefault();
+    dbgToggle();
+  }
+});
+
+// Log initial
+dbgLog('info', '🔧 OPHYX DevTools initialisé');
+dbgLog('info', `UA : ${navigator.userAgent.slice(0, 80)}`);
+dbgLog('info', `Viewport : ${innerWidth}×${innerHeight} — DPR : ${devicePixelRatio}`);
+dbgLog('info', `Mobile : ${isMobile ? 'OUI' : 'NON'} — Touch : ${'ontouchstart' in window ? 'OUI' : 'NON'}`);
+
 </script>
 
-
+<!-- ════════ DEBUG PANEL ════════ -->
+<div id="debug-panel">
+  <div id="debug-topbar">
+    <span id="debug-title">🔧 DEVTOOLS</span>
+    <button class="dbg-tab on" data-tab="console" onclick="dbgOpenTab('console')">Console</button>
+    <button class="dbg-tab" data-tab="perf" onclick="dbgOpenTab('perf');if(this.classList.contains('on')){clearInterval(_dbgPerfInterval);_dbgPerfInterval=setInterval(_dbgRenderPerf,1500)}">Perf</button>
+    <button class="dbg-tab" data-tab="network" onclick="dbgOpenTab('network')">Réseau</button>
+    <button class="dbg-tab" data-tab="elements" onclick="dbgOpenTab('elements')">DOM</button>
+    <button id="debug-clear" onclick="_dbgLogs.length=0;_dbgRenderConsole();dbgLog('info','Console effacée')">Effacer</button>
+    <button id="debug-close" onclick="dbgToggle()">✕</button>
+  </div>
+  <div id="debug-body">
+    <div class="dbg-pane on" id="dbg-console"></div>
+    <div class="dbg-pane" id="dbg-perf"></div>
+    <div class="dbg-pane" id="dbg-network"></div>
+    <div class="dbg-pane" id="dbg-elements"></div>
+  </div>
+</div>
+<button id="debug-trigger" onclick="dbgToggle()" title="DevTools (`) ">🔧</button>
 <div id="detach-button-host" style="top: -1192px; left: 542.333px;"></div><div class="hidden" id="qr-host"></div>
 <div id="detach-button-host" style="top: -754px; left: 542.333px;"></div><div class="hidden" id="qr-host"></div>
 <div id="detach-button-host" style="top: 89.3333px; left: 535px;"></div><div class="hidden" id="qr-host"></div><div class="hidden" id="qr-host"></div>
