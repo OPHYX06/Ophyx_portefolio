@@ -10,7 +10,7 @@
 <link rel="dns-prefetch" href="//player.vimeo.com">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
-<link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700;900&amp;family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;0,700;1,300;1,400;1,600&amp;family=Cinzel:wght@400;600;700;900&amp;family=Lato:wght@300;400;700&amp;display=swap&amp;text=ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789%20%2C.!%3F-_" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700;900&amp;family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;0,700;1,300;1,400;1,600&amp;family=Cinzel:wght@400;600;700;900&amp;family=Lato:wght@300;400;700&amp;display=swap" rel="stylesheet">
 
 <style>
 
@@ -18,7 +18,10 @@
    Le script inline dans le <head> ajoute .js-ready sur <html>
    uniquement après avoir configuré l'état initial.
    Sans .js-ready, tout reste invisible → zéro flash. */
-body { visibility: hidden; }
+body {
+  font-synthesis: none;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility; visibility: hidden; }
 html.js-ready body { visibility: visible; }
 
 /* ══ FONT DISPLAY : swap évite le texte invisible pendant le chargement des polices ══ */
@@ -31,17 +34,13 @@ html.js-ready body { visibility: visible; }
    Cinzel ne supporte pas É È À Ç etc. en uppercase.
    unicode-range force le fallback "Georgia, serif" uniquement
    pour les caractères accentués — le reste reste en Cinzel. */
-@font-face {
-  font-family: 'CinzelAccentFix';
-  src: local('Georgia');
-  unicode-range: U+00C0-00FF, U+0100-024F;
-}
+
 
 /* Appliquer le fix sur tous les éléments qui utilisent Cinzel */
 .hname, .nlogo, .stit, .slbl, .ci-title, .ci-sub,
 .prn, .svc-num, .flogo, .ta, .mcat, .mtit, .ghh,
 .pcat, .pnm, .ep-lbl, .wlc-title, h1, h2, h3 {
-  font-family: 'CinzelAccentFix', 'Cinzel', serif;
+  font-family: 'Cinzel', serif;
 }
 
 /* ════════════════════════════════════════
@@ -4695,6 +4694,29 @@ body.pmode #anchor-nav {
   cursor: pointer;
 }
 
+
+.pedit {
+  display: none;
+  position: absolute;
+  top: .75rem;
+  left: .75rem;
+  width: 30px;
+  height: 30px;
+  background: rgba(200,146,42,.85);
+  border: none;
+  color: #000;
+  font-size: .85rem;
+  cursor: pointer;
+  align-items: center;
+  justify-content: center;
+  z-index: 10;
+  border-radius: 3px;
+  transition: background .2s;
+  font-weight: 900;
+}
+.pedit:hover { background: rgba(220,170,60,1); }
+body.emode .pedit { display: flex; }
+
 </style>
 
 <!-- ══ SCRIPT CRITIQUE : s'exécute SYNCHRONEMENT avant tout rendu ══
@@ -5300,6 +5322,7 @@ body.pmode #anchor-nav {
     <div class="pcard rv vis" data-cat="montage" data-title="Vidéo inverser les périphériques" data-desc="" data-tools="Davinci Resolve" data-yt="https://youtu.be/5OHTw3MhwMo">
       <div class="pcbg" style="background:linear-gradient(135deg,#060d1a,#1a4060)">🎬</div>
       <button class="pdel" onclick="delCard(this)">✕</button>
+      <button class="pedit" onclick="editCard(this)">✏</button>
       <div class="pov">
         <div class="pcat">Montage</div>
         <div class="pnm">Vidéo inverser les périphériques</div>
@@ -5307,6 +5330,7 @@ body.pmode #anchor-nav {
       </div></div><div class="pcard rv vis" data-cat="motion" data-title="Écran de fin YouTube" data-desc="Voici un écran de fin YouTube pour une outro réussie." data-tools="Davinci Resolve" data-yt="">
       <div class="pcbg" style="background-image:url(https://res.cloudinary.com/ddiaz4trd/image/upload/v1779135455/image_2026-05-18_221732634_k7a8cy.png);background-size:cover;background-position:center"></div>
       <button class="pdel" onclick="delCard(this)">✕</button>
+      <button class="pedit" onclick="editCard(this)">✏</button>
       <div class="pov">
         <div class="pcat">Motion Design</div>
         <div class="pnm">Écran de fin YouTube</div>
@@ -5314,6 +5338,7 @@ body.pmode #anchor-nav {
       </div></div><div class="pcard rv vis" data-cat="motion" data-title="Ophyx DA inspired by Netflix and Stranger Things" data-desc="Voici ma DA inspirer des introductions Netflix et Stranger Things, vous pouvez l'observer aussi en arrière plans de ce portefolio" data-tools="Davinci Resolve" data-yt="https://res.cloudinary.com/ddiaz4trd/video/upload/v1779134136/ssstwitter.com_1779133941477_zghu91.mp4">
       <div class="pcbg" style="background:linear-gradient(135deg,#06040a,#2a1050)">🎬</div>
       <button class="pdel" onclick="delCard(this)">✕</button>
+      <button class="pedit" onclick="editCard(this)">✏</button>
       <div class="pov">
         <div class="pcat">Motion Design</div>
         <div class="pnm">Ophyx DA inspired by Netflix and Stranger Things</div>
@@ -5321,6 +5346,7 @@ body.pmode #anchor-nav {
       </div></div><div class="pcard rv vis" data-cat="3d" data-title="Code créateur" data-desc="Voici une animation code créateur Fortnite en 3D, je tiens à préciser que ceci n'a été fait que pour de l'entraînement et de l'expérimentation, il n'a pas été fait pour le youtubeur Zetfar." data-tools="Davinci Resolve" data-yt="https://res.cloudinary.com/ddiaz4trd/video/upload/v1779344602/ssstwitter.com_1779344582664_vecm9p.mp4">
       <div class="pcbg" style="background:linear-gradient(135deg,#041020,#0a4060)">💽​</div>
       <button class="pdel" onclick="delCard(this)">✕</button>
+      <button class="pedit" onclick="editCard(this)">✏</button>
       <div class="pov">
         <div class="pcat">Animation 3D</div>
         <div class="pnm">Code créateur</div>
@@ -6507,7 +6533,7 @@ body.pmode #anchor-nav {
 <div class="apm" id="apmod">
   <div class="apb">
     <button class="mcl" onclick="closeAPM()" style="position:absolute;top:1.5rem;right:1.5rem">✕</button>
-    <div class="aph">＋ Ajouter un projet</div>
+    <div class="aph" id="ap-modal-title">＋ Ajouter un projet</div>
     <div class="fg"><label>Titre *</label><input type="text" id="ap-t" placeholder="Ex: Clip Officiel — Artiste"></div>
     <div class="fg">
       <label>Catégorie *</label>
@@ -6541,7 +6567,7 @@ body.pmode #anchor-nav {
     </div>
     <div class="fg"><label>Icône (si pas d'image)</label><input type="text" id="ap-ic" value="🎬" maxlength="4"></div>
     <div class="br">
-      <button class="eb p" onclick="addProject()">✓ Ajouter</button>
+      <button class="eb p" id="ap-submit-btn" onclick="submitProject()">✓ Ajouter</button>
       <button class="eb s" onclick="closeAPM()">Annuler</button>
     </div>
   </div>
@@ -7528,6 +7554,7 @@ function addProject() {
     card.innerHTML = `
       <div class="pcbg" style="${bg}">${img ? '' : ic}</div>
       <button class="pdel" onclick="delCard(this)">✕</button>
+      <button class="pedit" onclick="editCard(this)">✏</button>
       <div class="pov">
         <div class="pcat">${labs[cat]}</div>
         <div class="pnm">${t}</div>
@@ -8266,6 +8293,7 @@ function importProjects() {
     card.innerHTML = `
       <div class="pcbg" style="${bg}">${p.img ? '' : (p.icon || '🎬')}</div>
       <button class="pdel" onclick="delCard(this)">✕</button>
+      <button class="pedit" onclick="editCard(this)">✏</button>
       <div class="pov">
         <div class="pcat">${labs[p.cat] || 'Montage'}</div>
         <div class="pnm">${p.title}</div>
@@ -8344,6 +8372,113 @@ function importProjects() {
   updateSectionIndicator();
 
 })();
+
+// ═══════════════════════════════════════════════
+// ÉDITION PROJETS
+// ═══════════════════════════════════════════════
+let _editingCard = null;
+
+function editCard(btn) {
+  const card = btn.closest('.pcard');
+  if (!card) return;
+  _editingCard = card;
+
+  document.getElementById('ap-t').value  = card.dataset.title || '';
+  document.getElementById('ap-c').value  = card.dataset.cat   || 'montage';
+  document.getElementById('ap-d').value  = card.dataset.desc  || '';
+  document.getElementById('ap-o').value  = card.dataset.tools || '';
+  document.getElementById('ap-y').value  = card.dataset.yt    || '';
+  document.getElementById('ap-i').value  = card.dataset.img   || '';
+
+  const bg   = card.querySelector('.pcbg');
+  const icon = (bg && !card.dataset.img) ? (bg.textContent.trim() || '🎬') : '🎬';
+  const icEl = document.getElementById('ap-ic');
+  if (icEl) icEl.value = icon;
+
+  const prevImg = document.getElementById('ap-ipv');
+  if (prevImg) {
+    if (card.dataset.img) {
+      prevImg.src = card.dataset.img;
+      prevImg.classList.add('show');
+    } else {
+      prevImg.classList.remove('show');
+    }
+  }
+
+  document.getElementById('ap-modal-title').textContent = '✏ Modifier le projet';
+  document.getElementById('ap-submit-btn').textContent  = '✓ Enregistrer';
+  openAPM();
+}
+
+function submitProject() {
+  _editingCard ? _updateCard() : addProject();
+}
+
+function _updateCard() {
+  const card = _editingCard;
+  const t    = document.getElementById('ap-t').value.trim();
+  if (!t) { alert('Titre requis'); return; }
+
+  const cat   = document.getElementById('ap-c').value;
+  const desc  = document.getElementById('ap-d').value.trim();
+  const tools = document.getElementById('ap-o').value.trim();
+  const yt    = document.getElementById('ap-y').value.trim();
+  const img   = document.getElementById('ap-i').value.trim();
+  const ic    = document.getElementById('ap-ic')?.value.trim() || '🎬';
+
+  const labs  = { montage: 'Montage', motion: 'Motion Design', '3d': 'Animation 3D' };
+  const grads = {
+    montage: 'linear-gradient(135deg,#060d1a,#1a4060)',
+    motion:  'linear-gradient(135deg,#07000F,#CC44FF)',
+    '3d':    'linear-gradient(135deg,#001040,#9B5FFF)'
+  };
+
+  card.dataset.title = t;
+  card.dataset.cat   = cat;
+  card.dataset.desc  = desc;
+  card.dataset.tools = tools;
+  card.dataset.yt    = yt;
+  card.dataset.img   = img;
+
+  const bgEl  = card.querySelector('.pcbg');
+  const nmEl  = card.querySelector('.pnm');
+  const catEl = card.querySelector('.pcat');
+
+  if (bgEl) {
+    if (img) {
+      bgEl.style.cssText = `background-image:url(${img});background-size:cover;background-position:center`;
+      bgEl.textContent = '';
+    } else {
+      bgEl.style.cssText = `background:${grads[cat] || grads.montage}`;
+      bgEl.textContent = ic;
+    }
+  }
+  if (nmEl)  nmEl.textContent  = t;
+  if (catEl) catEl.textContent = labs[cat] || cat;
+
+  _resetModal();
+  closeAPM();
+  toast('Projet mis à jour !', '#1a7a58');
+}
+
+function _resetModal() {
+  _editingCard = null;
+  const title = document.getElementById('ap-modal-title');
+  const btn   = document.getElementById('ap-submit-btn');
+  if (title) title.textContent = '＋ Ajouter un projet';
+  if (btn)   btn.textContent   = '✓ Ajouter';
+}
+
+// Override closeAPM pour reset le modal à chaque fermeture
+const _origClose = window.closeAPM;
+window.closeAPM = function() {
+  _resetModal();
+  if (typeof _origClose === 'function') _origClose();
+  else {
+    const m = document.getElementById('apmod');
+    if (m) m.classList.remove('open');
+  }
+};
 
 function toast(msg, col) {
   const t = document.getElementById('toast');
@@ -9118,7 +9253,7 @@ function applyContactInfo() {
 
 // ── SÉLECTEUR DE POLICE ──
 const FONTS = [
-  { name: 'Cinzel',             css: "'CinzelAccentFix','Cinzel', serif",                  import: 'Cinzel:wght@400;600;700;900',                     weights: [400,600,700,900] },
+  { name: 'Cinzel',             css: "'Cinzel', serif",                  import: 'Cinzel:wght@400;600;700;900',                     weights: [400,600,700,900] },
   { name: 'Cinzel Decorative',  css: "'Cinzel Decorative', serif",                         import: 'Cinzel+Decorative:wght@400;700;900',               weights: [400,700,900] },
   { name: 'Playfair',           css: "'Playfair Display', serif",                          import: 'Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700', weights: [400,700,900], italic: true },
   { name: 'Josefin',            css: "'Josefin Sans', sans-serif",                         import: 'Josefin+Sans:wght@300;400;600;700',                weights: [300,400,600,700] },
