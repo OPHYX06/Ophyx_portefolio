@@ -4762,8 +4762,21 @@ body.emode .pedit { display: flex; }
       font-weight: 400 !important;
       font-style: normal !important;
     }
-  </style><style id="ultra-dark-override"></style><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700;900&amp;display=swap"></head>
+  </style><style id="ultra-dark-override"></style><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700;900&amp;display=swap"><style id="ophyx-cover-style">
+  #site-cover {
+    position: fixed;
+    inset: 0;
+    z-index: 98000;
+    background: #020509;
+    pointer-events: none;
+    transition: opacity .65s ease;
+  }
+  #site-cover.lift { opacity: 0; }
+</style>
+</head>
 <body class="">
+<div id="site-cover"></div>
+
 
 <!-- ════════ CURSEUR PERSONNALISÉ ════════ -->
 <div id="cur" style="left: 1043px; top: 531px;"></div>
@@ -7776,6 +7789,7 @@ async function publish() {
 
   exitEdit();
   await new Promise(r => setTimeout(r, 420)); // attendre la transition sidebar
+  var _cv2 = document.getElementById('site-cover'); if (_cv2) _cv2.remove();
   const html = '<!DOCTYPE html>\n' + document.documentElement.outerHTML;
 
   sav.classList.add('show');
@@ -8809,6 +8823,11 @@ window._soundChosen      = false;
 // WELCOME OVERLAY — boutons son
 // ══════════════════════════════════
 function welcomeSound(withSound) {
+  var _cover = document.getElementById('site-cover');
+  if (_cover) {
+    _cover.classList.add('lift');
+    setTimeout(function(){ if(_cover.parentNode) _cover.parentNode.removeChild(_cover); }, 700);
+  }
   const v = document.getElementById('hero-video');
   if (withSound && v) {
     v.muted = false;
