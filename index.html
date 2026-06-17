@@ -4779,14 +4779,14 @@ body.emode .pedit { display: flex; }
 
 
 <!-- ════════ CURSEUR PERSONNALISÉ ════════ -->
-<div id="cur" style="left: 1692px; top: 891px;"></div>
-<div id="cur-r" style="left: 1692px; top: 891px;"></div>
+<div id="cur" style="left: 1651px; top: 891px;"></div>
+<div id="cur-r" style="left: 1651px; top: 891px;"></div>
 
 <!-- ════════ TOAST ════════ -->
-<div id="toast" class="" style="background: var(--gold-bright); color: var(--void);">✏️ Mode édition — Ctrl+Z pour annuler — tapez OPHYX pour quitter</div>
+<div id="toast" class="" style="background: rgb(26, 122, 88); color: rgb(255, 255, 255);">Projet mis à jour !</div>
 
 <!-- ════════ BARRE DE PROGRESSION ════════ -->
-<div id="scroll-prog" style="width: 12.9582%;"></div>
+<div id="scroll-prog" style="width: 54.6739%;"></div>
 
 <!-- ════════ SAVING OVERLAY ════════ -->
 <div id="saving" class="">
@@ -4987,7 +4987,7 @@ body.emode .pedit { display: flex; }
     <div class="hname" id="hname" style="color: rgb(224, 171, 66); text-shadow: rgba(224, 171, 66, 0.85) 0px 0px 45px, rgba(224, 171, 66, 0.4) 0px 0px 40px;">
       <span class="L" style="animation-delay:.5s">O</span><span class="L" style="animation-delay:.58s">P</span><span class="L" style="animation-delay:.66s">H</span><span class="L" style="animation-delay:.74s">Y</span><span class="L" style="animation-delay:.82s">X</span>
     </div>
-    <p class="hsub" style="color: rgb(188, 210, 75);"><span id="tt">An</span><span id="tcur"></span></p>
+    <p class="hsub" style="color: rgb(188, 210, 75);"><span id="tt">Graphiste 3</span><span id="tcur"></span></p>
     <div class="hcta">
       <a href="#portfolio" class="btn1">Voir mes travaux</a>
       <a href="#contact" class="btn2">Me contacter</a>
@@ -5002,7 +5002,7 @@ body.emode .pedit { display: flex; }
 <!-- ════════ À PROPOS ════════ -->
 <section id="about">
   <!-- Boussole décorative fond -->
-  <svg class="bg-compass" aria-hidden="true" viewBox="0 0 300 300" xmlns="http://www.w3.org/2000/svg" style="right: 2%; top: 50%; transform: translateY(-50%) rotate(12deg); animation-play-state: running;">
+  <svg class="bg-compass" aria-hidden="true" viewBox="0 0 300 300" xmlns="http://www.w3.org/2000/svg" style="right: 2%; top: 50%; transform: translateY(-50%) rotate(12deg); animation-play-state: paused;">
   <defs>
     <radialGradient id="cgrad-righ" cx="50%" cy="50%" r="50%">
       <stop offset="0%" stop-color="rgba(200,146,42,.18)"></stop>
@@ -5067,7 +5067,7 @@ body.emode .pedit { display: flex; }
   <line x1="85" y1="150" x2="215" y2="150" stroke="rgba(200,146,42,.12)" stroke-width="0.6"></line>
 
   <!-- Aiguille (groupe animé) -->
-  <g class="needle-group" style="animation-play-state: running;">
+  <g class="needle-group" style="animation-play-state: paused;">
     <!-- Aiguille Nord — dorée -->
     <polygon points="150,62 144,150 150,140 156,150" fill="rgba(200,146,42,.85)" stroke="rgba(200,146,42,.4)" stroke-width="0.8"></polygon>
     <!-- Aiguille Sud — sombre -->
@@ -5242,7 +5242,7 @@ body.emode .pedit { display: flex; }
 <!-- ════════ PORTFOLIO ════════ -->
 <section id="portfolio">
   <!-- Boussole décorative fond -->
-  <svg class="bg-compass" aria-hidden="true" viewBox="0 0 300 300" xmlns="http://www.w3.org/2000/svg" style="right: -70px; bottom: 10%; transform: rotate(30deg); animation-play-state: paused;">
+  <svg class="bg-compass" aria-hidden="true" viewBox="0 0 300 300" xmlns="http://www.w3.org/2000/svg" style="right: -70px; bottom: 10%; transform: rotate(30deg); animation-play-state: running;">
   <defs>
     <radialGradient id="cgrad-port" cx="50%" cy="50%" r="50%">
       <stop offset="0%" stop-color="rgba(200,146,42,.18)"></stop>
@@ -5293,7 +5293,7 @@ body.emode .pedit { display: flex; }
   <text x="28" y="155" text-anchor="middle" font-family="Cinzel,serif" font-size="11" fill="rgba(200,146,42,.50)">O</text>
   <line x1="150" y1="85" x2="150" y2="215" stroke="rgba(200,146,42,.12)" stroke-width="0.6"></line>
   <line x1="85" y1="150" x2="215" y2="150" stroke="rgba(200,146,42,.12)" stroke-width="0.6"></line>
-  <g class="needle-group" style="animation-play-state: paused;">
+  <g class="needle-group" style="animation-play-state: running;">
     <polygon points="150,62 144,150 150,140 156,150" fill="rgba(200,146,42,.85)" stroke="rgba(200,146,42,.4)" stroke-width="0.8"></polygon>
     <polygon points="150,238 144,150 150,160 156,150" fill="rgba(120,88,25,.55)" stroke="rgba(200,146,42,.2)" stroke-width="0.5"></polygon>
     <circle cx="150" cy="150" r="5.5" fill="rgba(200,146,42,.70)" stroke="rgba(200,146,42,.4)" stroke-width="1"></circle>
@@ -5318,10 +5318,10 @@ body.emode .pedit { display: flex; }
       <h2 class="stit rv vis" style="color: rgb(86, 230, 129); text-shadow: rgba(224, 171, 66, 0.85) 0px 0px 45px, rgba(224, 171, 66, 0.4) 0px 0px 40px;">Mon <span class="acc">Portfolio</span></h2>
     </div>
     <div class="fbs rv vis">
-      <button class="fb on" data-f="all">Tous</button>
+      <button class="fb" data-f="all">Tous</button>
       <button class="fb" data-f="montage">Montage</button>
       <button class="fb" data-f="motion">Motion</button>
-      <button class="fb" data-f="3d">3D</button>
+      <button class="fb on" data-f="3d">3D</button>
     </div>
   </div>
 
@@ -5332,7 +5332,7 @@ body.emode .pedit { display: flex; }
 
     
 
-    <div class="pcard rv vis" data-cat="montage" data-title="Vidéo inverser les périphériques" data-desc="" data-tools="Davinci Resolve" data-yt="https://youtu.be/5OHTw3MhwMo">
+    <div class="pcard rv vis" data-cat="montage" data-title="Vidéo inverser les périphériques" data-desc="" data-tools="Davinci Resolve" data-yt="https://youtu.be/5OHTw3MhwMo" style="opacity: 0.12; pointer-events: none; transform: scale(0.96);">
       <div class="pcbg" style="background:linear-gradient(135deg,#060d1a,#1a4060)">🎬</div>
       <button class="pdel" onclick="delCard(this)">✕</button>
       <button class="pedit" onclick="editCard(this)">✏</button>
@@ -5340,15 +5340,7 @@ body.emode .pedit { display: flex; }
         <div class="pcat">Montage</div>
         <div class="pnm">Vidéo inverser les périphériques</div>
         <button class="pbtn">Voir le projet</button>
-      </div></div><div class="pcard rv vis" data-cat="motion" data-title="Écran de fin YouTube" data-desc="Voici un écran de fin YouTube pour une outro réussie." data-tools="Davinci Resolve" data-yt="">
-      <div class="pcbg" style="background-image:url(https://res.cloudinary.com/ddiaz4trd/image/upload/v1779135455/image_2026-05-18_221732634_k7a8cy.png);background-size:cover;background-position:center"></div>
-      <button class="pdel" onclick="delCard(this)">✕</button>
-      <button class="pedit" onclick="editCard(this)">✏</button>
-      <div class="pov">
-        <div class="pcat">Motion Design</div>
-        <div class="pnm">Écran de fin YouTube</div>
-        <button class="pbtn">Voir le projet</button>
-      </div></div><div class="pcard rv vis" data-cat="motion" data-title="Ophyx DA inspired by Netflix and Stranger Things" data-desc="Voici ma DA inspirer des introductions Netflix et Stranger Things, vous pouvez l'observer aussi en arrière plans de ce portefolio" data-tools="Davinci Resolve" data-yt="https://res.cloudinary.com/ddiaz4trd/video/upload/v1779134136/ssstwitter.com_1779133941477_zghu91.mp4">
+      </div></div><div class="pcard rv vis" data-cat="motion" data-title="Ophyx DA inspired by Netflix and Stranger Things" data-desc="Voici ma DA inspirer des introductions Netflix et Stranger Things, vous pouvez l'observer aussi en arrière plans de ce portefolio" data-tools="Davinci Resolve" data-yt="https://res.cloudinary.com/ddiaz4trd/video/upload/v1779134136/ssstwitter.com_1779133941477_zghu91.mp4" style="opacity: 0.12; pointer-events: none; transform: scale(0.96);">
       <div class="pcbg" style="background:linear-gradient(135deg,#06040a,#2a1050)">🎬</div>
       <button class="pdel" onclick="delCard(this)">✕</button>
       <button class="pedit" onclick="editCard(this)">✏</button>
@@ -5356,13 +5348,37 @@ body.emode .pedit { display: flex; }
         <div class="pcat">Motion Design</div>
         <div class="pnm">Ophyx DA inspired by Netflix and Stranger Things</div>
         <button class="pbtn">Voir le projet</button>
-      </div></div><div class="pcard rv vis" data-cat="3d" data-title="Code créateur" data-desc="Voici une animation code créateur Fortnite en 3D, je tiens à préciser que ceci n'a été fait que pour de l'entraînement et de l'expérimentation, il n'a pas été fait pour le youtubeur Zetfar." data-tools="Davinci Resolve" data-yt="https://res.cloudinary.com/ddiaz4trd/video/upload/v1779344602/ssstwitter.com_1779344582664_vecm9p.mp4">
+      </div></div><div class="pcard rv vis" data-cat="3d" data-title="Code créateur" data-desc="Voici une animation code créateur Fortnite en 3D, je tiens à préciser que ceci n'a été fait que pour de l'entraînement et de l'expérimentation, il n'a pas été fait pour le youtubeur Zetfar." data-tools="Davinci Resolve" data-yt="https://res.cloudinary.com/ddiaz4trd/video/upload/v1779344602/ssstwitter.com_1779344582664_vecm9p.mp4" style="opacity: 1; pointer-events: all;">
       <div class="pcbg" style="background:linear-gradient(135deg,#041020,#0a4060)">💽​</div>
       <button class="pdel" onclick="delCard(this)">✕</button>
       <button class="pedit" onclick="editCard(this)">✏</button>
       <div class="pov">
         <div class="pcat">Animation 3D</div>
         <div class="pnm">Code créateur</div>
+        <button class="pbtn">Voir le projet</button>
+      </div></div><div class="pcard rv vis" data-cat="motion" data-title="DA Ophyx effet or" data-desc="Animation d'une DA avec effet métallique dorée, logo réalisé par moi-même" data-tools="Davinci Resolve" data-yt="https://res.cloudinary.com/ddiaz4trd/video/upload/v1781627798/da_golden_yyvqcj.mp4" style="opacity: 0.12; pointer-events: none; transform: scale(0.96);" data-img="">
+      <div class="pcbg" style="background: linear-gradient(135deg, rgb(7, 0, 15), rgb(204, 68, 255));">📀</div>
+      <button class="pdel" onclick="delCard(this)">✕</button>
+      <button class="pedit" onclick="editCard(this)">✏</button>
+      <div class="pov">
+        <div class="pcat">Motion Design</div>
+        <div class="pnm">DA Ophyx effet or</div>
+        <button class="pbtn">Voir le projet</button>
+      </div></div><div class="pcard rv vis" data-cat="motion" data-title="Ecran de fin youtube" data-desc="Réalisation d'un écran de fin youtube sur le thémathique du jeu Fortnite" data-tools="Davinci Resolve" data-yt="https://res.cloudinary.com/ddiaz4trd/video/upload/v1779135257/ssstwitter.com_1779135239432_htwjhd.mp4" style="opacity: 0.12; pointer-events: none; transform: scale(0.96);">
+      <div class="pcbg" style="background:linear-gradient(135deg,#06040a,#2a1050)">🔫</div>
+      <button class="pdel" onclick="delCard(this)">✕</button>
+      <button class="pedit" onclick="editCard(this)">✏</button>
+      <div class="pov">
+        <div class="pcat">Motion Design</div>
+        <div class="pnm">Ecran de fin youtube</div>
+        <button class="pbtn">Voir le projet</button>
+      </div></div><div class="pcard rv vis" data-cat="motion" data-title="Animation entrainement a la texturisation" data-desc="Réalisation d'une animation qui a pour but un entraînement à la texturisation d'éléments" data-tools="Davinci Resolve" data-yt="https://res.cloudinary.com/ddiaz4trd/video/upload/v1779345071/ssstwitter.com_1779345055113_nh7zla.mp4" style="opacity: 0.12; pointer-events: none; transform: scale(0.96);">
+      <div class="pcbg" style="background:linear-gradient(135deg,#06040a,#2a1050)">🎨</div>
+      <button class="pdel" onclick="delCard(this)">✕</button>
+      <button class="pedit" onclick="editCard(this)">✏</button>
+      <div class="pov">
+        <div class="pcat">Motion Design</div>
+        <div class="pnm">Animation entrainement a la texturisation</div>
         <button class="pbtn">Voir le projet</button>
       </div></div><div class="add-card" id="addCard" onclick="openAPM()">
       <div class="aci">＋</div>
@@ -5377,7 +5393,7 @@ body.emode .pedit { display: flex; }
 <!-- ════════ PROCESS ════════ -->
 <section id="process">
   <!-- Boussole décorative fond -->
-  <svg class="bg-compass" aria-hidden="true" viewBox="0 0 300 300" xmlns="http://www.w3.org/2000/svg" style="left: 1%; top: 50%; transform: translateY(-50%) rotate(-8deg); animation-play-state: paused;">
+  <svg class="bg-compass" aria-hidden="true" viewBox="0 0 300 300" xmlns="http://www.w3.org/2000/svg" style="left: 1%; top: 50%; transform: translateY(-50%) rotate(-8deg); animation-play-state: running;">
   <defs>
     <radialGradient id="cgrad-left" cx="50%" cy="50%" r="50%">
       <stop offset="0%" stop-color="rgba(200,146,42,.18)"></stop>
@@ -5442,7 +5458,7 @@ body.emode .pedit { display: flex; }
   <line x1="85" y1="150" x2="215" y2="150" stroke="rgba(200,146,42,.12)" stroke-width="0.6"></line>
 
   <!-- Aiguille (groupe animé) -->
-  <g class="needle-group" style="animation-play-state: paused;">
+  <g class="needle-group" style="animation-play-state: running;">
     <!-- Aiguille Nord — dorée -->
     <polygon points="150,62 144,150 150,140 156,150" fill="rgba(200,146,42,.85)" stroke="rgba(200,146,42,.4)" stroke-width="0.8"></polygon>
     <!-- Aiguille Sud — sombre -->
@@ -5752,7 +5768,7 @@ body.emode .pedit { display: flex; }
 
 <!-- ════════ ANCRE NAVIGATION SCROLL-TO-TOP ════════ -->
 <div id="anchor-nav" class="visible">
-  <div id="section-indicator" style="opacity: 1;">À propos</div>
+  <div id="section-indicator" style="opacity: 1;">Portfolio</div>
   <button id="anchor-top-btn" onclick="window.scrollTo({top:0,behavior:'smooth'})" title="Retour en haut">⚓</button>
 </div>
 
@@ -5812,7 +5828,7 @@ body.emode .pedit { display: flex; }
     <!-- ══════════════════════════════════
          CATÉGORIE 1 — CONTENU
          ══════════════════════════════════ -->
-    <div class="ep-cat" id="cat-content">
+    <div class="ep-cat open" id="cat-content">
       <button class="ep-cat-head" onclick="toggleCat('cat-content')">
         <span class="ep-cat-ico">📝</span>
         <span class="ep-cat-label">Contenu</span>
@@ -5909,7 +5925,7 @@ body.emode .pedit { display: flex; }
           </div>
 
           <!-- Sous-cat : Contact -->
-          <div class="ep-subcat" id="sub-contact">
+          <div class="ep-subcat open" id="sub-contact">
             <button class="ep-subcat-head" onclick="toggleSubCat('sub-contact')">
               <span class="ep-subcat-ico">📬</span>
               <span class="ep-subcat-label">Contact &amp; Liens</span>
@@ -5939,7 +5955,7 @@ body.emode .pedit { display: flex; }
     <!-- ══════════════════════════════════
          CATÉGORIE 2 — APPARENCE
          ══════════════════════════════════ -->
-    <div class="ep-cat" id="cat-apparence">
+    <div class="ep-cat open" id="cat-apparence">
       <button class="ep-cat-head" onclick="toggleCat('cat-apparence')">
         <span class="ep-cat-ico">🎨</span>
         <span class="ep-cat-label">Apparence</span>
@@ -5949,7 +5965,7 @@ body.emode .pedit { display: flex; }
         <div class="ep-cat-inner">
 
           <!-- Sous-cat : Couleurs -->
-          <div class="ep-subcat" id="sub-couleurs">
+          <div class="ep-subcat open" id="sub-couleurs">
             <button class="ep-subcat-head" onclick="toggleSubCat('sub-couleurs')">
               <span class="ep-subcat-ico">🎨</span>
               <span class="ep-subcat-label">Palette de couleurs</span>
@@ -6183,7 +6199,7 @@ body.emode .pedit { display: flex; }
     <!-- ══════════════════════════════════
          CATÉGORIE 3.5 — LECTEUR VIDÉO
          ══════════════════════════════════ -->
-    <div class="ep-cat" id="cat-player">
+    <div class="ep-cat open" id="cat-player">
       <button class="ep-cat-head" onclick="toggleCat('cat-player')">
         <span class="ep-cat-ico">▶️</span>
         <span class="ep-cat-label">Lecteur Vidéo</span>
@@ -10036,4 +10052,4 @@ function _dbgRenderVideo() {
 
 <div id="detach-button-host" style="top: 0px; left: 542.333px;"></div><div class="hidden" id="qr-host"></div>s
 <div id="detach-button-host" style="top: -3073.33px; left: 542.333px;"></div><div class="hidden" id="qr-host"></div><div class="hidden" id="qr-host"></div>
-<div id="detach-button-host" style="top: -5154px; left: 893px;"></div><div class="hidden" id="qr-host"></div></body><div id="detach-button-host" style="top: -700px; left: 893px;"></div><div class="hidden" id="qr-host"></div></html>
+<div id="detach-button-host" style="top: -5154px; left: 893px;"></div><div class="hidden" id="qr-host"></div></body><div id="detach-button-host" style="top: -3800px; left: 893px;"></div><div class="hidden" id="qr-host"></div></html>
