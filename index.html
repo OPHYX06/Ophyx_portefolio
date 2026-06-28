@@ -4779,14 +4779,14 @@ body.emode .pedit { display: flex; }
 
 
 <!-- ════════ CURSEUR PERSONNALISÉ ════════ -->
-<div id="cur" style="left: 1668px; top: 895px;"></div>
-<div id="cur-r" style="left: 1668px; top: 895px;"></div>
+<div id="cur" style="left: 1770px; top: 895px;"></div>
+<div id="cur-r" style="left: 1770px; top: 895px;"></div>
 
 <!-- ════════ TOAST ════════ -->
 <div id="toast" class="" style="background: var(--gold-bright); color: var(--void);">✏️ Mode édition — Ctrl+Z pour annuler — tapez OPHYX pour quitter</div>
 
 <!-- ════════ BARRE DE PROGRESSION ════════ -->
-<div id="scroll-prog" style="width: 100%;"></div>
+<div id="scroll-prog" style="width: 0%;"></div>
 
 <!-- ════════ SAVING OVERLAY ════════ -->
 <div id="saving" class="">
@@ -4953,7 +4953,7 @@ body.emode .pedit { display: flex; }
 </div>
 
 <!-- ════════ NAVIGATION ════════ -->
-<nav id="nb" class="sc">
+<nav id="nb" class="">
   <a href="#hero" class="nlogo" style="text-shadow: rgba(224, 171, 66, 0.85) 0px 0px 45px, rgba(224, 171, 66, 0.4) 0px 0px 40px;">OPHYX</a>
   <ul class="nlinks">
     <li><a href="#about">À propos</a></li>
@@ -4979,15 +4979,15 @@ body.emode .pedit { display: flex; }
   <div class="deco-anchor" aria-hidden="true">⚓</div>
 
   <div class="hc">
-    <div class="avbadge" id="avbadge" onclick="toggleAvail()">
+    <div class="avbadge off" id="avbadge" onclick="toggleAvail()">
       <span class="avdot"></span>
-      <span id="avail-txt">Disponible pour missions</span>
+      <span id="avail-txt">Non disponible</span>
     </div>
     <div class="hey">Créateur d'univers visuels</div>
     <div class="hname" id="hname" style="color: rgb(224, 171, 66); text-shadow: rgba(224, 171, 66, 0.85) 0px 0px 45px, rgba(224, 171, 66, 0.4) 0px 0px 40px;">
       <span class="L" style="animation-delay:.5s">O</span><span class="L" style="animation-delay:.58s">P</span><span class="L" style="animation-delay:.66s">H</span><span class="L" style="animation-delay:.74s">Y</span><span class="L" style="animation-delay:.82s">X</span>
     </div>
-    <p class="hsub" style="color: rgb(188, 210, 75);"><span id="tt">Animateur 3D</span><span id="tcur"></span></p>
+    <p class="hsub" style="color: rgb(188, 210, 75);"><span id="tt">Cré</span><span id="tcur"></span></p>
     <div class="hcta">
       <a href="#portfolio" class="btn1">Voir mes travaux</a>
       <a href="#contact" class="btn2">Me contacter</a>
@@ -5585,7 +5585,7 @@ body.emode .pedit { display: flex; }
 <!-- ════════ CONTACT ════════ -->
 <section id="contact">
   <!-- Boussole décorative fond -->
-  <svg class="bg-compass" aria-hidden="true" viewBox="0 0 300 300" xmlns="http://www.w3.org/2000/svg" style="right: 3%; bottom: 5%; transform: rotate(20deg); animation-play-state: running;">
+  <svg class="bg-compass" aria-hidden="true" viewBox="0 0 300 300" xmlns="http://www.w3.org/2000/svg" style="right: 3%; bottom: 5%; transform: rotate(20deg); animation-play-state: paused;">
   <defs>
     <radialGradient id="cgrad-contact" cx="50%" cy="50%" r="50%">
       <stop offset="0%" stop-color="rgba(200,146,42,.18)"></stop>
@@ -5650,7 +5650,7 @@ body.emode .pedit { display: flex; }
   <line x1="85" y1="150" x2="215" y2="150" stroke="rgba(200,146,42,.12)" stroke-width="0.6"></line>
 
   <!-- Aiguille (groupe animé) -->
-  <g class="needle-group" style="animation-play-state: running;">
+  <g class="needle-group" style="animation-play-state: paused;">
     <!-- Aiguille Nord — dorée -->
     <polygon points="150,62 144,150 150,140 156,150" fill="rgba(200,146,42,.85)" stroke="rgba(200,146,42,.4)" stroke-width="0.8"></polygon>
     <!-- Aiguille Sud — sombre -->
@@ -5741,8 +5741,8 @@ body.emode .pedit { display: flex; }
 </div>
 
 <!-- ════════ ANCRE NAVIGATION SCROLL-TO-TOP ════════ -->
-<div id="anchor-nav" class="visible">
-  <div id="section-indicator" style="opacity: 1;">Contact</div>
+<div id="anchor-nav" class="">
+  <div id="section-indicator" style="opacity: 1;">Haut de page</div>
   <button id="anchor-top-btn" onclick="window.scrollTo({top:0,behavior:'smooth'})" title="Retour en haut">⚓</button>
 </div>
 
@@ -5812,7 +5812,7 @@ body.emode .pedit { display: flex; }
         <div class="ep-cat-inner">
 
           <!-- Sous-cat : Projets -->
-          <div class="ep-subcat" id="sub-projets">
+          <div class="ep-subcat open" id="sub-projets">
             <button class="ep-subcat-head" onclick="toggleSubCat('sub-projets')">
               <span class="ep-subcat-ico">🎬</span>
               <span class="ep-subcat-label">Projets</span>
@@ -5835,7 +5835,7 @@ body.emode .pedit { display: flex; }
           </div>
 
           <!-- Sous-cat : Photo & Identité -->
-          <div class="ep-subcat" id="sub-photo">
+          <div class="ep-subcat open" id="sub-photo">
             <button class="ep-subcat-head" onclick="toggleSubCat('sub-photo')">
               <span class="ep-subcat-ico">🖼</span>
               <span class="ep-subcat-label">Photo &amp; Identité</span>
@@ -6102,7 +6102,7 @@ body.emode .pedit { display: flex; }
     <!-- ══════════════════════════════════
          CATÉGORIE 3 — MÉDIAS
          ══════════════════════════════════ -->
-    <div class="ep-cat" id="cat-medias">
+    <div class="ep-cat open" id="cat-medias">
       <button class="ep-cat-head" onclick="toggleCat('cat-medias')">
         <span class="ep-cat-ico">🎬</span>
         <span class="ep-cat-label">Médias</span>
@@ -6262,7 +6262,7 @@ body.emode .pedit { display: flex; }
           </div>
 
           <!-- Sous-cat : Performance -->
-          <div class="ep-subcat" id="sub-player-perf">
+          <div class="ep-subcat open" id="sub-player-perf">
             <button class="ep-subcat-head" onclick="toggleSubCat('sub-player-perf')">
               <span class="ep-subcat-ico">⚡</span>
               <span class="ep-subcat-label">Performance</span>
@@ -6320,7 +6320,7 @@ body.emode .pedit { display: flex; }
     <!-- ══════════════════════════════════
          CATÉGORIE 4 — RÉGLAGES
          ══════════════════════════════════ -->
-    <div class="ep-cat" id="cat-reglages">
+    <div class="ep-cat open" id="cat-reglages">
       <button class="ep-cat-head" onclick="toggleCat('cat-reglages')">
         <span class="ep-cat-ico">⚙️</span>
         <span class="ep-cat-label">Réglages</span>
@@ -10026,4 +10026,4 @@ function _dbgRenderVideo() {
 
 <div id="detach-button-host" style="top: 0px; left: 542.333px;"></div><div class="hidden" id="qr-host"></div>s
 <div id="detach-button-host" style="top: -3073.33px; left: 542.333px;"></div><div class="hidden" id="qr-host"></div><div class="hidden" id="qr-host"></div>
-<div id="detach-button-host" style="top: -5154px; left: 893px;"></div><div class="hidden" id="qr-host"></div></body><div id="detach-button-host" style="top: 0px; left: 893px;"></div><div class="hidden" id="qr-host"></div></html>
+<div id="detach-button-host" style="top: -5154px; left: 893px;"></div><div class="hidden" id="qr-host"></div><div id="detach-button-host" style="top: 0px; left: 893px;"></div><div class="hidden" id="qr-host"></div></body><div id="detach-button-host" style="top: 0px; left: 893px;"></div><div class="hidden" id="qr-host"></div></html>
